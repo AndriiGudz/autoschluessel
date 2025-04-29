@@ -1,0 +1,64 @@
+/* Подключение шрифтов */
+@import url('https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap" rel="stylesheet');
+
+/* Сброс браузерных стилей (reset) */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Базовые стили для body */
+body {
+  font-family: 'Wix Madefor Display';
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  background: #121c21;
+  color: #fff;
+}
+
+/* Заголовки */
+
+h1 {
+  font-size: 3rem;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+h2 {
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+h3 {
+  font-size: 1.375rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+/* Кнопки */
+button {
+  display: flex;
+  height: 48px;
+  min-width: 84px;
+  max-width: 480px;
+  padding: 0px 20px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  color: #fff;
+
+  border: none;
+  border-radius: 12px;
+  background: #15e33b;
+}
+
+button:hover {
+  background-color: #0bbd2c;
+}

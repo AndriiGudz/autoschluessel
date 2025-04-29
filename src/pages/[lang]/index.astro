@@ -1,0 +1,25 @@
+---
+export const prerender = false;
+
+import { getTranslation } from '../../i18n/useTranslation';
+import { languages } from '../../i18n/config';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero/Hero.astro';
+
+const lang = Astro.params.lang as string;
+
+
+if (!Object.keys(languages).includes(lang)) {
+  Astro.redirect(`/${Object.keys(languages)[0]}/`);
+}
+
+const t = await getTranslation(lang);
+---
+
+<BaseLayout title={t.title} lang={lang}>
+  <Hero 
+    title={t.hero.title}
+    subtitle={t.hero.subtitle}
+    buttonText={t.hero.button}
+  />
+</BaseLayout>

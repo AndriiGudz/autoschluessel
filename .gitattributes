@@ -1,0 +1,13 @@
+# Автоматически нормализовать перевод строк
+* text=auto
+
+# Принудительно использовать LF для всех текстовых файлов
+*.astro text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+*.json text eol=lf
