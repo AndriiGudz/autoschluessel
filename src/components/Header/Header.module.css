@@ -1,0 +1,85 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 48px;
+  border-bottom: 1px solid #ffffff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #121c21; /* Цвет фона соответствует основному цвету сайта */
+  transition: box-shadow 0.3s ease; /* Плавное появление тени */
+}
+
+/* Класс, который добавляется при скролле */
+.headerScrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  width: 120px;
+  height: auto;
+  max-height: 45px;
+  object-fit: contain;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 36px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navLinks a {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5em;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navLinks a:hover {
+  text-decoration: underline;
+}
+
+/* Создаем пространство под фиксированным хедером */
+.headerSpacer {
+  height: 80px; /* Соответствует примерной высоте хедера */
+  width: 100%;
+}
+
+/* Адаптивный дизайн для мобильных устройств */
+@media (max-width: 768px) {
+  .header {
+    padding: 12px 16px;
+  }
+
+  .logoImage {
+    width: 100px;
+  }
+
+  .navLinks {
+    display: none; /* На мобильных скрываем меню - потом можно добавить бургер-меню */
+  }
+
+  .headerSpacer {
+    height: 64px; /* Меньшая высота на мобильных */
+  }
+}

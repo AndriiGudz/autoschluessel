@@ -5,6 +5,7 @@
   margin: 0 auto;
   overflow: hidden;
   border-radius: 16px;
+  margin-top: 8px;
 }
 
 .imageWrapper {
@@ -29,7 +30,7 @@
   bottom: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   z-index: 1;
 }
 

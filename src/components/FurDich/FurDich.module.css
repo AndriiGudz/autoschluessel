@@ -1,0 +1,61 @@
+.furDich {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title {
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.services {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  padding: 16px;
+  gap: 12px;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.serviceCard {
+  display: flex;
+  width: 220px;
+  height: 74px;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+
+  border-radius: 8px;
+  border: 1px solid #364f63;
+  background: #1a2933;
+}
+
+.serviceCard p {
+  text-align: center;
+  font-feature-settings: "dlig" on;
+  font-family: "Wix Madefor Display";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 16px;
+  }
+}

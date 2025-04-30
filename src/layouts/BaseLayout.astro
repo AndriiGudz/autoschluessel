@@ -16,8 +16,16 @@ const { title, lang } = Astro.props;
     <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body>
-    <main>
+    <div class="wrapper">
       <slot />
-    </main>
+    </div>
   </body>
 </html>
+
+<style>
+  .wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+</style>

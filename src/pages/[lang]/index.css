@@ -1,0 +1,114 @@
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.section-title {
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.section-title h2 {
+  font-family: "Wix Madefor Display";
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.27em;
+  color: #ffffff;
+}
+
+.features-section {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  gap: 12px;
+}
+
+.features-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.faq-section {
+  padding: 0 16px;
+  width: 100%;
+}
+
+.reviews-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  width: 100%;
+}
+
+.cta-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  padding: 24px 16px;
+  width: 100%;
+}
+
+.cta-button {
+  display: flex;
+  height: 48px;
+  padding: 0 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  text-decoration: none;
+}
+
+.cta-button span {
+  font-family: "Wix Madefor Display";
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5em;
+  color: #ffffff;
+}
+
+.cta-button.order {
+  background-color: #30f955;
+}
+
+.cta-button.feedback {
+  background-color: #f1d118;
+}
+
+.cta-button.order:hover {
+  background-color: #15e33b;
+}
+
+.cta-button.feedback:hover {
+  background-color: #dabb0a;
+}
+
+@media (max-width: 768px) {
+  .cta-section {
+    flex-direction: column;
+  }
+
+  .features-container {
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 16px;
+  }
+}

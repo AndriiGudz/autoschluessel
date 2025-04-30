@@ -1,0 +1,119 @@
+.faqSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.title {
+  padding: 8px 16px;
+  width: 100%;
+}
+
+.title h3 {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.27em;
+  color: #ffffff;
+}
+
+.container {
+  padding: 0 16px;
+  width: 100%;
+}
+
+/* Стили из компонента FAQ */
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.faqItem {
+  display: flex;
+  flex-direction: column;
+  background-color: #121c21;
+  border: 1px solid #364f63;
+  border-radius: 12px;
+  padding: 7px 15px;
+  align-self: stretch;
+}
+
+.faqHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0;
+  width: 100%;
+}
+
+.question {
+  flex: 1;
+}
+
+.question h3 {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5em;
+  color: #ffffff;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: #ffffff;
+  padding: 0;
+}
+
+.icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  position: relative;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  background-color: #ffffff;
+}
+
+.icon::before {
+  width: 12px;
+  height: 2px;
+  top: 5px;
+  left: 0;
+}
+
+.icon::after {
+  width: 2px;
+  height: 12px;
+  top: 0;
+  left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.toggleBtn[aria-expanded="true"] .icon::after {
+  transform: rotate(90deg);
+}
+
+.faqContent {
+  padding: 0 0 8px;
+}
+
+.faqContent p {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5em;
+  color: #94b2c7;
+}

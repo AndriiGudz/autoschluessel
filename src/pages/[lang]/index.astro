@@ -1,25 +1,118 @@
----
-export const prerender = false;
+  ---
+  export const prerender = false;
 
-import { getTranslation } from '../../i18n/useTranslation';
-import { languages } from '../../i18n/config';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Hero from '../../components/Hero/Hero.astro';
+  import { getTranslation } from '../../i18n/useTranslation';
+  import { languages } from '../../i18n/config';
+  import BaseLayout from '../../layouts/BaseLayout.astro';
+  import Header from '../../components/Header/Header.astro';
+  import VideoSlider from '../../components/VideoSlider/VideoSlider.astro';
+  import Footer from '../../components/Footer/Footer.astro';
+  import Hero from '../../components/Hero/Hero.astro';
+  import FurDich from '../../components/FurDich/FurDich.astro';
+  import WarumWir from '../../components/WarumWir/WarumWir.astro';
+  import FAQSection from '../../components/FAQSection/FAQSection.astro';
+  import ReviewsSection from '../../components/ReviewsSection/ReviewsSection.astro';
+  import './index.css';
 
-const lang = Astro.params.lang as string;
+  const lang = Astro.params.lang as string;
 
+  // Проверка валидности языка
+  if (!Object.keys(languages).includes(lang)) {
+    Astro.redirect(`/${Object.keys(languages)[0]}/`);
+  }
 
-if (!Object.keys(languages).includes(lang)) {
-  Astro.redirect(`/${Object.keys(languages)[0]}/`);
-}
+  const t = await getTranslation(lang);
 
-const t = await getTranslation(lang);
----
+  // Видео
+  const videos = [
+    {
+      id: "video1",
+      thumbnail: "/images/video1.webp",
+      title: "Autoschlüsselreparatur"
+    },
+    {
+      id: "video2",
+      thumbnail: "/images/video2.webp",
+      title: "Autoschlossreparatur"
+    },
+    {
+      id: "video3",
+      thumbnail: "/images/video3.webp",
+      title: "Ersatzschlüsselherstellung"
+    }
+  ];
+  ---
 
-<BaseLayout title={t.title} lang={lang}>
-  <Hero 
-    title={t.hero.title}
-    subtitle={t.hero.subtitle}
-    buttonText={t.hero.button}
-  />
-</BaseLayout>
+  <BaseLayout title="MV_KFZ Autoschlüssel" lang={lang}>
+    <div class="main-container">
+      <Header lang={lang} />
+      
+      <main class="content">
+        <!-- Баннер --> 
+        <section id="home">
+          <Hero 
+            title="Entdecken Sie Perfektion in der Reparatur von Autoschlüsseln."
+            subtitle="Schnelle, zuverlässige und kostengünstige Lösungen"
+            buttonText="Jetzt bestellen"
+            lang={lang}
+          />
+        </section>
+        
+        <!-- Для вас/24/7 сервис -->
+        <section id="services">
+          <FurDich 
+            title="24/7 Service - ohne Termine"
+            lang={lang}
+          />
+        </section>
+        
+        <!-- Как это работает -->
+        <section id="how-it-works">
+          <div class="section-title">
+            <h2>Wie funktioniert das?</h2>
+          </div>
+          
+          <!-- Видео слайдер -->
+          <VideoSlider videos={videos} />
+        </section>
+        
+        <!-- Почему мы -->
+        <section id="why-us">
+          <WarumWir 
+            title="Warum wählen Kunden MV_KFZ Autoschlüssel?"
+            lang={lang}
+          />
+        </section>
+        
+        <!-- Отзывы -->
+        <section id="reviews">
+          <ReviewsSection
+            title="Kundenbewertungen"
+            lang={lang}
+          />
+        </section>
+        
+        <!-- FAQ -->
+        <section id="faq">
+          <FAQSection
+            title="Häufig gestellte Fragen (FAQ)"
+            lang={lang}
+          />
+        </section>
+
+        <!-- CTA кнопки -->
+        <section id="order" class="cta-section">
+          <a href={`/${lang}/order`} class="cta-button order">
+            <span>Jetzt bestellen</span>
+          </a>
+          <a href="#contact" class="cta-button feedback">
+            <span>Feedback hinterlassen</span>
+          </a>
+        </section>
+      </main>
+      
+      <footer id="contact">
+        <Footer lang={lang} />
+      </footer>
+    </div>
+  </BaseLayout>

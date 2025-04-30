@@ -1,0 +1,92 @@
+---
+import styles from './Header.module.css';
+
+const { lang } = Astro.props;
+
+const navigation = [
+  { name: 'Wie funktioniert das', href: '#how-it-works' },
+  { name: 'Warum wir', href: '#why-us' },
+  { name: 'Bewertungen', href: '#reviews' },
+  { name: 'FAQ', href: '#faq' },
+  { name: 'Kontakte', href: '#contact' },
+];
+
+// Путь к логотипу
+const logoPath = "/images/mv-kfz.png";
+
+// Генерируем уникальный ID для хедера
+const headerId = "main-header";
+---
+
+<header id={headerId} class={styles.header}>
+  <div class={styles.logo}>
+    <a href={`/${lang}/`}>
+      <img src={logoPath} alt="MV_KFZ Autoschlüssel Logo" class={styles.logoImage} />
+    </a>
+  </div>
+  <nav class={styles.menu}>
+    <ul class={styles.navLinks}>
+      {navigation.map((item) => (
+        <li>
+          <a href={item.href}>{item.name}</a>
+        </li>
+      ))}
+    </ul>
+      <button>Jetzt bestellen</button>
+  </nav>
+</header>
+
+<!-- Пространство для компенсации фиксированного хедера -->
+<div class={styles.headerSpacer}></div>
+
+<script define:vars={{ headerId }}>
+  // Скрипт для добавления класса при скролле
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById(headerId);
+    
+    if (header) {
+      const scrollThreshold = 50; // Пороговое значение скролла
+      
+      // Функция проверки позиции скролла
+      const handleScroll = () => {
+        if (window.scrollY > scrollThreshold) {
+          header.classList.add('headerScrolled'); // Добавляем класс без префикса для поддержки CSS-модулей
+        } else {
+          header.classList.remove('headerScrolled');
+        }
+      };
+      
+      // Слушаем событие скролла
+      window.addEventListener('scroll', handleScroll);
+      
+      // Проверяем скролл при загрузке страницы
+      handleScroll();
+      
+      // Плавная прокрутка при клике на якорные ссылки
+      const smoothScroll = (event) => {
+        const link = event.target.closest('a');
+        if (!link || !link.hash) return;
+        
+        event.preventDefault();
+        
+        const targetId = link.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          const headerHeight = header.offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      };
+      
+      // Добавляем обработчик для плавной прокрутки
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', smoothScroll);
+      });
+    }
+  });
+</script> 

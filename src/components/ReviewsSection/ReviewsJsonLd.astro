@@ -1,0 +1,122 @@
+---
+interface Review {
+  name: string;
+  date: string;
+  rating: number;
+  text: string;
+}
+
+interface ReviewsJsonLdProps {
+  reviews: Review[];
+  businessName: string;
+  businessType?: string;
+  businessUrl?: string;
+  businessDescription?: string;
+  businessTelephone?: string;
+  businessAddress?: {
+    street?: string;
+    locality?: string;
+    region?: string;
+    postalCode?: string;
+    country?: string;
+  };
+}
+
+const { 
+  reviews, 
+  businessName = "MV_KFZ Autoschlüssel", 
+  businessType = "Automotive", 
+  businessUrl = "https://autoschluessel.de",
+  businessDescription = "Professioneller Service für Autoreparatur und Schlüsseldienst. Schnelle Hilfe bei verlorenen oder defekten Autoschlüsseln.",
+  businessTelephone = "+4915775860506",
+  businessAddress = {
+    street: "Schillerstraße 10",
+    locality: "Berlin",
+    region: "Berlin",
+    postalCode: "10625",
+    country: "DE"
+  }
+} = Astro.props as ReviewsJsonLdProps;
+
+// Функция для преобразования форматированной даты в ISO-формат
+function formatDateToISO(dateStr: string): string {
+  try {
+    // Ожидаемый формат: "April 25, 2025" или "März 08, 2025"
+    const months: Record<string, string> = {
+      "Januar": "01", "Februar": "02", "März": "03", "April": "04", 
+      "Mai": "05", "Juni": "06", "Juli": "07", "August": "08", 
+      "September": "09", "Oktober": "10", "November": "11", "Dezember": "12"
+    };
+    
+    const parts = dateStr.split(" ");
+    
+    // Проверка формата даты
+    if (parts.length >= 2) {
+      const month = months[parts[0]];
+      // Удаляем запятую, если она есть
+      const dayStr = parts[1].replace(",", "");
+      const day = dayStr.padStart(2, '0');
+      const year = parts[2] || new Date().getFullYear().toString();
+      
+      if (month && day) {
+        return `${year}-${month}-${day}`;
+      }
+    }
+    
+    // Если не удалось разобрать дату, возвращаем текущую
+    return new Date().toISOString().split('T')[0];
+  } catch (error) {
+    return new Date().toISOString().split('T')[0];
+  }
+}
+
+// Подготовка данных для JSON-LD
+const reviewsData = reviews.map(review => ({
+  "@type": "Review",
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": review.rating,
+    "bestRating": 5
+  },
+  "author": {
+    "@type": "Person",
+    "name": review.name
+  },
+  "reviewBody": review.text,
+  "datePublished": formatDateToISO(review.date)
+}));
+
+// Вычисление среднего рейтинга
+const averageRating = reviews.length > 0 
+  ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
+  : "5.0";
+
+// Создание итоговой JSON-LD структуры
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": businessName,
+  "description": businessDescription,
+  "url": businessUrl,
+  "telephone": businessTelephone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": businessAddress.street,
+    "addressLocality": businessAddress.locality,
+    "addressRegion": businessAddress.region,
+    "postalCode": businessAddress.postalCode,
+    "addressCountry": businessAddress.country
+  },
+  "priceRange": "€€",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": averageRating,
+    "reviewCount": reviews.length,
+    "bestRating": 5
+  },
+  "review": reviewsData
+};
+---
+
+<!-- JSON-LD микроразметка для отзывов -->
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> 

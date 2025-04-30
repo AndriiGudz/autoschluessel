@@ -1,0 +1,72 @@
+---
+import type { FAQSectionProps, FAQItem } from './FAQSection.types';
+import styles from './FAQSection.module.css';
+
+const { title, lang, items } = Astro.props as FAQSectionProps;
+
+// Встроенные данные о FAQ (используются, если items не предоставлены)
+const defaultFaqItems: FAQItem[] = [
+  {
+    question: "Welche Arten von Autoschlüsseln können Sie reparieren?",
+    answer: "Wir beheben eine Vielzahl von Problemen mit Autoschlüsseln, darunter Fehler bei Transpondern, Fernbedienungen, Schlüsselanhängern und schlüssellosen Zugangssystemen. Unsere Techniker haben Erfahrung mit verschiedenen Arten von Autoschlüsseln, wie z. B. Standardschlüsseln, Klappschlüsseln und Proximity-Schlüsseln. Egal, ob Ihr Schlüssel beschädigt, defekt oder eine Neuprogrammierung erforderlich ist – wir bieten professionelle Reparaturdienste für die meisten Automarken und -modelle an."
+  },
+  {
+    question: "Wie viel kostet die Reparatur eines Autoschlüssels?",
+    answer: "Die Kosten für die Reparatur eines Autoschlüssels variieren je nach Autotyp, Schlüsseltyp und der Art des Problems. Kontaktieren Sie uns für eine kostenlose Preisschätzung. Wir bieten wettbewerbsfähige Preise und transparente Kostenvoranschläge ohne versteckte Gebühren."
+  },
+  {
+    question: "Bieten Sie eine Garantie auf Ihre Autoschlüssel-Reparaturdienste an?",
+    answer: "Ja, wir bieten eine 6-monatige Garantie auf alle unsere Autoschlüssel-Reparaturdienste an. Wenn Probleme auftreten, die mit unserer Reparatur zusammenhängen, beheben wir diese kostenlos innerhalb des Garantiezeitraums."
+  }
+];
+
+// Используем переданные данные или дефолтные
+const faqItems = items || defaultFaqItems;
+---
+
+<section class={styles.faqSection}>
+  <!-- Заголовок -->
+  <div class={styles.title}>
+    <h3>{title}</h3>
+  </div>
+  
+  <!-- FAQ контент -->
+  <div class={styles.container}>
+    <div class={styles.faqContainer}>
+      {faqItems.map((item, index) => (
+        <div class={styles.faqItem}>
+          <div class={styles.faqHeader}>
+            <div class={styles.question}>
+              <h3>{item.question}</h3>
+            </div>
+            <button class={styles.toggleBtn} aria-expanded="false" aria-controls={`faq-answer-${index}`}>
+              <span class={styles.icon}></span>
+            </button>
+          </div>
+          <div class={styles.faqContent} id={`faq-answer-${index}`} hidden>
+            <p>{item.answer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('button[aria-controls]').forEach(button => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      const contentId = button.getAttribute('aria-controls') || '';
+      const content = document.getElementById(contentId);
+      
+      if (content) {
+        if (expanded) {
+          content.setAttribute('hidden', '');
+        } else {
+          content.removeAttribute('hidden');
+        }
+      }
+    });
+  });
+</script> 

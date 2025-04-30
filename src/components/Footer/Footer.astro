@@ -1,0 +1,149 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="separator"></div>
+  <div class="footer-content">
+    <div class="contact-info">
+      <div class="footer-heading">
+        <h3>Kontakte</h3>
+      </div>
+      <div class="contact-details">
+        <p>Bitte kontaktieren Sie uns über WhatsApp und Telegram.</p>
+        <p>+49 151 26135181</p>
+        <p>Mon - Son: 24/7</p>
+      </div>
+    </div>
+    <div class="social-media">
+      <div class="footer-heading">
+        <h3>Folgen Sie uns</h3>
+      </div>
+      <div class="social-icons">
+        <a href="#" class="social-icon facebook">
+          <span class="sr-only">Facebook</span>
+        </a>
+        <a href="#" class="social-icon instagram">
+          <span class="sr-only">Instagram</span>
+        </a>
+        <a href="#" class="social-icon telegram">
+          <span class="sr-only">Telegram</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="separator"></div>
+  <div class="footer-bottom">
+    <p>© MV_KFZ Autoschlüssell {currentYear}</p>
+    <p>Design und Entwicklung von Andrii Gudz</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .separator {
+    width: 100%;
+    height: 1px;
+    background-color: #FFFFFF;
+  }
+
+  .footer-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 24px;
+  }
+
+  .contact-info, .social-media {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-heading {
+    padding: 16px 16px 8px;
+  }
+
+  .footer-heading h3 {
+    font-family: 'Wix Madefor Display';
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.28em;
+    color: #FFFFFF;
+  }
+
+  .contact-details p, .social-icons {
+    padding: 4px 16px 12px;
+    font-family: 'Wix Madefor Display';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #94B2C7;
+  }
+
+  .social-icons {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .social-icon {
+    width: 24px;
+    height: 24px;
+    color: #94B2C7;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .footer-bottom {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 12px 0;
+    gap: 12px;
+  }
+
+  .footer-bottom p {
+    font-family: 'Wix Madefor Display';
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #FFFFFF;
+    padding: 8px 16px;
+  }
+
+  @media (max-width: 768px) {
+    .footer-content {
+      flex-direction: column;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+</style> 

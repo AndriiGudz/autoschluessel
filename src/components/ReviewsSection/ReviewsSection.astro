@@ -1,0 +1,98 @@
+---
+import type { ReviewsSectionProps } from './ReviewsSection.types';
+import ReviewsClient from './ReviewsClient.astro';
+import ReviewsJsonLd from './ReviewsJsonLd.astro';
+
+const { title, lang } = Astro.props as ReviewsSectionProps;
+
+// Встроенные данные об отзывах
+const reviews = [
+  {
+    name: "Thomas",
+    date: "April 25, 2025",
+    rating: 5,
+    text: "Die Qualität der Arbeit bei MV_KFZ Autoschlüssel hat mich überzeugt. Mein Schlüssel wurde innerhalb einer Stunde repariert und funktioniert seither einwandfrei. Der Techniker kam direkt zu mir nach Hause und war sowohl professionell als auch freundlich. Den Service kann ich nur empfehlen, vor allem die schnelle Erreichbarkeit zu jeder Tageszeit."
+  },
+  {
+    name: "Julia",
+    date: "April 18, 2025",
+    rating: 5,
+    text: "Nachdem ich meinen Autoschlüssel verloren hatte, kontaktierte ich MV_KFZ. Sie stellten mir innerhalb von 24 Stunden einen neuen Schlüssel aus. Der Preis war fair und die Arbeit wurde an Ort und Stelle durchgeführt. Das Team ist äußerst kompetent und der neue Schlüssel funktioniert perfekt. Ein ausgezeichneter Service!"
+  },
+  {
+    name: "Markus",
+    date: "April 05, 2025",
+    rating: 4,
+    text: "Mein Autoschlüssel ließ sich nicht mehr entriegeln. MV_KFZ Autoschlüssel konnte das Problem schnell diagnostizieren und beheben. Der Service war gut, nur die Anfahrtszeit etwas länger als erwartet. Trotzdem bin ich mit dem Ergebnis zufrieden und würde den Service wieder in Anspruch nehmen."
+  },
+  {
+    name: "Nina",
+    date: "März 22, 2025",
+    rating: 5,
+    text: "Hervorragender Service! Mein Autoschlüssel wurde komplett neu programmiert, nachdem er beschädigt wurde. Der Techniker erklärte mir genau, was das Problem war und welche Lösungen möglich waren. Die Transparenz bei den Kosten und die schnelle Arbeit haben mich überzeugt. MV_KFZ ist meine erste Wahl für alle Schlüsselprobleme."
+  },
+  {
+    name: "Robert",
+    date: "März 08, 2025",
+    rating: 5,
+    text: "Als mein Transponderschlüssel nicht mehr funktionierte, kam MV_KFZ Autoschlüssel sofort zur Hilfe. Die Diagnose war kostenlos und der Reparaturprozess wurde mir genau erklärt. Der Techniker war sehr freundlich und kompetent. Die Reparatur hat perfekt funktioniert und zu einem fairen Preis. Absolut empfehlenswert!"
+  },
+  {
+    name: "David",
+    date: "Februar 28, 2025",
+    rating: 5,
+    text: "Ich habe kürzlich meinen Autoschlüssel bei MV_KFZ Autoschlüssel reparieren lassen und bin mit dem Service sehr zufrieden. Der Techniker war effizient, und die Reparatur wurde auf einem hohen Standard durchgeführt. Mein Autoschlüssel funktioniert jetzt einwandfrei. Das Kundenserviceteam war ebenfalls sehr reaktionsschnell. Ich kann MV_KFZ jedem empfehlen, der eine Autoschlüsselreparatur benötigt."
+  },
+  {
+    name: "Sophia",
+    date: "Februar 21, 2025",
+    rating: 5,
+    text: "Ich habe MV_KFZ genutzt, um meinen Autoschlüssel zu reparieren, und bin mit den Ergebnissen äußerst zufrieden. Der Techniker war kompetent, und die Reparatur wurde mit höchster Präzision durchgeführt. Mein Autoschlüssel ist jetzt voll funktionsfähig. Das Kundenserviceteam war ebenfalls ausgezeichnet. Ich würde MV_KFZ Autoschlüssel definitiv wieder nutzen und ihre Dienstleistungen weiterempfehlen."
+  },
+  {
+    name: "Adam",
+    date: "Februar 17, 2025",
+    rating: 4,
+    text: "Ich hatte eine großartige Erfahrung mit MV_KFZ Autoschlüssel. Der Techniker war professionell, und die Reparatur wurde schnell abgeschlossen. Mein Autoschlüssel funktioniert jetzt perfekt. Das Kundenserviceteam war sehr freundlich und reaktionsschnell. Insgesamt bin ich mit dem Service sehr zufrieden und würde MV_KFZ anderen empfehlen."
+  },
+  {
+    name: "Caroline",
+    date: "Februar 10, 2025",
+    rating: 5,
+    text: "Ich habe kürzlich MV_KFZ Autoschlüssel genutzt, um meinen Autoschlüssel zu reparieren, und war sehr beeindruckt von der Servicequalität. Der Techniker kam schnell an und führte die Reparatur in wenigen Minuten durch. Mein Autoschlüssel funktioniert jetzt einwandfrei, und ich bin mit dem Ergebnis sehr zufrieden. Das Kundenserviceteam war ebenfalls sehr hilfsbereit und reaktionsschnell. Ich kann MV_KFZ jedem empfehlen, der eine Autoschlüsselreparatur benötigt."
+  }
+];
+
+// Количество отзывов для первоначального отображения
+const initialReviewsCount = 5;
+
+// Конфигурация бизнеса для микроразметки
+const businessConfig = {
+  businessName: "MV_KFZ Autoschlüssel",
+  businessType: "Automotive",
+  businessUrl: "https://autoschluessel.de", // Замените на фактический URL сайта
+  businessDescription: "Professioneller Service für Autoreparatur und Schlüsseldienst. Schnelle und zuverlässige Hilfe bei verlorenen oder defekten Autoschlüsseln.",
+  businessTelephone: "+4915775860506", // Замените на реальный номер телефона
+  businessAddress: {
+    street: "Schillerstraße 10", // Замените на реальный адрес
+    locality: "Berlin",
+    region: "Berlin",
+    postalCode: "10625",
+    country: "DE"
+  }
+};
+---
+
+<!-- JSON-LD микроразметка для поисковых систем -->
+<ReviewsJsonLd 
+  reviews={reviews} 
+  businessName={businessConfig.businessName}
+  businessType={businessConfig.businessType}
+  businessUrl={businessConfig.businessUrl}
+  businessDescription={businessConfig.businessDescription}
+  businessTelephone={businessConfig.businessTelephone}
+  businessAddress={businessConfig.businessAddress}
+/>
+
+<!-- Используем клиентский компонент со встроенным скриптом JavaScript -->
+<ReviewsClient reviews={reviews} initialReviewsCount={initialReviewsCount} title={title} />

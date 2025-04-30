@@ -1,0 +1,36 @@
+---
+import type { FurDichProps } from './FurDich.types';
+import styles from './FurDich.module.css';
+
+const { title, lang } = Astro.props as FurDichProps;
+
+// Сервисы встроены прямо в компонент
+const services = [
+  "Autoschlüsselreparatur",
+  "Wiederherstellung verlorener Schlüssel",
+  "Herstellung eines Ersatzschlüssels",
+  "Autoschlossreparatur"
+];
+---
+
+<section class={styles.furDich}>
+  <!-- Заголовок -->
+  <div class={styles.title}>
+    <h3>{title}</h3>
+  </div>
+  
+  <!-- Сервисы -->
+  <div class={styles.services}>
+    <div class={styles.container}>
+      {services.map(service => (
+        <div class={styles.serviceCard}>
+          <p>{service}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Стили перенесены в module.css */
+</style> 

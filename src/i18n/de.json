@@ -1,9 +1,89 @@
 {
-    "title": "Welcome to our service",
-    "hero": {
-      "title": "Entdecken Sie Perfektion in der Reparatur von Autoschlüsseln",
-      "subtitle": "Schnelle, zuverlässige und kostengünstige Lösungen",
-      "button": "Jetzt bestellen"
+  "title": "MV_KFZ Autoschlüssel - Reparatur und Ersatz",
+  "hero": {
+    "title": "Entdecken Sie Perfektion in der Reparatur von Autoschlüsseln.",
+    "subtitle": "Schnelle, zuverlässige und kostengünstige Lösungen",
+    "button": "Jetzt bestellen"
+  },
+  "nav": {
+    "howItWorks": "Wie funktioniert das",
+    "whyUs": "Warum wir",
+    "reviews": "Bewertungen",
+    "faq": "FAQ",
+    "contacts": "Kontakte",
+    "order": "Jetzt bestellen"
+  },
+  "sections": {
+    "service": "24/7 Service - ohne Termine",
+    "howItWorks": "Wie funktioniert das?",
+    "whyUs": "Warum wählen Kunden MV_KFZ Autoschlüssel?",
+    "faq": "Häufig gestellte Fragen (FAQ)",
+    "reviews": "Kundenbewertungen"
+  },
+  "services": [
+    "Autoschlüsselreparatur",
+    "Wiederherstellung verlorener Schlüssel",
+    "Herstellung eines Ersatzschlüssels",
+    "Autoschlossreparatur"
+  ],
+  "features": [
+    {
+      "title": "Qualitätsreparatur",
+      "description": "Wir verwenden hochwertige Teile und bieten eine 6 - monatige Garantie auf alle Reparaturen."
+    },
+    {
+      "title": "Geld sparen",
+      "description": "Lassen Sie Ihren Autoschlüssel zu einem Bruchteil der Kosten eines neuen reparieren."
+    },
+    {
+      "title": "Sicherheitsgarantie",
+      "description": "Ihre Daten sind bei uns sicher. Wir geben keine Informationen an Dritte weiter."
+    },
+    {
+      "title": "24/7-Service",
+      "description": "Unser Kundenservice-Team ist rund um die Uhr erreichbar, um Ihnen bei Fragen oder Anliegen zu helfen."
+    },
+    {
+      "title": "Ohne Termine",
+      "description": "Wir arbeiten vor Ort! teilen Sie uns die Adresse mit und wir kommen zu Ihnen."
+    },
+    {
+      "title": "Keine versteckten Kosten",
+      "description": "Wir bieten transparente Preisgestaltung ohne versteckte Gebühren oder unerwartete Kosten."
+    },
+    {
+      "title": "Kostenlose Diagnose",
+      "description": "Wir bieten kostenlose Diagnoseleistungen an, um das Problem mit Ihrem Autoschlüssel zu identifizieren."
+    },
+    {
+      "title": "Große Produktvielfalt",
+      "description": "Wir reparieren eine Vielzahl von Autoschlüsselproblemen für verschiedene Automarken und -modelle."
     }
+  ],
+  "faqItems": [
+    {
+      "question": "Welche Arten von Autoschlüsseln können Sie reparieren?",
+      "answer": "Wir beheben eine Vielzahl von Problemen mit Autoschlüsseln, darunter Fehler bei Transpondern, Fernbedienungen, Schlüsselanhängern und schlüssellosen Zugangssystemen. Unsere Techniker haben Erfahrung mit verschiedenen Arten von Autoschlüsseln, wie z. B. Standardschlüsseln, Klappschlüsseln und Proximity-Schlüsseln. Egal, ob Ihr Schlüssel beschädigt, defekt oder eine Neuprogrammierung erforderlich ist – wir bieten professionelle Reparaturdienste für die meisten Automarken und -modelle an."
+    },
+    {
+      "question": "Wie viel kostet die Reparatur eines Autoschlüssels?",
+      "answer": "Die Kosten für die Reparatur eines Autoschlüssels variieren je nach Autotyp, Schlüsseltyp und der Art des Problems. Kontaktieren Sie uns für eine kostenlose Preisschätzung. Wir bieten wettbewerbsfähige Preise und transparente Kostenvoranschläge ohne versteckte Gebühren."
+    },
+    {
+      "question": "Bieten Sie eine Garantie auf Ihre Autoschlüssel-Reparaturdienste an?",
+      "answer": "Ja, wir bieten eine 6-monatige Garantie auf alle unsere Autoschlüssel-Reparaturdienste an. Wenn Probleme auftreten, die mit unserer Reparatur zusammenhängen, beheben wir diese kostenlos innerhalb des Garantiezeitraums."
+    }
+  ],
+  "cta": {
+    "order": "Jetzt bestellen",
+    "feedback": "Feedback hinterlassen"
+  },
+  "footer": {
+    "contacts": "Kontakte",
+    "contactUs": "Bitte kontaktieren Sie uns über WhatsApp und Telegram.",
+    "workingHours": "Mon - Son: 24/7",
+    "followUs": "Folgen Sie uns",
+    "copyright": "© MV_KFZ Autoschlüssell",
+    "developer": "Design und Entwicklung von Andrii Gudz"
   }
-  
+}

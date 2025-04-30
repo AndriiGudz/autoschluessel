@@ -1,0 +1,111 @@
+---
+// Это клиентский Astro компонент с минимумом JS для обработки переключения
+import styles from './ReviewsClient.module.css';
+
+interface Review {
+  name: string;
+  date: string;
+  rating: number;
+  text: string;
+}
+
+interface ReviewsClientProps {
+  reviews: Review[];
+  initialReviewsCount: number;
+  title: string;
+}
+
+const { reviews, initialReviewsCount, title } = Astro.props as ReviewsClientProps;
+
+// Генерируем уникальный ID для контейнера скрытых отзывов
+const hiddenReviewsId = "hidden-reviews-container";
+---
+
+<section class={styles["reviews-section"]} id="reviews-section">
+  <div class={styles["reviews-title"]}>
+    <h3>{title}</h3>
+  </div>
+
+  <div class={styles["reviews-container"]}>
+    {reviews.slice(0, initialReviewsCount).map((review: Review) => (
+      <div class={styles["review-card"]}>
+        <div class={styles["review-header"]}>
+          <div class={styles.avatar}>
+            {review.name.charAt(0).toUpperCase()}
+          </div>
+          <div class={styles["user-info"]}>
+            <h3>{review.name}</h3>
+            <p class={styles.date}>{review.date}</p>
+          </div>
+        </div>
+        <div class={styles.rating}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={`${styles.star} ${i < review.rating ? styles.filled : ''}`}></span>
+          ))}
+        </div>
+        <div class={styles["review-content"]}>
+          <p>{review.text}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Скрытые отзывы --> 
+  <div id={hiddenReviewsId} class={styles["hidden-reviews"]} style="display: none;">
+    {reviews.slice(initialReviewsCount).map((review: Review) => (
+      <div class={styles["review-card"]}>
+        <div class={styles["review-header"]}>
+          <div class={styles.avatar}>
+            {review.name.charAt(0).toUpperCase()}
+          </div>
+          <div class={styles["user-info"]}>
+            <h3>{review.name}</h3>
+            <p class={styles.date}>{review.date}</p>
+          </div>
+        </div>
+        <div class={styles.rating}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={`${styles.star} ${i < review.rating ? styles.filled : ''}`}></span>
+          ))}
+        </div>
+        <div class={styles["review-content"]}>
+          <p>{review.text}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {reviews.length > initialReviewsCount && (
+    <div class={styles["reviews-buttons"]}>
+      <button id="toggle-reviews" class={styles["toggle-button"]}>
+        Mehr Bewertungen anzeigen
+      </button>
+    </div>
+  )}
+</section>
+
+<script define:vars={{ hiddenReviewsId }}>
+  // Простой скрипт для переключения отзывов
+  const toggleButton = document.getElementById('toggle-reviews');
+  const hiddenReviews = document.getElementById(hiddenReviewsId);
+  let isExpanded = false;
+
+  if (toggleButton && hiddenReviews) {
+    toggleButton.addEventListener('click', () => {
+      if (!isExpanded) {
+        // Показываем скрытые отзывы
+        hiddenReviews.style.display = 'flex';
+        toggleButton.textContent = 'Weniger Bewertungen anzeigen';
+        isExpanded = true;
+      } else {
+        // Скрываем отзывы
+        hiddenReviews.style.display = 'none';
+        toggleButton.textContent = 'Mehr Bewertungen anzeigen';
+        isExpanded = false;
+        
+        // Прокручиваем страницу вверх к началу блока отзывов
+        document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+</script> 
