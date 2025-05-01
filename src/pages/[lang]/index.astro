@@ -5,13 +5,13 @@
   import { languages } from '../../i18n/config';
   import BaseLayout from '../../layouts/BaseLayout.astro';
   import Header from '../../components/Header/Header.astro';
-  import VideoSlider from '../../components/VideoSlider/VideoSlider.astro';
   import Footer from '../../components/Footer/Footer.astro';
   import Hero from '../../components/Hero/Hero.astro';
   import FurDich from '../../components/FurDich/FurDich.astro';
   import WarumWir from '../../components/WarumWir/WarumWir.astro';
   import FAQSection from '../../components/FAQSection/FAQSection.astro';
   import ReviewsSection from '../../components/ReviewsSection/ReviewsSection.astro';
+  import VideoCarousel from '../../components/VideoCarousel/VideoCarousel.astro';
   import './index.css';
 
   const lang = Astro.params.lang as string;
@@ -25,21 +25,10 @@
 
   // Видео
   const videos = [
-    {
-      id: "video1",
-      thumbnail: "/images/video1.webp",
-      title: "Autoschlüsselreparatur"
-    },
-    {
-      id: "video2",
-      thumbnail: "/images/video2.webp",
-      title: "Autoschlossreparatur"
-    },
-    {
-      id: "video3",
-      thumbnail: "/images/video3.webp",
-      title: "Ersatzschlüsselherstellung"
-    }
+    { src: '/videos/video1.mp4', alt: 'Clip 1' },
+    { src: '/videos/video2.mp4', alt: 'Clip 2' },
+    { src: '/videos/video3.mp4', alt: 'Clip 3' },
+    { src: '/videos/video4.mp4', alt: 'Clip 4' },
   ];
   ---
 
@@ -73,7 +62,7 @@
           </div>
           
           <!-- Видео слайдер -->
-          <VideoSlider videos={videos} />
+          <VideoCarousel videos={videos} />
         </section>
         
         <!-- Почему мы -->

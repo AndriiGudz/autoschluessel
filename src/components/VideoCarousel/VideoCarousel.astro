@@ -1,0 +1,364 @@
+---
+interface VideoItem { 
+  src: string;
+  poster?: string;
+  alt?: string;
+}
+
+interface Props {
+  videos: VideoItem[];
+}
+
+const { videos } = Astro.props;
+---
+
+<div class="carousel-container">
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {videos.map((video, index) => (
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <div class="video-container">
+              <video 
+                src={video.src} 
+                poster={video.poster || `/images/video${index + 1}.webp`}
+                preload="metadata"
+                id={`video-${index}`}
+                playsinline
+              ></video>
+              <button 
+                class="play-button" 
+                data-video-id={`video-${index}`}
+                aria-label="Play video"
+              >
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                  <path d="M32 24L20 32V16L32 24Z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+            <div class="slide-caption">
+              <h3>Autoschlüsseldienst</h3>
+              <p>{video.alt || `Videoclip ${index + 1}`}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <!-- Навигация -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    
+    <!-- Пагинация -->
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<script is:inline>
+  // Загрузка Swiper из CDN
+  document.addEventListener('DOMContentLoaded', () => {
+    // Создаем и добавляем ссылку на CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    document.head.appendChild(link);
+    
+    // Создаем и добавляем скрипт Swiper
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    document.body.appendChild(script);
+    
+    // Инициализируем Swiper после загрузки скрипта
+    script.onload = () => {
+      initSwiper();
+    };
+  });
+
+  function initSwiper() {
+    // @ts-ignore - Swiper добавлен через CDN
+    const swiper = new Swiper('.swiper', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 3,
+      initialSlide: 1,
+      loop: true,
+      spaceBetween: 20,
+      slideVisibleClass: 'swiper-slide-visible',
+      coverflowEffect: {
+        rotate: 5,
+        stretch: 0,
+        depth: 200,
+        modifier: 1.5,
+        slideShadows: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      // Добавляем наблюдатель изменений видимости слайдов
+      on: {
+        init: function (swiper) {
+          updateVisibility(swiper);
+        },
+        slideChange: function (swiper) {
+          updateVisibility(swiper);
+        },
+        resize: function (swiper) {
+          updateVisibility(swiper);
+        }
+      }
+    });
+
+    // Функция для обновления видимости слайдов
+    function updateVisibility(swiper) {
+      const slides = swiper.slides;
+      const activeIndex = swiper.activeIndex;
+      const slidesPerView = swiper.params.slidesPerView;
+      
+      // Вычисляем индексы видимых слайдов
+      const visibleStart = Math.max(0, activeIndex - Math.floor(slidesPerView / 2));
+      const visibleEnd = Math.min(slides.length - 1, visibleStart + slidesPerView - 1);
+      
+      // Применяем видимость только к 3 слайдам вокруг активного
+      slides.forEach((slide, index) => {
+        if (index >= visibleStart && index <= visibleEnd) {
+          slide.classList.add('swiper-slide-visible');
+        } else {
+          slide.classList.remove('swiper-slide-visible');
+        }
+      });
+    }
+
+    // Обработчик для кнопок Play
+    document.querySelectorAll('.play-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const videoId = button.getAttribute('data-video-id');
+        if (videoId) {
+          const video = document.getElementById(videoId);
+          if (video && video instanceof HTMLVideoElement) {
+            if (video.paused) {
+              // Останавливаем все другие видео
+              document.querySelectorAll('video').forEach(v => {
+                if (v.id !== videoId && !v.paused && v instanceof HTMLVideoElement) {
+                  v.pause();
+                  const buttonEl = document.querySelector(`[data-video-id="${v.id}"]`);
+                  if (buttonEl) {
+                    buttonEl.classList.remove('playing');
+                    if (buttonEl instanceof HTMLElement) {
+                      buttonEl.style.opacity = '1';
+                    }
+                  }
+                }
+              });
+              
+              // Запускаем выбранное видео
+              video.play()
+                .then(() => {
+                  console.log('Видео начало воспроизводиться');
+                })
+                .catch(error => {
+                  console.error('Ошибка воспроизведения:', error);
+                });
+                
+              button.classList.add('playing');
+              
+              // Скрываем кнопку при воспроизведении
+              if (button instanceof HTMLElement) {
+                button.style.opacity = '0';
+              }
+              
+              // Показываем кнопку, когда видео закончится
+              video.addEventListener('ended', () => {
+                if (button instanceof HTMLElement) {
+                  button.style.opacity = '1';
+                }
+                button.classList.remove('playing');
+              });
+              
+              // Показываем кнопку, если видео на паузе
+              video.addEventListener('pause', () => {
+                if (button instanceof HTMLElement) {
+                  button.style.opacity = '1';
+                }
+                button.classList.remove('playing');
+              });
+            } else {
+              video.pause();
+              button.classList.remove('playing');
+              if (button instanceof HTMLElement) {
+                button.style.opacity = '1';
+              }
+            }
+          }
+        }
+      });
+    });
+  }
+</script>
+<style>
+  .carousel-container {
+    width: 100%;
+    padding: 40px 0;
+    background-color: #121c21;
+    overflow: hidden; /* Чтобы точно не было видно слайдов за пределами */
+  }
+
+  .swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    position: relative;
+  }
+
+  .swiper-wrapper {
+    align-items: center;
+  }
+
+  .swiper-slide {
+    width: 280px;
+    height: 320px;
+    background-position: center;
+    background-size: cover;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: scale(0.7);
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .swiper-slide-visible {
+    opacity: 0.7;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+
+  .swiper-slide-prev,
+  .swiper-slide-next {
+    opacity: 0.8;
+    transform: scale(0.85);
+    z-index: 5;
+  }
+
+  .slide-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    background-color: #1c2c33;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 75%;
+    overflow: hidden;
+  }
+
+  .video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .play-button:hover svg circle {
+    fill: rgba(0, 0, 0, 0.7);
+  }
+
+  .slide-caption {
+    padding: 12px 16px;
+    background-color: #1c2c33;
+    color: white;
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .slide-caption h3 {
+    margin: 0 0 4px 0;
+    font-size: 16px;
+    font-weight: 700;
+  }
+  
+  .slide-caption p {
+    margin: 0;
+    font-size: 14px;
+    color: #94b2c7;
+  }
+
+  /* Кастомизация кнопок навигации */
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #ffffff;
+    /* background-color: rgba(0, 0, 0, 0.3); */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 45%;
+  }
+
+  .swiper-button-next:after,
+  .swiper-button-prev:after {
+    font-size: 20px;
+  }
+
+  /* Кастомизация пагинации */
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #ffffff;
+  }
+
+  /* Медиа-запросы для отзывчивости */
+  @media (max-width: 768px) {
+    .swiper-slide {
+      width: 220px;
+      height: 280px;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      font-size: 16px;
+    }
+  }
+</style>
+
