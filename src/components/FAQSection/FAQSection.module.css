@@ -1,43 +1,55 @@
 .faqSection {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   width: 100%;
-}
-
-.title {
-  padding: 8px 16px;
-  width: 100%;
+  margin: 0 auto;
+  padding: 8px 0px;
 }
 
 .title h3 {
-  font-weight: 700;
-  font-size: 22px;
-  line-height: 1.27em;
-  color: #ffffff;
+  position: relative;
+  padding: 8px 16px;
+}
+
+.title h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
 }
 
 .container {
-  padding: 0 16px;
   width: 100%;
 }
 
-/* Стили из компонента FAQ */
+/* Стили FAQ */
 .faqContainer {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
 }
 
 .faqItem {
   display: flex;
   flex-direction: column;
-  background-color: #121c21;
-  border: 1px solid #364f63;
+  background-color: rgba(26, 41, 51, 0.4);
+  border: 1px solid var(--color-border);
   border-radius: 12px;
-  padding: 7px 15px;
+  padding: 16px;
   align-self: stretch;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.faqItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
 .faqHeader {
@@ -48,17 +60,11 @@
   gap: 24px;
   padding: 8px 0;
   width: 100%;
+  cursor: pointer;
 }
 
 .question {
   flex: 1;
-}
-
-.question h3 {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 1.5em;
-  color: #ffffff;
 }
 
 .toggleBtn {
@@ -68,10 +74,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  color: #ffffff;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text);
   padding: 0;
+  min-width: auto;
+  transition: transform 0.3s ease;
+}
+
+.toggleBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
 }
 
 .icon {
@@ -85,7 +98,7 @@
 .icon::after {
   content: "";
   position: absolute;
-  background-color: #ffffff;
+  background-color: var(--color-text);
 }
 
 .icon::before {
@@ -108,12 +121,28 @@
 }
 
 .faqContent {
-  padding: 0 0 8px;
+  padding: 8px 0 16px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 }
 
-.faqContent p {
-  font-weight: 400;
+.faqAnswer {
+  color: #94B2C7;
   font-size: 14px;
-  line-height: 1.5em;
-  color: #94b2c7;
+  font-style: normal;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 768px) {
+  .faqSection {
+    padding: 0px 16px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .title h3::after {
+    left: 50%;
+  }
 }

@@ -13,6 +13,9 @@ const { videos } = Astro.props;
 ---
 
 <div class="carousel-container">
+  <div class="section-title">
+    <h2>Wie funktioniert das?</h2>
+  </div>
   <div class="swiper">
     <div class="swiper-wrapper">
       {videos.map((video, index) => (
@@ -256,6 +259,23 @@ const { videos } = Astro.props;
     overflow: hidden; /* Чтобы точно не было видно слайдов за пределами */
   }
 
+  .section-title {
+position: relative;
+  padding: 8px 16px;
+  }
+
+  .section-title::after {
+    content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  }
+
   .swiper {
     width: 100%;
     max-width: 960px;
@@ -379,6 +399,13 @@ const { videos } = Astro.props;
 
   /* Медиа-запросы для отзывчивости */
   @media (max-width: 768px) {
+    .section-title {
+      text-align: center;
+    }
+
+    .section-title::after {
+      left: 50%;
+    }
     .swiper-slide {
       width: 220px;
       height: 280px;
@@ -388,11 +415,13 @@ const { videos } = Astro.props;
     .swiper-button-prev {
       width: 30px;
       height: 30px;
+      /* padding: 16px; */
     }
     
     .swiper-button-next:after,
     .swiper-button-prev:after {
       font-size: 16px;
+      /* padding: 16px; */
     }
   }
 </style>

@@ -2,19 +2,37 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin: 0 auto;
+  padding: 8px 0px;
 }
 
-.title {
+.title h3 {
+  position: relative;
   padding: 8px 16px;
-  width: 100%;
+}
+
+.title h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
 }
 
 .services {
   display: flex;
-  flex-direction: column;
-  align-self: stretch;
-  padding: 16px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
   gap: 12px;
+  flex: 1 0 0;
+  align-self: stretch;
+  flex-wrap: wrap;
 }
 
 .container {
@@ -22,40 +40,60 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
+  padding: 16px;
 }
 
 .serviceCard {
   display: flex;
   width: 220px;
-  height: 74px;
   padding: 16px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: rgba(26, 41, 51, 0.6);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
 
-  border-radius: 8px;
-  border: 1px solid #364f63;
-  background: #1a2933;
+.serviceCard:hover {
+  transform: translateY(-5px);
+  background: rgba(30, 50, 70, 0.8);
+  border-color: var(--color-primary);
 }
 
 .serviceCard p {
   text-align: center;
-  font-feature-settings: "dlig" on;
-  font-family: "Wix Madefor Display";
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text);
 }
 
 @media (max-width: 768px) {
+  .title {
+    text-align: center;
+  }
+
+  .title h3::after {
+    left: 50%;
+  }
+
   .container {
-    justify-content: flex-start;
+    width: 80%;
+    justify-content: center;
     overflow-x: auto;
-    flex-wrap: nowrap;
     padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .furDich {
+    padding: 8px;
   }
 }

@@ -31,6 +31,8 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
       <img src={logoPath} alt="MV_KFZ Autoschlüssel Logo" class={styles.logoImage} />
     </a>
   </div>
+  
+  <!-- Десктопное меню -->
   <nav class={styles.menu}>
     <ul class={styles.navLinks}>
       {navigation.map((item) => (
@@ -61,6 +63,47 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
       <button>Jetzt bestellen</button>
     </div>
   </nav>
+  
+  <!-- Мобильный гамбургер-кнопка -->
+  <button class={styles.mobileMenuToggle} id="mobile-menu-toggle" aria-label="Меню" aria-expanded="false">
+    <span class={styles.hamburgerIcon}>
+      <span class={styles.hamburgerBar}></span>
+      <span class={styles.hamburgerBar}></span>
+      <span class={styles.hamburgerBar}></span>
+    </span>
+  </button>
+  
+  <!-- Мобильное меню (скрыто по умолчанию) -->
+  <div class={styles.mobileMenuContainer} id="mobile-menu-container">
+    <nav class={styles.mobileMenu}>
+      <ul class={styles.mobileNavLinks}>
+        {navigation.map((item) => (
+          <li>
+            <a href={item.href}>{item.name}</a>
+          </li>
+        ))}
+      </ul>
+      
+      <div class={styles.mobileBottom}>
+        <!-- Мобильный языковой селектор -->
+        <div class={styles.mobileLangSelector} id="lang-selector-mobile">
+          <div class={styles.mobileLangTitle}>Sprache:</div>
+          <div class={styles.mobileLangOptions}>
+            {Object.entries(languages).map(([code, name]) => (
+              <a 
+                href={`/${code}/${currentPath}`}
+                class={code === lang ? styles.activeLang : ''}
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <button class={styles.mobileButton}>Jetzt bestellen</button>
+      </div>
+    </nav>
+  </div>
 </header>
 
 <!-- Пространство для компенсации фиксированного хедера -->
@@ -107,6 +150,13 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
             top: targetPosition,
             behavior: 'smooth'
           });
+          
+          // Если мобильное меню открыто, закрываем его
+          if (mobileMenuToggle && mobileMenuContainer) {
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenuContainer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+          }
         }
       };
       
@@ -158,6 +208,29 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
       } else {
         console.error('Языковой селектор не найден!');
       }
+      
+      // Функциональность мобильного меню
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenuContainer = document.getElementById('mobile-menu-container');
+      
+      if (mobileMenuToggle && mobileMenuContainer) {
+        mobileMenuToggle.addEventListener('click', () => {
+          const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+          mobileMenuToggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+          
+          mobileMenuContainer.classList.toggle('active');
+          document.body.classList.toggle('menu-open');
+        });
+      }
+      
+      // Закрываем мобильное меню при ресайзе окна до десктопного размера
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
+          mobileMenuContainer.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('menu-open');
+        }
+      });
     }
   });
 </script> 

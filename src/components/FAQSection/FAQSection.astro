@@ -37,14 +37,14 @@ const faqItems = items || defaultFaqItems;
         <div class={styles.faqItem}>
           <div class={styles.faqHeader}>
             <div class={styles.question}>
-              <h3>{item.question}</h3>
+              <p>{item.question}</p>
             </div>
             <button class={styles.toggleBtn} aria-expanded="false" aria-controls={`faq-answer-${index}`}>
               <span class={styles.icon}></span>
             </button>
           </div>
           <div class={styles.faqContent} id={`faq-answer-${index}`} hidden>
-            <p>{item.answer}</p>
+            <div class={styles.faqAnswer}>{item.answer}</div>
           </div>
         </div>
       ))}
