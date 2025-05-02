@@ -25,6 +25,7 @@ const { videos } = Astro.props;
                 preload="metadata"
                 id={`video-${index}`}
                 playsinline
+                data-gen-thumbnail="true"
               ></video>
               <button 
                 class="play-button" 
@@ -36,10 +37,6 @@ const { videos } = Astro.props;
                   <path d="M32 24L20 32V16L32 24Z" fill="white"/>
                 </svg>
               </button>
-            </div>
-            <div class="slide-caption">
-              <h3>Autoschlüsseldienst</h3>
-              <p>{video.alt || `Videoclip ${index + 1}`}</p>
             </div>
           </div>
         </div>
@@ -72,8 +69,59 @@ const { videos } = Astro.props;
     // Инициализируем Swiper после загрузки скрипта
     script.onload = () => {
       initSwiper();
+      initThumbnailGenerator();
     };
   });
+
+  // Функция для генерации превью видео на лету
+  function initThumbnailGenerator() {
+    const videos = document.querySelectorAll('video[data-gen-thumbnail="true"]');
+    
+    videos.forEach(video => {
+      // Проверяем, нужно ли генерировать превью
+      // Если постер уже установлен и не является путем по умолчанию, пропускаем
+      if (video.getAttribute('poster') && !video.getAttribute('poster').includes('/images/video')) {
+        return;
+      }
+      
+      // Устанавливаем временную позицию для превью (25% длительности видео)
+      video.addEventListener('loadedmetadata', function() {
+        // Генерируем превью на 25% длительности видео
+        const previewTime = video.duration * 0.25;
+        
+        // Устанавливаем время и ждем, пока видео перейдет к этому времени
+        video.currentTime = previewTime;
+        
+        video.addEventListener('seeked', function() {
+          // Создаем canvas и устанавливаем размеры
+          const canvas = document.createElement('canvas');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          
+          // Получаем контекст и рисуем кадр видео
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+          
+          // Получаем превью в формате dataURL
+          const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
+          
+          // Устанавливаем превью как постер
+          video.setAttribute('poster', thumbnailUrl);
+          
+          // Возвращаем видео в начальное положение
+          video.currentTime = 0;
+          
+          // Удаляем атрибут, чтобы показать, что превью уже сгенерировано
+          video.removeAttribute('data-gen-thumbnail');
+        }, { once: true });
+      }, { once: true });
+      
+      // Запускаем загрузку видео для получения метаданных
+      if (video.readyState === 0) {
+        video.load();
+      }
+    });
+  }
 
   function initSwiper() {
     // @ts-ignore - Swiper добавлен через CDN
@@ -204,15 +252,16 @@ const { videos } = Astro.props;
 <style>
   .carousel-container {
     width: 100%;
-    padding: 40px 0;
-    background-color: #121c21;
+    padding: 8px 0;
     overflow: hidden; /* Чтобы точно не было видно слайдов за пределами */
   }
 
   .swiper {
     width: 100%;
-    padding-top: 50px;
-    padding-bottom: 50px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding-top: 16px;
+    padding-bottom: 16px;
     position: relative;
   }
 
@@ -221,8 +270,8 @@ const { videos } = Astro.props;
   }
 
   .swiper-slide {
-    width: 280px;
-    height: 320px;
+    width: 360px;
+    height: 450px;
     background-position: center;
     background-size: cover;
     transition: all 0.4s ease;
@@ -230,6 +279,7 @@ const { videos } = Astro.props;
     transform: scale(0.7);
     pointer-events: none;
     visibility: hidden;
+    margin-bottom: 16px;
   }
 
   .swiper-slide-visible {
@@ -264,7 +314,7 @@ const { videos } = Astro.props;
   .video-container {
     position: relative;
     width: 100%;
-    height: 75%;
+    height: 100%;
     overflow: hidden;
   }
 
@@ -272,8 +322,7 @@ const { videos } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
+    border-radius: 12px;
   }
 
   .play-button {
@@ -293,48 +342,34 @@ const { videos } = Astro.props;
     fill: rgba(0, 0, 0, 0.7);
   }
 
-  .slide-caption {
-    padding: 12px 16px;
-    background-color: #1c2c33;
-    color: white;
-    height: 25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .slide-caption h3 {
-    margin: 0 0 4px 0;
-    font-size: 16px;
-    font-weight: 700;
-  }
-  
-  .slide-caption p {
-    margin: 0;
-    font-size: 14px;
-    color: #94b2c7;
-  }
-
   /* Кастомизация кнопок навигации */
   .swiper-button-next,
   .swiper-button-prev {
     color: #ffffff;
-    /* background-color: rgba(0, 0, 0, 0.3); */
     width: 40px;
     height: 40px;
     border-radius: 50%;
     top: 45%;
   }
 
-  .swiper-button-next:after,
-  .swiper-button-prev:after {
-    font-size: 20px;
+  .swiper-button-next {
+    right: 0;
+  }
+
+  .swiper-button-prev {
+    left: 0;
   }
 
   /* Кастомизация пагинации */
+  .swiper-pagination {
+    position: relative; 
+    bottom: -20px;
+  }
+
   .swiper-pagination-bullet {
     width: 10px;
     height: 10px;
+    margin: 0 5px;
     background: rgba(255, 255, 255, 0.5);
   }
 

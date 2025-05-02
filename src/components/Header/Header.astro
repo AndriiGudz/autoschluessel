@@ -1,5 +1,6 @@
 ---
 import styles from './Header.module.css';
+import { languages } from '../../i18n/config';
 
 const { lang } = Astro.props;
 
@@ -16,6 +17,12 @@ const logoPath = "/images/mv-kfz.png";
 
 // Генерируем уникальный ID для хедера
 const headerId = "main-header";
+
+// Получаем текущий путь без языкового префикса для создания ссылок переключателя языков
+const currentPath = Astro.url.pathname.split('/').slice(2).join('/');
+
+// Убедимся, что язык существует в словаре, иначе используем первый доступный
+const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
 ---
 
 <header id={headerId} class={styles.header}>
@@ -32,7 +39,27 @@ const headerId = "main-header";
         </li>
       ))}
     </ul>
+    
+    <div class={styles.rightMenu}>
+      <!-- Языковой селектор -->
+      <div class={styles.langSelector} id="lang-selector" data-active="false">
+        <div class={styles.currentLang}>
+          {languages[safeLanguage as keyof typeof languages]}
+        </div>
+        <div class={styles.langDropdown}>
+          {Object.entries(languages).map(([code, name]) => (
+            <a 
+              href={`/${code}/${currentPath}`}
+              class={code === lang ? styles.activeLang : ''}
+            >
+              {name}
+            </a>
+          ))}
+        </div>
+      </div>
+      
       <button>Jetzt bestellen</button>
+    </div>
   </nav>
 </header>
 
@@ -87,6 +114,50 @@ const headerId = "main-header";
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', smoothScroll);
       });
+      
+      // Переключатель языка - показать/скрыть dropdown
+      const langSelector = document.getElementById('lang-selector');
+      if (langSelector) {
+        console.log('Языковой селектор найден:', langSelector);
+        
+        // Устанавливаем начальное состояние
+        if (!langSelector.hasAttribute('data-active')) {
+          langSelector.setAttribute('data-active', 'false');
+        }
+        
+        langSelector.addEventListener('click', (e) => {
+          e.stopPropagation();
+          
+          // Вместо добавления класса используем data-атрибут
+          const isActive = langSelector.getAttribute('data-active') === 'true';
+          const newState = isActive ? 'false' : 'true';
+          
+          console.log('Переключаем состояние селектора:', isActive, '->', newState);
+          langSelector.setAttribute('data-active', newState);
+        });
+        
+        // Закрыть dropdown при клике вне селектора
+        document.addEventListener('click', () => {
+          if (langSelector.getAttribute('data-active') === 'true') {
+            console.log('Закрываем селектор по клику вне');
+            langSelector.setAttribute('data-active', 'false');
+          }
+        });
+        
+        // Наблюдатель для мониторинга изменений атрибута
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-active') {
+              const isActive = langSelector.getAttribute('data-active') === 'true';
+              console.log('Изменение состояния селектора:', isActive);
+            }
+          });
+        });
+        
+        observer.observe(langSelector, { attributes: true });
+      } else {
+        console.error('Языковой селектор не найден!');
+      }
     }
   });
 </script> 

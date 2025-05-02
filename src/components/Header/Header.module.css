@@ -59,6 +59,118 @@
   text-decoration: underline;
 }
 
+/* Правая часть меню (языки и кнопка) */
+.rightMenu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Стили для селектора языка */
+.langSelector {
+  position: relative;
+  cursor: pointer;
+  font-size: 14px;
+  color: #ffffff;
+  user-select: none;
+}
+
+.currentLang {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.currentLang::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 4px 0 4px;
+  border-color: #ffffff transparent transparent transparent;
+  transition: transform 0.2s ease;
+}
+
+.langSelector:hover .currentLang {
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.langSelector[data-active="true"] .currentLang {
+  border-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.langSelector[data-active="true"] .currentLang::after {
+  transform: rotate(180deg);
+}
+
+.langDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background-color: #121c21;
+  border-radius: 6px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  min-width: 140px;
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: dropdownAppear 0.2s ease forwards;
+}
+
+@keyframes dropdownAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.langSelector[data-active="true"] .langDropdown {
+  display: flex;
+}
+
+.langDropdown a {
+  padding: 10px 12px;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  text-align: center;
+  font-weight: 400;
+}
+
+.langDropdown a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.langDropdown a.activeLang {
+  background-color: rgba(255, 255, 255, 0.15);
+  font-weight: 500;
+  position: relative;
+}
+
+.langDropdown a.activeLang::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #ffffff;
+}
+
 /* Создаем пространство под фиксированным хедером */
 .headerSpacer {
   height: 80px; /* Соответствует примерной высоте хедера */
@@ -81,5 +193,19 @@
 
   .headerSpacer {
     height: 64px; /* Меньшая высота на мобильных */
+  }
+
+  .rightMenu {
+    gap: 16px;
+  }
+
+  .currentLang {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+
+  .langDropdown {
+    right: -10px;
+    min-width: 120px;
   }
 }
