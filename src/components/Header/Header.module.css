@@ -227,6 +227,10 @@
   flex-direction: column;
   padding-top: var(--header-height);
   overflow-y: auto;
+
+  @media (min-width: 768px) {
+    width: auto;
+}
 }
 
 /* Используем :global для активного класса */
