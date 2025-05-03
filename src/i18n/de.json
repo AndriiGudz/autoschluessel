@@ -29,35 +29,43 @@
   "features": [
     {
       "title": "Qualitätsreparatur",
-      "description": "Wir verwenden hochwertige Teile und bieten eine 6 - monatige Garantie auf alle Reparaturen."
+      "description": "Wir verwenden hochwertige Teile und bieten eine 6 - monatige Garantie auf alle Reparaturen.",
+      "icon": "/images/icons/quality.svg"
     },
     {
       "title": "Geld sparen",
-      "description": "Lassen Sie Ihren Autoschlüssel zu einem Bruchteil der Kosten eines neuen reparieren."
+      "description": "Lassen Sie Ihren Autoschlüssel zu einem Bruchteil der Kosten eines neuen reparieren.",
+      "icon": "/images/icons/money.svg"
     },
     {
       "title": "Sicherheitsgarantie",
-      "description": "Ihre Daten sind bei uns sicher. Wir geben keine Informationen an Dritte weiter."
+      "description": "Ihre Daten sind bei uns sicher. Wir geben keine Informationen an Dritte weiter.",
+      "icon": "/images/icons/security.svg"
     },
     {
       "title": "24/7-Service",
-      "description": "Unser Kundenservice-Team ist rund um die Uhr erreichbar, um Ihnen bei Fragen oder Anliegen zu helfen."
+      "description": "Unser Kundenservice-Team ist rund um die Uhr erreichbar, um Ihnen bei Fragen oder Anliegen zu helfen.",
+      "icon": "/images/icons/service.svg"
     },
     {
       "title": "Ohne Termine",
-      "description": "Wir arbeiten vor Ort! teilen Sie uns die Adresse mit und wir kommen zu Ihnen."
+      "description": "Wir arbeiten vor Ort! teilen Sie uns die Adresse mit und wir kommen zu Ihnen.",
+      "icon": "/images/icons/appointment.svg"
     },
     {
       "title": "Keine versteckten Kosten",
-      "description": "Wir bieten transparente Preisgestaltung ohne versteckte Gebühren oder unerwartete Kosten."
+      "description": "Wir bieten transparente Preisgestaltung ohne versteckte Gebühren oder unerwartete Kosten.",
+      "icon": "/images/icons/transparency.svg"
     },
     {
       "title": "Kostenlose Diagnose",
-      "description": "Wir bieten kostenlose Diagnoseleistungen an, um das Problem mit Ihrem Autoschlüssel zu identifizieren."
+      "description": "Wir bieten kostenlose Diagnoseleistungen an, um das Problem mit Ihrem Autoschlüssel zu identifizieren.",
+      "icon": "/images/icons/diagnosis.svg"
     },
     {
       "title": "Große Produktvielfalt",
-      "description": "Wir reparieren eine Vielzahl von Autoschlüsselproblemen für verschiedene Automarken und -modelle."
+      "description": "Wir reparieren eine Vielzahl von Autoschlüsselproblemen für verschiedene Automarken und -modelle.",
+      "icon": "/images/icons/variety.svg"
     }
   ],
   "faqItems": [
@@ -78,6 +86,42 @@
     "order": "Jetzt bestellen",
     "feedback": "Feedback hinterlassen"
   },
+  "buttons": {
+    "showMore": "Mehr Bewertungen anzeigen",
+    "showLess": "Weniger Bewertungen anzeigen"
+  },
+  "reviews": [
+    {
+      "name": "Thomas",
+      "date": "25. April 2025",
+      "rating": 5,
+      "text": "Die Qualität der Arbeit bei MV_KFZ Autoschlüssel hat mich überzeugt. Mein Schlüssel wurde innerhalb einer Stunde repariert und funktioniert seither einwandfrei. Der Techniker kam direkt zu mir nach Hause und war sowohl professionell als auch freundlich. Den Service kann ich nur empfehlen, vor allem die schnelle Erreichbarkeit zu jeder Tageszeit."
+    },
+    {
+      "name": "Julia",
+      "date": "18. April 2025",
+      "rating": 5,
+      "text": "Nachdem ich meinen Autoschlüssel verloren hatte, kontaktierte ich MV_KFZ. Sie stellten mir innerhalb von 24 Stunden einen neuen Schlüssel aus. Der Preis war fair und die Arbeit wurde an Ort und Stelle durchgeführt. Das Team ist äußerst kompetent und der neue Schlüssel funktioniert perfekt. Ein ausgezeichneter Service!"
+    },
+    {
+      "name": "Markus",
+      "date": "5. April 2025",
+      "rating": 4,
+      "text": "Mein Autoschlüssel ließ sich nicht mehr entriegeln. MV_KFZ Autoschlüssel konnte das Problem schnell diagnostizieren und beheben. Der Service war gut, nur die Anfahrtszeit etwas länger als erwartet. Trotzdem bin ich mit dem Ergebnis zufrieden und würde den Service wieder in Anspruch nehmen."
+    },
+    {
+      "name": "Nina",
+      "date": "22. März 2025",
+      "rating": 5,
+      "text": "Hervorragender Service! Mein Autoschlüssel wurde komplett neu programmiert, nachdem er beschädigt wurde. Der Techniker erklärte mir genau, was das Problem war und welche Lösungen möglich waren. Die Transparenz bei den Kosten und die schnelle Arbeit haben mich überzeugt. MV_KFZ ist meine erste Wahl für alle Schlüsselprobleme."
+    },
+    {
+      "name": "Robert",
+      "date": "8. März 2025",
+      "rating": 5,
+      "text": "Als mein Transponderschlüssel nicht mehr funktionierte, kam MV_KFZ Autoschlüssel sofort zur Hilfe. Die Diagnose war kostenlos und der Reparaturprozess wurde mir genau erklärt. Der Techniker war sehr freundlich und kompetent. Die Reparatur hat perfekt funktioniert und zu einem fairen Preis. Absolut empfehlenswert!"
+    }
+  ],
   "footer": {
     "contacts": "Kontakte",
     "contactUs": "Bitte kontaktieren Sie uns über WhatsApp und Telegram.",

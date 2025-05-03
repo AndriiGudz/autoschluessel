@@ -24,11 +24,22 @@ export interface TranslationSchema {
   features: {
     title: string;
     description: string;
+    icon: string;
   }[];
   faqItems: {
     question: string;
     answer: string;
   }[];
+  reviews?: {
+    name: string;
+    date: string;
+    rating: number;
+    text: string;
+  }[];
+  buttons?: {
+    showMore: string;
+    showLess: string;
+  };
   cta: {
     order: string;
     feedback: string;

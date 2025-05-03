@@ -1,15 +1,19 @@
 ---
 import styles from './Header.module.css';
 import { languages } from '../../i18n/config';
+import { getTranslation } from '../../i18n/useTranslation';
 
 const { lang } = Astro.props;
 
+// Получаем переводы
+const t = await getTranslation(lang);
+
 const navigation = [
-  { name: 'Wie funktioniert das', href: '#how-it-works' },
-  { name: 'Warum wir', href: '#why-us' },
-  { name: 'Bewertungen', href: '#reviews' },
-  { name: 'FAQ', href: '#faq' },
-  { name: 'Kontakte', href: '#contact' },
+  { name: t.nav.howItWorks, href: '#how-it-works' },
+  { name: t.nav.whyUs, href: '#why-us' },
+  { name: t.nav.reviews, href: '#reviews' },
+  { name: t.nav.faq, href: '#faq' },
+  { name: t.nav.contacts, href: '#contact' },
 ];
 
 // Путь к логотипу
@@ -60,7 +64,7 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         </div>
       </div>
       
-      <button>Jetzt bestellen</button>
+      <button>{t.nav.order}</button>
     </div>
   </nav>
   

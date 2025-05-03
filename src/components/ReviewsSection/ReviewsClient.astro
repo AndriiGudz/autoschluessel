@@ -1,21 +1,19 @@
 ---
 // Это клиентский Astro компонент с минимумом JS для обработки переключения
 import styles from './ReviewsClient.module.css';
-
-interface Review {
-  name: string;
-  date: string;
-  rating: number;
-  text: string;
-}
+import type { Review } from './ReviewsSection.types';
 
 interface ReviewsClientProps {
   reviews: Review[];
   initialReviewsCount: number;
   title: string;
+  buttonTexts: {
+    showMore: string;
+    showLess: string;
+  };
 }
 
-const { reviews, initialReviewsCount, title } = Astro.props as ReviewsClientProps;
+const { reviews, initialReviewsCount, title, buttonTexts } = Astro.props as ReviewsClientProps;
 
 // Генерируем уникальный ID для контейнера скрытых отзывов
 const hiddenReviewsId = "hidden-reviews-container";
@@ -78,13 +76,13 @@ const hiddenReviewsId = "hidden-reviews-container";
   {reviews.length > initialReviewsCount && (
     <div class={styles["reviews-buttons"]}>
       <button id="toggle-reviews" class={styles["toggle-button"]}>
-        Mehr Bewertungen anzeigen
+        {buttonTexts.showMore}
       </button>
     </div>
   )}
 </section>
 
-<script define:vars={{ hiddenReviewsId }}>
+<script define:vars={{ hiddenReviewsId, buttonTexts }}>
   // Простой скрипт для переключения отзывов
   const toggleButton = document.getElementById('toggle-reviews');
   const hiddenReviews = document.getElementById(hiddenReviewsId);
@@ -95,12 +93,12 @@ const hiddenReviewsId = "hidden-reviews-container";
       if (!isExpanded) {
         // Показываем скрытые отзывы
         hiddenReviews.style.display = 'flex';
-        toggleButton.textContent = 'Weniger Bewertungen anzeigen';
+        toggleButton.textContent = buttonTexts.showLess;
         isExpanded = true;
       } else {
         // Скрываем отзывы
         hiddenReviews.style.display = 'none';
-        toggleButton.textContent = 'Mehr Bewertungen anzeigen';
+        toggleButton.textContent = buttonTexts.showMore;
         isExpanded = false;
         
         // Прокручиваем страницу вверх к началу блока отзывов

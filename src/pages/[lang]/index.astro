@@ -32,7 +32,7 @@
   ];
   ---
 
-  <BaseLayout title="MV_KFZ Autoschlüssel" lang={lang}>
+  <BaseLayout title={t.title} lang={lang}>
     <div class="main-container">
       <Header lang={lang} />
       
@@ -40,9 +40,9 @@
         <!-- Баннер --> 
         <section id="home">
           <Hero 
-            title="Entdecken Sie Perfektion in der Reparatur von Autoschlüsseln."
-            subtitle="Schnelle, zuverlässige und kostengünstige Lösungen"
-            buttonText="Jetzt bestellen"
+            title={t.hero.title}
+            subtitle={t.hero.subtitle}
+            buttonText={t.hero.button}
             lang={lang}
           />
         </section>
@@ -50,28 +50,33 @@
         <!-- Для вас/24/7 сервис -->
         <section id="services">
           <FurDich 
-            title="24/7 Service - ohne Termine"
+            title={t.sections.service}
             lang={lang}
+            services={t.services}
           />
         </section>
         
         <!-- Видео слайдер -->
         <section id="how-it-works">
-          <VideoCarousel videos={videos} />
+          <VideoCarousel 
+            videos={videos} 
+            title={t.sections.howItWorks}
+          />
         </section>
         
         <!-- Почему мы -->
         <section id="why-us">
           <WarumWir 
-            title="Warum wählen Kunden MV_KFZ Autoschlüssel?"
+            title={t.sections.whyUs}
             lang={lang}
+            features={t.features}
           />
         </section>
         
         <!-- Отзывы -->
         <section id="reviews">
           <ReviewsSection
-            title="Kundenbewertungen"
+            title={t.sections.reviews}
             lang={lang}
           />
         </section>
@@ -79,18 +84,19 @@
         <!-- FAQ -->
         <section id="faq">
           <FAQSection
-            title="Häufig gestellte Fragen (FAQ)"
+            title={t.sections.faq}
             lang={lang}
+            items={t.faqItems}
           />
         </section>
 
         <!-- CTA кнопки -->
         <section id="order" class="cta-section">
           <a href={`/${lang}/order`} class="cta-button order">
-            <span>Jetzt bestellen</span>
+            <span>{t.cta.order}</span>
           </a>
           <a href="#contact" class="cta-button feedback">
-            <span>Feedback hinterlassen</span>
+            <span>{t.cta.feedback}</span>
           </a>
         </section>
       </main>

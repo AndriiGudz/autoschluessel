@@ -1,27 +1,15 @@
 ---
 import type { FAQSectionProps, FAQItem } from './FAQSection.types';
 import styles from './FAQSection.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
 
-const { title, lang, items } = Astro.props as FAQSectionProps;
+const { title, lang, items: propItems } = Astro.props as FAQSectionProps;
 
-// Встроенные данные о FAQ (используются, если items не предоставлены)
-const defaultFaqItems: FAQItem[] = [
-  {
-    question: "Welche Arten von Autoschlüsseln können Sie reparieren?",
-    answer: "Wir beheben eine Vielzahl von Problemen mit Autoschlüsseln, darunter Fehler bei Transpondern, Fernbedienungen, Schlüsselanhängern und schlüssellosen Zugangssystemen. Unsere Techniker haben Erfahrung mit verschiedenen Arten von Autoschlüsseln, wie z. B. Standardschlüsseln, Klappschlüsseln und Proximity-Schlüsseln. Egal, ob Ihr Schlüssel beschädigt, defekt oder eine Neuprogrammierung erforderlich ist – wir bieten professionelle Reparaturdienste für die meisten Automarken und -modelle an."
-  },
-  {
-    question: "Wie viel kostet die Reparatur eines Autoschlüssels?",
-    answer: "Die Kosten für die Reparatur eines Autoschlüssels variieren je nach Autotyp, Schlüsseltyp und der Art des Problems. Kontaktieren Sie uns für eine kostenlose Preisschätzung. Wir bieten wettbewerbsfähige Preise und transparente Kostenvoranschläge ohne versteckte Gebühren."
-  },
-  {
-    question: "Bieten Sie eine Garantie auf Ihre Autoschlüssel-Reparaturdienste an?",
-    answer: "Ja, wir bieten eine 6-monatige Garantie auf alle unsere Autoschlüssel-Reparaturdienste an. Wenn Probleme auftreten, die mit unserer Reparatur zusammenhängen, beheben wir diese kostenlos innerhalb des Garantiezeitraums."
-  }
-];
+// Получаем переводы
+const t = await getTranslation(lang);
 
-// Используем переданные данные или дефолтные
-const faqItems = items || defaultFaqItems;
+// Используем только пропсы или переводы из i18n
+const faqItems = propItems || t.faqItems || [];
 ---
 
 <section class={styles.faqSection}>

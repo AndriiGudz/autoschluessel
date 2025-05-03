@@ -1,52 +1,15 @@
 ---
-import type { WarumWirProps } from './WarumWir.types';
+import type { WarumWirProps, Feature } from './WarumWir.types';
 import styles from './WarumWir.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
 
-const { title, lang } = Astro.props as WarumWirProps;
+const { title, lang, features: propFeatures } = Astro.props as WarumWirProps;
 
-// Встроенные данные о преимуществах с иконками
-const features = [
-    {
-      title: "24/7-Service",
-      description: "Unser Kundenservice-Team ist rund um die Uhr erreichbar, um Ihnen bei Fragen oder Anliegen zu helfen.",
-      icon: "/images/icons/service.svg"
-    },
-    {
-      title: "Ohne Termine",
-      description: "Wir arbeiten vor Ort! teilen Sie uns die Adresse mit und wir kommen zu Ihnen.",
-      icon: "/images/icons/appointment.svg"
-    },
-  {
-    title: "Qualitätsreparatur",
-    description: "Wir verwenden hochwertige Teile und bieten eine 6 - monatige Garantie auf alle Reparaturen.",
-    icon: "/images/icons/quality.svg"
-  },
-  {
-    title: "Geld sparen",
-    description: "Lassen Sie Ihren Autoschlüssel zu einem Bruchteil der Kosten eines neuen reparieren.",
-    icon: "/images/icons/money.svg"
-  },
-  {
-    title: "Sicherheitsgarantie",
-    description: "Ihre Daten sind bei uns sicher. Wir geben keine Informationen an Dritte weiter.",
-    icon: "/images/icons/security.svg"
-  },
-  {
-    title: "Keine versteckten Kosten",
-    description: "Wir bieten transparente Preisgestaltung ohne versteckte Gebühren oder unerwartete Kosten.",
-    icon: "/images/icons/transparency.svg"
-  },
-  {
-    title: "Kostenlose Diagnose",
-    description: "Wir bieten kostenlose Diagnoseleistungen an, um das Problem mit Ihrem Autoschlüssel zu identifizieren.",
-    icon: "/images/icons/diagnosis.svg"
-  },
-  {
-    title: "Große Produktvielfalt",
-    description: "Wir reparieren eine Vielzahl von Autoschlüsselproblemen für verschiedene Automarken und -modelle.",
-    icon: "/images/icons/variety.svg"
-  }
-];
+// Получаем переводы
+const t = await getTranslation(lang);
+
+// Используем только пропсы или переводы из i18n
+const features = propFeatures || t.features || [];
 ---
 
 <section class={styles.warumWir}>

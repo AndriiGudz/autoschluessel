@@ -1,9 +1,12 @@
 ---
-import type { FooterProps } from './Footer.types';
 import styles from './Footer.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
 
 const { lang } = Astro.props;
 const currentYear = new Date().getFullYear();
+
+// Получаем переводы
+const t = await getTranslation(lang);
 
 // Пути к иконкам социальных сетей
 const socialIcons = {
@@ -20,17 +23,17 @@ const socialIcons = {
   <div class={styles.footerContent}>
     <div class={styles.contactInfo}>
       <div class={styles.footerHeading}>
-        <h3>Kontakte</h3>
+        <h3>{t.footer.contacts}</h3>
       </div>
       <div class={styles.contactDetails}>
-        <p>Bitte kontaktieren Sie uns über WhatsApp und Telegram.</p>
+        <p>{t.footer.contactUs}</p>
         <p>+49 151 26135181</p>
-        <p>Mon - Son: 24/7</p>
+        <p>{t.footer.workingHours}</p>
       </div>
     </div>
     <div class={styles.socialMedia}>
       <div class={styles.footerHeading}>
-        <h3>Folgen Sie uns</h3>
+        <h3>{t.footer.followUs}</h3>
       </div>
       <div class={styles.socialIcons}>
         <!-- Facebook (заглушка) -->
@@ -58,8 +61,8 @@ const socialIcons = {
   </div>
   <div class={styles.separator}></div>
   <div class={styles.footerBottom}>
-    <p><a href="#" class={styles.contactLink}>© MV_KFZ Autoschlüssell {currentYear}</a></p>
-    <p><a href="https://gudz-andrii.com/" target="_blank" rel="noopener" class={styles.contactLink}>Design und Entwicklung von Andrii Gudz</a></p>
+    <p><a href="#" class={styles.contactLink}>{t.footer.copyright} {currentYear}</a></p>
+    <p><a href="https://gudz-andrii.com/" target="_blank" rel="noopener" class={styles.contactLink}>{t.footer.developer}</a></p>
   </div>
   </div>
 </footer> 

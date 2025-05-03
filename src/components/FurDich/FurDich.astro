@@ -1,16 +1,15 @@
 ---
 import type { FurDichProps } from './FurDich.types';
 import styles from './FurDich.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
 
-const { title, lang } = Astro.props as FurDichProps;
+const { title, lang, services: propServices } = Astro.props as FurDichProps;
 
-// Сервисы встроены прямо в компонент
-const services = [
-  "Autoschlüsselreparatur",
-  "Wiederherstellung verlorener Schlüssel",
-  "Herstellung eines Ersatzschlüssels",
-  "Autoschlossreparatur"
-];
+// Получаем переводы
+const t = await getTranslation(lang);
+
+// Используем только пропсы или переводы из i18n
+const services = propServices || t.services || [];
 ---
 
 <section class={styles.furDich}>
