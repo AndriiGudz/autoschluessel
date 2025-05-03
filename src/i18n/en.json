@@ -87,8 +87,8 @@
     "feedback": "Leave Feedback"
   },
   "buttons": {
-    "showMore": "Show More Reviews",
-    "showLess": "Show Less Reviews"
+    "showMore": "Show more reviews",
+    "showLess": "Show less reviews"
   },
   "reviews": [
     {
@@ -129,5 +129,14 @@
     "followUs": "Follow Us",
     "copyright": "© MV_KFZ Car Keys",
     "developer": "Design and Development by Andrii Gudz"
+  },
+  "order": {
+    "title": "Place an Order",
+    "brand": "Car Brand",
+    "model": "Model",
+    "year": "Year",
+    "name": "Your Name",
+    "phone": "Phone Number",
+    "submit": "Submit Order"
   }
 }

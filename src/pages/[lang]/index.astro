@@ -3,6 +3,7 @@
 
   import { getTranslation } from '../../i18n/useTranslation';
   import { languages } from '../../i18n/config';
+  import { getVideoConfig } from '../../config/videoConfig';
   import BaseLayout from '../../layouts/BaseLayout.astro';
   import Header from '../../components/Header/Header.astro';
   import Footer from '../../components/Footer/Footer.astro';
@@ -12,6 +13,7 @@
   import FAQSection from '../../components/FAQSection/FAQSection.astro';
   import ReviewsSection from '../../components/ReviewsSection/ReviewsSection.astro';
   import VideoCarousel from '../../components/VideoCarousel/VideoCarousel.astro';
+  import OrderModal from '../../components/OrderModal/OrderModal.astro';
   import './index.css';
 
   const lang = Astro.params.lang as string;
@@ -23,13 +25,8 @@
 
   const t = await getTranslation(lang);
 
-  // Видео
-  const videos = [
-    { src: '/videos/video1.mp4', alt: 'Clip 1' },
-    { src: '/videos/video2.mp4', alt: 'Clip 2' },
-    { src: '/videos/video3.mp4', alt: 'Clip 3' },
-    { src: '/videos/video4.mp4', alt: 'Clip 4' },
-  ];
+  // Получаем конфигурацию видео
+  const videos = await getVideoConfig(lang);
   ---
 
   <BaseLayout title={t.title} lang={lang}>
@@ -92,7 +89,7 @@
 
         <!-- CTA кнопки -->
         <section id="order" class="cta-section">
-          <a href={`/${lang}/order`} class="cta-button order">
+          <a href="#" class="cta-button order" id="orderButton">
             <span>{t.cta.order}</span>
           </a>
           <a href="#contact" class="cta-button feedback">
@@ -104,5 +101,22 @@
       <footer id="contact">
         <Footer lang={lang} />
       </footer>
+      
+      <!-- Модальное окно заказа -->
+      <OrderModal lang={lang} />
     </div>
   </BaseLayout>
+
+<script>
+  // Подключаем кнопку заказа к модальному окну
+  document.addEventListener('DOMContentLoaded', () => {
+    const orderButton = document.getElementById('orderButton');
+    
+    if (orderButton && window.openOrderModal) {
+      orderButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.openOrderModal();
+      });
+    }
+  });
+</script>

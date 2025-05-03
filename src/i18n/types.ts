@@ -40,6 +40,15 @@ export interface TranslationSchema {
     showMore: string;
     showLess: string;
   };
+  order: {
+    title: string;
+    brand: string;
+    model: string;
+    year: string;
+    name: string;
+    phone: string;
+    submit: string;
+  };
   cta: {
     order: string;
     feedback: string;

@@ -25,7 +25,7 @@ let backgroundUrl = backgrounds[currentBackground];
     <div class={styles.container}>
       <h1>{title}</h1>
       <h2>{subtitle}</h2>
-      <button>{buttonText}</button>
+      <button id="heroOrderButton">{buttonText}</button>
     </div>
   </div>
 </section>
@@ -41,10 +41,22 @@ let backgroundUrl = backgrounds[currentBackground];
   let currentBackground = 0;
   const img = document.getElementById('hero-bg');
 
+  // Смена фоновых картинок
   setInterval(() => {
     currentBackground = (currentBackground + 1) % backgrounds.length;
     if (img) {
       img.src = backgrounds[currentBackground];
     }
   }, 3000);
+
+  // Подключаем кнопку заказа к модальному окну
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroOrderButton = document.getElementById('heroOrderButton');
+    
+    if (heroOrderButton && window.openOrderModal) {
+      heroOrderButton.addEventListener('click', () => {
+        window.openOrderModal();
+      });
+    }
+  });
 </script>

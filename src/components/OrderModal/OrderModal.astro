@@ -1,0 +1,354 @@
+---
+import styles from './OrderModal.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+import type { ModalProps } from '../../types/modals';
+
+// Получение параметров компонента
+const { lang } = Astro.props as ModalProps;
+
+// Получаем переводы
+const t = await getTranslation(lang);
+
+// Список производителей автомобилей
+const carBrands = [
+  "Audi", "BMW", "Mercedes-Benz", "Volkswagen", "Opel", "Ford", "Toyota", 
+  "Hyundai", "Kia", "Renault", "Nissan", "Volvo", "Skoda", "Seat", "Mazda", 
+  "Porsche", "Fiat", "Honda", "Citroen", "Peugeot", "Land Rover", "Jeep", 
+  "Mini", "Smart", "Tesla", "Другой"
+];
+
+// Текущий год для ограничения максимального значения года выпуска
+const currentYear = new Date().getFullYear();
+---
+
+<div id="orderModal" class={styles.modalOverlay}>
+  <div class={styles.modalContainer}>
+    <button id="closeModal" class={styles.closeButton} aria-label="Close"></button>
+    
+    <div class={styles.modalForm}>
+      <h3 class={styles.modalTitle}>{t.order.title}</h3>
+      
+      <form id="orderForm" class={styles.formFields}>
+        <div class={styles.formField}>
+          <select id="carBrand" name="carBrand" required>
+            <option value="" disabled selected></option>
+            {carBrands.map((brand) => (
+              <option value={brand}>{brand}</option>
+            ))}
+          </select>
+          <label for="carBrand">{t.order.brand}</label>
+        </div>
+        
+        <div class={styles.formField}>
+          <input 
+            type="text" 
+            id="carModel" 
+            name="carModel" 
+            placeholder={t.order.model}
+            required 
+          />
+          <label for="carModel">{t.order.model}</label>
+        </div>
+        
+        <div class={styles.formField}>
+          <input 
+            type="text" 
+            id="carYear" 
+            name="carYear" 
+            placeholder={t.order.year}
+            inputmode="numeric"
+            pattern="[0-9]{4}"
+            minlength="4"
+            maxlength="4"
+            required 
+          />
+          <label for="carYear">{t.order.year}</label>
+        </div>
+        
+        <div class={styles.formField}>
+          <input 
+            type="text" 
+            id="customerName" 
+            name="customerName" 
+            placeholder={t.order.name}
+            required 
+          />
+          <label for="customerName">{t.order.name}</label>
+        </div>
+        
+        <div class={styles.formField}>
+          <input 
+            type="tel" 
+            id="customerPhone" 
+            name="customerPhone" 
+            placeholder={t.order.phone}
+            pattern="[0-9+\s\-()]+"
+            title="Введите корректный номер телефона"
+            required 
+          />
+          <label for="customerPhone">{t.order.phone}</label>
+        </div>
+        
+        <button type="submit" class={styles.submitButton}>
+          <span>{t.order.submit}</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Находим все элементы для работы с модальным окном
+  const modal = document.getElementById('orderModal');
+  const closeButton = document.getElementById('closeModal');
+  const orderForm = document.getElementById('orderForm') as HTMLFormElement;
+
+  // Функция для проверки состояния полей формы и активации лейблов
+  function checkFormFieldsState() {
+    if (!orderForm) return;
+    
+    const selects = orderForm.querySelectorAll('select');
+    const inputs = orderForm.querySelectorAll('input');
+    
+    // Проверяем состояние селектов
+    selects.forEach(select => {
+      if (select.value) {
+        const label = select.nextElementSibling as HTMLElement;
+        if (label) {
+          label.classList.add('active');
+        }
+      }
+    });
+    
+    // Проверяем состояние инпутов
+    inputs.forEach(input => {
+      if (input.value) {
+        const label = input.nextElementSibling as HTMLElement;
+        if (label) {
+          label.classList.add('active');
+        }
+      }
+    });
+  }
+
+  // Открытие модального окна
+  function openModal() {
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Блокируем прокрутку основной страницы
+      
+      // Проверяем состояние полей при открытии модального окна
+      setTimeout(checkFormFieldsState, 100);
+    }
+  }
+
+  // Закрытие модального окна
+  function closeModal() {
+    if (modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // Возвращаем прокрутку основной страницы
+    }
+  }
+
+  // Добавляем обработчики событий
+  if (closeButton) {
+    closeButton.addEventListener('click', closeModal);
+  }
+
+  // Закрываем модальное окно при клике на оверлей (вне модального окна)
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+  }
+
+  // Обработка отправки формы
+  if (orderForm) {
+    // Валидация поля года при вводе
+    const yearInput = orderForm.querySelector('#carYear') as HTMLInputElement;
+    if (yearInput) {
+      yearInput.addEventListener('input', () => {
+        // Удаляем все нецифровые символы
+        yearInput.value = yearInput.value.replace(/\D/g, '');
+        
+        const yearValue = parseInt(yearInput.value);
+        const currentYear = new Date().getFullYear();
+        
+        // Если поле заполнено, проверяем значение
+        if (yearInput.value.length === 4) {
+          // Ограничение диапазона года
+          if (yearValue < 1900) {
+            yearInput.value = '1900';
+          } else if (yearValue > currentYear) {
+            yearInput.value = currentYear.toString();
+          }
+        }
+        
+        // Активация лейбла при вводе
+        const label = yearInput.nextElementSibling as HTMLElement;
+        if (label && yearInput.value) {
+          label.classList.add('active');
+        } else if (label) {
+          label.classList.remove('active');
+        }
+      });
+    }
+
+    // Валидация и форматирование номера телефона
+    const phoneInput = orderForm.querySelector('#customerPhone') as HTMLInputElement;
+    if (phoneInput) {
+      phoneInput.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement;
+        // Удаляем все символы, кроме цифр и плюса
+        let value = target.value.replace(/[^\d+]/g, '');
+        
+        // Простое форматирование номера: +XX XXX XXX XXXX
+        if (value.startsWith('+')) {
+          // Если номер начинается с +, форматируем с +
+          if (value.length > 1) {
+            let formattedValue = '+';
+            // Код страны (2-3 цифры после +)
+            const countryCode = value.substring(1, Math.min(4, value.length));
+            formattedValue += countryCode;
+            
+            // Добавляем пробел после кода страны
+            if (value.length > 4) {
+              formattedValue += ' ' + value.substring(4, Math.min(7, value.length));
+              
+              // Добавляем пробел после первых 3 цифр после кода
+              if (value.length > 7) {
+                formattedValue += ' ' + value.substring(7, Math.min(10, value.length));
+                
+                // Добавляем пробел после следующих 3 цифр
+                if (value.length > 10) {
+                  formattedValue += ' ' + value.substring(10);
+                }
+              }
+            }
+            
+            value = formattedValue;
+          }
+        } else if (value.length > 0) {
+          // Если номер не начинается с +, форматируем без +
+          let formattedValue = '';
+          
+          // Первые 3 цифры
+          formattedValue += value.substring(0, Math.min(3, value.length));
+          
+          // Добавляем пробел после первых 3 цифр
+          if (value.length > 3) {
+            formattedValue += ' ' + value.substring(3, Math.min(6, value.length));
+            
+            // Добавляем пробел после следующих 3 цифр
+            if (value.length > 6) {
+              formattedValue += ' ' + value.substring(6, Math.min(10, value.length));
+              
+              // Добавляем пробел после следующих 4 цифр
+              if (value.length > 10) {
+                formattedValue += ' ' + value.substring(10);
+              }
+            }
+          }
+          
+          value = formattedValue;
+        }
+        
+        target.value = value;
+        
+        // Активация лейбла при вводе
+        const label = target.nextElementSibling as HTMLElement;
+        if (label && target.value) {
+          label.classList.add('active');
+        } else if (label) {
+          label.classList.remove('active');
+        }
+      });
+    }
+
+    orderForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Создаем объект FormData для получения данных формы
+      const formData = new FormData(orderForm);
+      const formValues = Object.fromEntries(formData.entries());
+      
+      // Проверяем, что все обязательные поля заполнены
+      let hasErrors = false;
+      let errorMessage = '';
+      
+      // Проверка марки автомобиля
+      if (!formValues.carBrand) {
+        hasErrors = true;
+        errorMessage += 'Выберите марку автомобиля\n';
+      }
+      
+      // Проверка модели автомобиля
+      if (!formValues.carModel) {
+        hasErrors = true;
+        errorMessage += 'Введите модель автомобиля\n';
+      }
+      
+      // Проверка года выпуска
+      const yearValue = parseInt(formValues.carYear as string);
+      const currentYear = new Date().getFullYear();
+      
+      if (!formValues.carYear || isNaN(yearValue) || yearValue < 1900 || yearValue > currentYear || String(formValues.carYear).length !== 4) {
+        hasErrors = true;
+        errorMessage += `Введите корректный год выпуска (от 1900 до ${currentYear})\n`;
+      }
+      
+      // Проверка имени
+      if (!formValues.customerName) {
+        hasErrors = true;
+        errorMessage += 'Введите ваше имя\n';
+      }
+      
+      // Проверка телефона
+      if (!formValues.customerPhone) {
+        hasErrors = true;
+        errorMessage += 'Введите номер телефона\n';
+      } else {
+        // Проверяем, что в номере телефона достаточно цифр
+        const digitsOnly = (formValues.customerPhone as string).replace(/\D/g, '');
+        if (digitsOnly.length < 8) {
+          hasErrors = true;
+          errorMessage += 'Номер телефона должен содержать не менее 8 цифр\n';
+        }
+      }
+      
+      // Если есть ошибки, показываем их пользователю
+      if (hasErrors) {
+        alert(errorMessage);
+        return;
+      }
+      
+      // Здесь можно добавить код для отправки данных на сервер
+      console.log('Form data:', formValues);
+      
+      // Показываем подтверждение
+      alert('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      
+      // Сбрасываем форму и закрываем модальное окно
+      orderForm.reset();
+      closeModal();
+    });
+    
+    // Добавляем обработчики для селектов
+    const selects = orderForm.querySelectorAll('select');
+    selects.forEach(select => {
+      select.addEventListener('change', () => {
+        const label = select.nextElementSibling as HTMLElement;
+        if (label && select.value) {
+          label.classList.add('active');
+        } else if (label) {
+          label.classList.remove('active');
+        }
+      });
+    });
+  }
+
+  // Экспортируем функцию открытия модального окна для использования в других компонентах
+  window.openOrderModal = openModal;
+</script> 

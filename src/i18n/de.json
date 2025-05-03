@@ -90,6 +90,15 @@
     "showMore": "Mehr Bewertungen anzeigen",
     "showLess": "Weniger Bewertungen anzeigen"
   },
+  "order": {
+    "title": "Bestellung aufgeben",
+    "brand": "Marken",
+    "model": "Modelle",
+    "year": "Baujahr",
+    "name": "Name",
+    "phone": "Handynummer",
+    "submit": "Bestätigen"
+  },
   "reviews": [
     {
       "name": "Thomas",

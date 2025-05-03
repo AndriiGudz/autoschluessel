@@ -64,7 +64,7 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         </div>
       </div>
       
-      <button>{t.nav.order}</button>
+      <button id="headerOrderButton">{t.nav.order}</button>
     </div>
   </nav>
   
@@ -104,7 +104,7 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
           </div>
         </div>
         
-        <button class={styles.mobileButton}>Jetzt bestellen</button>
+        <button id="mobileOrderButton" class={styles.mobileButton}>{t.nav.order}</button>
       </div>
     </nav>
   </div>
@@ -235,6 +235,29 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
           document.body.classList.remove('menu-open');
         }
       });
+      
+      // Подключаем кнопки заказа к модальному окну
+      const headerOrderButton = document.getElementById('headerOrderButton');
+      const mobileOrderButton = document.getElementById('mobileOrderButton');
+      
+      if (headerOrderButton && window.openOrderModal) {
+        headerOrderButton.addEventListener('click', () => {
+          window.openOrderModal();
+        });
+      }
+      
+      if (mobileOrderButton && window.openOrderModal) {
+        mobileOrderButton.addEventListener('click', () => {
+          window.openOrderModal();
+          
+          // Закрываем мобильное меню при нажатии на кнопку заказа
+          if (mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
+            mobileMenuContainer.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+          }
+        });
+      }
     }
   });
 </script> 
