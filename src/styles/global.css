@@ -132,6 +132,12 @@ a {
   visibility: visible !important;
 }
 
+/* Анимация контейнера, если она у вас была */
+.modalOverlay.active .modalContainer {
+  transform: translateY(0) scale(1) !important;
+  opacity: 1 !important;
+}
+
 /* Стили для кнопок действий */
 .cta-section {
   display: flex;

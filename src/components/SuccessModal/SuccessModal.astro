@@ -1,19 +1,17 @@
 ---
+// src/components/SuccessModal/SuccessModal.astro
 import styles from './SuccessModal.module.css';
 import { getTranslation } from '../../i18n/useTranslation';
 import type { ModalProps } from '../../types/modals';
 
-// Получение параметров компонента
+// Получаем переводы на SSR
 const { lang } = Astro.props as ModalProps;
-
-// Получаем переводы
 const t = await getTranslation(lang);
 ---
 
 <div id="successModal" class={styles.modalOverlay}>
   <div class={styles.modalContainer}>
-    <button id="closeSuccessModal" class={styles.closeButton} aria-label="Close"></button>
-    
+    <button id="closeSuccess" class={styles.closeButton} aria-label="Close"></button>
     <div class={styles.modalContent}>
       <div class={styles.successIcon}>
         <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,98 +20,40 @@ const t = await getTranslation(lang);
           <circle cx="40" cy="40" r="24" fill="#30F955"/>
           <path d="M32 40L38 46L48 34" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </div>
-      
+      </div
+
       <h3 class={styles.modalTitle}>{t.successModal.thankYou}</h3>
-      
-      <p class={styles.modalText}>
-        {t.successModal.contactYou}
-      </p>
-      
+      <p class={styles.modalText}>{t.successModal.contactYou}</p>
       <div class={styles.buttonContainer}>
-        <button id="successDoneButton" class={styles.doneButton}>
-          <span>{t.successModal.buttonText}</span>
-        </button>
+        <button id="doneSuccess" class={styles.doneButton}>{t.successModal.buttonText}</button>
       </div>
     </div>
   </div>
 </div>
 
-<style is:global>
-  /* Глобальные стили для модального окна */
-  #successModal.active {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-  
-  #successModal.active .modalContainer {
-    transform: translateY(0) !important;
-  }
-</style>
-
-<script>
-  // Находим все элементы для работы с модальным окном
-  const successModal = document.getElementById('successModal');
-  const closeSuccessButton = document.getElementById('closeSuccessModal');
-  const doneButton = document.getElementById('successDoneButton');
-
-  // Открытие модального окна успешной отправки
-  function openSuccessModal() {
-    if (successModal) {
-      successModal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Блокируем прокрутку основной страницы
-    }
-  }
-
-  // Закрытие модального окна
-  function closeSuccessModal() {
-    if (successModal) {
-      successModal.classList.remove('active');
-      document.body.style.overflow = ''; // Возвращаем прокрутку основной страницы
-    }
-  }
-
-  // Добавляем обработчики событий
-  if (closeSuccessButton) {
-    closeSuccessButton.addEventListener('click', closeSuccessModal);
-  }
-  
-  if (doneButton) {
-    doneButton.addEventListener('click', closeSuccessModal);
-  }
-
-  // Закрываем модальное окно при клике на оверлей (вне модального окна)
-  if (successModal) {
-    successModal.addEventListener('click', (e) => {
-      if (e.target === successModal) {
-        closeSuccessModal();
-      }
-    });
-  }
-
-  // Экспортируем функцию открытия модального окна для использования в других компонентах
-  window.openSuccessModal = openSuccessModal;
-</script>
-
-<!-- Инициализация для работы модального окна с помощью глобального скрипта -->
 <script is:inline>
-  (function() {
-    function initSuccessModal() {
-      if (!window.openSuccessModal || typeof window.openSuccessModal !== 'function') {
-        window.openSuccessModal = function() {
-          const modal = document.getElementById('successModal');
-          if (modal) {
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-          }
-        };
-      }
-    }
-    
-    // Вызываем инициализацию
-    initSuccessModal();
-    
-    // Дополнительно вызываем после полной загрузки DOM
-    document.addEventListener('DOMContentLoaded', initSuccessModal);
-  })();
-</script> 
+window.addEventListener('DOMContentLoaded', () => {
+  const modal      = document.getElementById('successModal');
+  const btnClose   = document.getElementById('closeSuccess');
+  const btnDone    = document.getElementById('doneSuccess');
+
+  function openSuccessModal() {
+    modal?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSuccessModal() {
+    modal?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Навешиваем закрытие
+  btnClose?.addEventListener('click', closeSuccessModal);
+  btnDone?.addEventListener('click', closeSuccessModal);
+  modal?.addEventListener('click', e => {
+    if (e.target === modal) closeSuccessModal();
+  });
+
+  // Экспортируем в window
+  window.openSuccessModal = openSuccessModal;
+});
+</script>

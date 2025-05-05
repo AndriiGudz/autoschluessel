@@ -14,7 +14,7 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.modalOverlay.active {
+.modalOverlay:global(.active) {
   opacity: 1;
   visibility: visible;
 }
@@ -38,7 +38,7 @@
   gap: 24px;
 }
 
-.modalOverlay.active .modalContainer {
+.modalOverlay:global(.active) .modalContainer {
   transform: translateY(0);
 }
 
