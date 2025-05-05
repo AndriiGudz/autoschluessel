@@ -49,6 +49,11 @@ export interface TranslationSchema {
     phone: string;
     submit: string;
   };
+  successModal: {
+    thankYou: string;
+    contactYou: string;
+    buttonText: string;
+  };
   cta: {
     order: string;
     feedback: string;

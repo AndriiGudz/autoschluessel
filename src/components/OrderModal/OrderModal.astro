@@ -327,8 +327,30 @@ const currentYear = new Date().getFullYear();
       // Здесь можно добавить код для отправки данных на сервер
       console.log('Form data:', formValues);
       
-      // Показываем подтверждение
-      alert('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      // Показываем модальное окно успешной отправки
+      console.log('Вызываем модальное окно успеха из OrderModal');
+      
+      try {
+        // Проверяем наличие функции openSuccessModal
+        if (typeof window.openSuccessModal === 'function') {
+          window.openSuccessModal();
+        } else {
+          // Если функция не определена, пробуем найти модальное окно напрямую
+          console.log('Функция openSuccessModal не найдена, пробуем открыть напрямую');
+          const successModal = document.getElementById('successModal');
+          if (successModal) {
+            successModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          } else {
+            // Если ничего не сработало, показываем стандартный alert
+            console.error('Модальное окно успеха не найдено, используем alert');
+            alert('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка при открытии модального окна успеха:', error);
+        alert('Ваш заказ успешно отправлен! Мы свяжемся с вами в ближайшее время.');
+      }
       
       // Сбрасываем форму и закрываем модальное окно
       orderForm.reset();

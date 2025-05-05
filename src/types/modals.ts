@@ -1,7 +1,8 @@
 // Определяем глобальный интерфейс для функций модальных окон
 declare global {
   interface Window {
-    openOrderModal: () => void;
+    openOrderModal?: () => void;
+    openSuccessModal?: () => void;
   }
 }
 

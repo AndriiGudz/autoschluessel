@@ -99,6 +99,11 @@
     "phone": "Handynummer",
     "submit": "Bestätigen"
   },
+  "successModal": {
+    "thankYou": "Vielen Dank für Ihre Bestellung!",
+    "contactYou": "Wir werden uns in Kürze mit Ihnen in Verbindung setzen, um die Details zu klären.",
+    "buttonText": "Zurück zur Startseite"
+  },
   "reviews": [
     {
       "name": "Thomas",

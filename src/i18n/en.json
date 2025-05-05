@@ -138,5 +138,10 @@
     "name": "Your Name",
     "phone": "Phone Number",
     "submit": "Submit Order"
+  },
+  "successModal": {
+    "thankYou": "Thank you for your order!",
+    "contactYou": "Our specialist will contact you shortly to clarify the details.",
+    "buttonText": "Done"
   }
 }
