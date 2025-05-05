@@ -25,7 +25,7 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
             <div class="video-container">
               <video 
                 src={video.src} 
-                poster={video.poster || `/images/video${index + 1}.webp`}
+                poster={video.poster || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23212121'/%3E%3C/svg%3E"}
                 preload="metadata"
                 id={`video-${index}`}
                 playsinline
@@ -83,8 +83,8 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
     
     videos.forEach(video => {
       // Проверяем, нужно ли генерировать превью
-      // Если постер уже установлен и не является путем по умолчанию, пропускаем
-      if (video.getAttribute('poster') && !video.getAttribute('poster').includes('/images/video')) {
+      // Если постер уже установлен и не является SVG-данными, пропускаем
+      if (video.getAttribute('poster') && !video.getAttribute('poster').startsWith('data:image/svg+xml')) {
         return;
       }
       
@@ -97,20 +97,24 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
         video.currentTime = previewTime;
         
         video.addEventListener('seeked', function() {
-          // Создаем canvas и устанавливаем размеры
-          const canvas = document.createElement('canvas');
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          
-          // Получаем контекст и рисуем кадр видео
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          
-          // Получаем превью в формате dataURL
-          const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
-          
-          // Устанавливаем превью как постер
-          video.setAttribute('poster', thumbnailUrl);
+          try {
+            // Создаем canvas и устанавливаем размеры
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            // Получаем контекст и рисуем кадр видео
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            // Получаем превью в формате dataURL
+            const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
+            
+            // Устанавливаем превью как постер
+            video.setAttribute('poster', thumbnailUrl);
+          } catch (error) {
+            console.error('Ошибка при генерации превью:', error);
+          }
           
           // Возвращаем видео в начальное положение
           video.currentTime = 0;

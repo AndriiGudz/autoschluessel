@@ -22,6 +22,14 @@ const { title, lang } = Astro.props;
   </body>
 </html>
 
+<script is:inline define:vars={{ lang }}>
+  // Инициализация глобального объекта переводов
+  window.translations = window.translations || {};
+  
+  // Устанавливаем текущий язык
+  window.currentLang = lang;
+</script>
+
 <style>
   .wrapper {
     min-height: 100vh;
