@@ -230,9 +230,12 @@
   color: #ffffff;
 }
 
-/* Стили для числового поля ввода */
+/* Стили для числового поля ввода: убираем спиннеры */
 .formField input[type="number"] {
-  -moz-appearance: textfield;
+  appearance: textfield;         /* ← стандартное свойство */
+  -moz-appearance: textfield;    /* Firefox */
+  -webkit-appearance: none;      /* Chrome, Safari */
+  margin: 0;                     /* сбрасываем отступы спиннеров */
 }
 
 .formField input[type="number"]::-webkit-outer-spin-button,
