@@ -119,33 +119,23 @@
 
   // Подключаем кнопку заказа к модальному окну
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('[index.astro] DOM загружен');
-    console.log('[index.astro] openOrderModal в window:', typeof window.openOrderModal === 'function');
-    console.log('[index.astro] openSuccessModal в window:', typeof window.openSuccessModal === 'function');
-    
     const orderButton = document.getElementById('orderButton');
-    console.log('[index.astro] Кнопка заказа найдена:', !!orderButton);
     
     if (orderButton && window.openOrderModal) {
       orderButton.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('[index.astro] Клик по кнопке заказа');
         window.openOrderModal();
       });
     }
     
     // Обработчик для тестовой кнопки
     const testButton = document.getElementById('testSuccessModal');
-    console.log('[index.astro] Тестовая кнопка найдена:', !!testButton);
     
     if (testButton) {
       testButton.addEventListener('click', () => {
-        console.log('[index.astro] Клик по тестовой кнопке');
         if (typeof window.openSuccessModal === 'function') {
-          console.log('[index.astro] Вызываем openSuccessModal');
           window.openSuccessModal();
         } else {
-          console.error('[index.astro] window.openSuccessModal не является функцией!');
           alert('Ошибка: функция openSuccessModal не найдена');
         }
       });
@@ -153,19 +143,15 @@
     
     // Обработчик для прямой тестовой кнопки
     const directTestButton = document.getElementById('testSuccessModalDirect');
-    console.log('[index.astro] Прямая тестовая кнопка найдена:', !!directTestButton);
     
     if (directTestButton) {
       directTestButton.addEventListener('click', () => {
-        console.log('[index.astro] Клик по прямой тестовой кнопке');
         const successModal = document.getElementById('successModal');
         
         if (successModal) {
-          console.log('[index.astro] Модальное окно найдено, добавляем класс active');
           successModal.classList.add('active');
           document.body.style.overflow = 'hidden';
         } else {
-          console.error('[index.astro] Модальное окно не найдено в DOM!');
           alert('Ошибка: модальное окно не найдено в DOM');
         }
       });

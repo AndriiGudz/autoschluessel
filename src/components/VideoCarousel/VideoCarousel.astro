@@ -113,7 +113,7 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
             // Устанавливаем превью как постер
             video.setAttribute('poster', thumbnailUrl);
           } catch (error) {
-            console.error('Ошибка при генерации превью:', error);
+            // Тихо игнорируем ошибку при генерации превью
           }
           
           // Возвращаем видео в начальное положение
@@ -239,10 +239,10 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
               // Запускаем выбранное видео
               video.play()
                 .then(() => {
-                  console.log('Видео начало воспроизводиться');
+                  // Видео воспроизводится
                 })
                 .catch(error => {
-                  console.error('Ошибка воспроизведения:', error);
+                  // Обрабатываем ошибку воспроизведения без логирования
                 });
                 
               button.classList.add('playing');

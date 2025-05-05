@@ -52,50 +52,34 @@ const t = await getTranslation(lang);
 </style>
 
 <script>
-  console.log('SuccessModal скрипт инициализирован');
-
   // Находим все элементы для работы с модальным окном
   const successModal = document.getElementById('successModal');
-  console.log('Модальное окно найдено:', !!successModal);
-
   const closeSuccessButton = document.getElementById('closeSuccessModal');
-  console.log('Кнопка закрытия найдена:', !!closeSuccessButton);
-  
   const doneButton = document.getElementById('successDoneButton');
-  console.log('Кнопка "Готово" найдена:', !!doneButton);
 
   // Открытие модального окна успешной отправки
   function openSuccessModal() {
-    console.log('Функция openSuccessModal вызвана');
     if (successModal) {
-      console.log('Добавляем класс active к модальному окну');
       successModal.classList.add('active');
       document.body.style.overflow = 'hidden'; // Блокируем прокрутку основной страницы
-    } else {
-      console.error('Элемент successModal не найден');
     }
   }
 
   // Закрытие модального окна
   function closeSuccessModal() {
-    console.log('Функция closeSuccessModal вызвана');
     if (successModal) {
       successModal.classList.remove('active');
       document.body.style.overflow = ''; // Возвращаем прокрутку основной страницы
-    } else {
-      console.error('Элемент successModal не найден в функции закрытия');
     }
   }
 
   // Добавляем обработчики событий
   if (closeSuccessButton) {
     closeSuccessButton.addEventListener('click', closeSuccessModal);
-    console.log('Обработчик для кнопки закрытия добавлен');
   }
   
   if (doneButton) {
     doneButton.addEventListener('click', closeSuccessModal);
-    console.log('Обработчик для кнопки "Готово" добавлен');
   }
 
   // Закрываем модальное окно при клике на оверлей (вне модального окна)
@@ -105,20 +89,10 @@ const t = await getTranslation(lang);
         closeSuccessModal();
       }
     });
-    console.log('Обработчик для клика по оверлею добавлен');
   }
 
   // Экспортируем функцию открытия модального окна для использования в других компонентах
-  console.log('Экспортируем openSuccessModal в window');
   window.openSuccessModal = openSuccessModal;
-  
-  // Проверка доступности в window
-  console.log('Проверка window.openSuccessModal:', typeof window.openSuccessModal === 'function');
-  
-  // Добавляем возможность тестирования через консоль после загрузки страницы
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded: window.openSuccessModal доступен:', typeof window.openSuccessModal === 'function');
-  });
 </script>
 
 <!-- Инициализация для работы модального окна с помощью глобального скрипта -->
@@ -126,15 +100,11 @@ const t = await getTranslation(lang);
   (function() {
     function initSuccessModal() {
       if (!window.openSuccessModal || typeof window.openSuccessModal !== 'function') {
-        console.log('Инициализация прямого вызова модального окна успеха');
         window.openSuccessModal = function() {
-          console.log('Прямой вызов модального окна успеха');
           const modal = document.getElementById('successModal');
           if (modal) {
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-          } else {
-            console.error('Модальное окно успеха не найдено при прямом вызове');
           }
         };
       }

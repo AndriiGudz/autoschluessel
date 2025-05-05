@@ -30,18 +30,12 @@ const { title, lang } = Astro.props;
   // Создаем пустые функции-заглушки для модальных окон, чтобы избежать ошибок
   // до их загрузки
   if (!window.openOrderModal) {
-    window.openOrderModal = function() {
-      console.log('openOrderModal заглушка вызвана');
-    };
+    window.openOrderModal = function() {};
   }
   
   if (!window.openSuccessModal) {
-    window.openSuccessModal = function() {
-      console.log('openSuccessModal заглушка вызвана');
-    };
+    window.openSuccessModal = function() {};
   }
-  
-  console.log('[BaseLayout] Инициализация завершена');
 </script>
 
 <style>
