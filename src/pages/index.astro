@@ -4,6 +4,8 @@ export const prerender = false;
 import { languages, defaultLang } from '../i18n/config';
 
 const acceptLang = Astro.request.headers.get('accept-language') || '';
+console.log('[SSR] Accept-Language:', acceptLang);
+
 const matchedLang = Object.keys(languages).find((lang) =>
   acceptLang.toLowerCase().startsWith(lang)
 ) ?? defaultLang;
