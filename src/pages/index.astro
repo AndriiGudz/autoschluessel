@@ -1,6 +1,10 @@
 ---
-import { defaultLang } from '../i18n/config';
+import { languages, defaultLang } from '../i18n/config';
 
-const redirectUrl = `/${defaultLang}/`;
-Astro.redirect(redirectUrl);
+const acceptLang = Astro.request.headers.get('accept-language') || '';
+const matchedLang = Object.keys(languages).find((lang) =>
+  acceptLang.toLowerCase().startsWith(lang)
+) ?? defaultLang;
+
+Astro.redirect(`/${matchedLang}/`);
 ---
