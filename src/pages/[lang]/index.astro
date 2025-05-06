@@ -19,18 +19,17 @@
 
   const lang = Astro.params.lang as string;
 
-  // Проверка валидности языка
   if (!Object.keys(languages).includes(lang)) {
     Astro.redirect(`/${Object.keys(languages)[0]}/`);
   }
 
   const t = await getTranslation(lang);
 
-  // Получаем конфигурацию видео
   const videos = await getVideoConfig(lang);
   ---
 
   <BaseLayout title={t.title} lang={lang}>
+    
     <div class="main-container">
       <Header lang={lang} />
       

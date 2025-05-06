@@ -170,5 +170,9 @@
     "followUs": "Folgen Sie uns",
     "copyright": "© MV_KFZ Autoschlüssell",
     "developer": "Design und Entwicklung von Andrii Gudz"
+  },
+  "meta": {
+    "description": "Professionelle Reparatur und Wiederherstellung von Autoschlüsseln. Schnell, qualitativ und zuverlässig.",
+    "keywords": "Autoschlüsselreparatur, Schlüsselwiederherstellung, Schlüsseldublikate, Notfallhilfe, Herstellung eines Ersatzschlüssels"
   }
 }

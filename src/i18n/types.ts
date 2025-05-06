@@ -69,4 +69,8 @@ export interface TranslationSchema {
     copyright: string;
     developer: string;
   };
+  meta: {
+    description: string;
+    keywords: string;
+  };
 }
