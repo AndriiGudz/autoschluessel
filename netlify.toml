@@ -8,6 +8,6 @@
 
 [[redirects]]
   from = "/"
-  to = "/.netlify/functions/ssr"
+  to = "/.netlify/functions/ssr/ssr"
   status = 200
   force = true
