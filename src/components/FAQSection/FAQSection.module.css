@@ -28,7 +28,6 @@
   width: 100%;
 }
 
-/* Стили FAQ */
 .faqContainer {
   display: flex;
   flex-direction: column;
@@ -132,7 +131,6 @@
   font-style: normal;
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .faqSection {
     padding: 0px 16px;

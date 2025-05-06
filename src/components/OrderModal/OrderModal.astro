@@ -1,14 +1,11 @@
 ---
-// src/components/OrderModal/OrderModal.astro
 import styles from './OrderModal.module.css';
 import { getTranslation } from '../../i18n/useTranslation';
 import type { ModalProps, OrderFormData } from '../../types/modals';
 
-// SSR: получаем язык и переводы
 const { lang } = Astro.props as ModalProps;
 const t = await getTranslation(lang);
 
-// Список брендов
 const carBrands = [
   'Audi','BMW','Mercedes-Benz','Volkswagen','Opel','Ford','Toyota',
   'Hyundai','Kia','Renault','Nissan','Volvo','Škoda','Seat','Mazda',
@@ -28,7 +25,6 @@ const carBrands = [
     <div class={styles.modalForm}>
       <h3 class={styles.modalTitle}>{t.order.title}</h3>
       <form id="orderForm" class={styles.formFields}>
-        <!-- Марка -->
         <div class={styles.formField}>
           <select id="carBrand" name="carBrand" required>
             <option value="" disabled hidden>{t.order.brand}</option>
@@ -37,7 +33,6 @@ const carBrands = [
           <label for="carBrand">{t.order.brand}</label>
         </div>
 
-        <!-- Модель -->
         <div class={styles.formField}>
           <input
             id="carModel"
@@ -49,7 +44,6 @@ const carBrands = [
           <label for="carModel">{t.order.model}</label>
         </div>
 
-        <!-- Год выпуска -->
         <div class={styles.formField}>
           <input
             id="carYear"
@@ -64,7 +58,6 @@ const carBrands = [
           <label for="carYear">{t.order.year}</label>
         </div>
 
-        <!-- Имя клиента -->
         <div class={styles.formField}>
           <input
             id="customerName"
@@ -76,7 +69,6 @@ const carBrands = [
           <label for="customerName">{t.order.name}</label>
         </div>
 
-        <!-- Телефон -->
         <div class={styles.formField}>
           <input
             id="customerPhone"
@@ -90,7 +82,6 @@ const carBrands = [
           <label for="customerPhone">{t.order.phone}</label>
         </div>
 
-        <!-- Простейшая капча: "Я не робот" -->
         <div class={styles.formFieldCheckbox}>
           <input
             type="checkbox"
@@ -100,7 +91,6 @@ const carBrands = [
           <label for="notRobot">{t.order.notRobotLabel}</label>
         </div>
 
-        <!-- Кнопка отправки -->
         <button
           type="submit"
           id="submitButton"
@@ -142,28 +132,23 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
   }
 
-  // Закрытие OrderModal
   closeOrder?.addEventListener('click', closeOrderModal);
   modal?.addEventListener('click', (e: MouseEvent) => {
     if (e.target === modal) closeOrderModal();
   });
 
-  // Включение кнопки после капчи
   notRobotCB?.addEventListener('change', () => {
     submitBtn.disabled = !notRobotCB.checked;
   });
 
-  // Обработчик сабмита
   form?.addEventListener('submit', async (e: SubmitEvent) => {
     e.preventDefault();
 
-    // Доп. проверка капчи
     if (!notRobotCB.checked) {
       alert('Пожалуйста, подтвердите, что вы не робот.');
       return;
     }
 
-    // Собираем данные
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries()) as unknown as OrderFormData;
 
@@ -187,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Экспорт для внешнего вызова
   window.openOrderModal = openOrderModal;
 });
 </script>

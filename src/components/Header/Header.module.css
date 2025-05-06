@@ -14,7 +14,6 @@
   transition: box-shadow 0.3s ease;
 }
 
-/* Класс, который добавляется при скролле */
 .headerScrolled {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
@@ -22,7 +21,7 @@
 .logo {
   display: flex;
   align-items: center;
-  z-index: 1001; /* Выше, чем у мобильного меню, чтобы лого всегда было видно */
+  z-index: 1001;
 }
 
 .logoImage {
@@ -60,14 +59,12 @@
   text-decoration: underline;
 }
 
-/* Правая часть меню (языки и кнопка) */
 .rightMenu {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-/* Стили для селектора языка */
 .langSelector {
   position: relative;
   cursor: pointer;
@@ -172,7 +169,6 @@
   background-color: var(--color-primary);
 }
 
-/* Мобильное меню и кнопка-гамбургер */
 .mobileMenuToggle {
   display: none;
   background: transparent;
@@ -233,7 +229,6 @@
 }
 }
 
-/* Используем :global для активного класса */
 .mobileMenuContainer:global(.active) {
   right: 0;
 }
@@ -323,18 +318,15 @@
   font-weight: 600;
 }
 
-/* Класс для блокировки скролла при открытом меню */
 :global(body.menu-open) {
   overflow: hidden;
 }
 
-/* Создаем пространство под фиксированным хедером */
 .headerSpacer {
   height: var(--header-height);
   width: 100%;
 }
 
-/* Адаптивный дизайн для мобильных устройств */
 @media (max-width: 1024px) {
   .header {
     padding: 16px var(--container-padding-x-tablet);
@@ -358,12 +350,10 @@
     width: 100px;
   }
 
-  /* Скрываем десктопное меню */
   .menu {
     display: none;
   }
 
-  /* Показываем мобильную кнопку-гамбургер */
   .mobileMenuToggle {
     display: flex;
   }
@@ -373,7 +363,6 @@
   }
 }
 
-/* Маленькие мобильные устройства */
 @media (max-width: 480px) {
   .mobileMenuContainer {
     padding-top: var(--header-height-mobile);

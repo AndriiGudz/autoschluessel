@@ -5,7 +5,6 @@ import { getTranslation } from '../../i18n/useTranslation';
 
 const { lang } = Astro.props;
 
-// Получаем переводы
 const t = await getTranslation(lang);
 
 const navigation = [
@@ -16,16 +15,12 @@ const navigation = [
   { name: t.nav.contacts, href: '#contact' },
 ];
 
-// Путь к логотипу
 const logoPath = "/images/mv-kfz.png";
 
-// Генерируем уникальный ID для хедера
 const headerId = "main-header";
 
-// Получаем текущий путь без языкового префикса для создания ссылок переключателя языков
 const currentPath = Astro.url.pathname.split('/').slice(2).join('/');
 
-// Убедимся, что язык существует в словаре, иначе используем первый доступный
 const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
 ---
 
@@ -36,7 +31,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
     </a>
   </div>
   
-  <!-- Десктопное меню -->
   <nav class={styles.menu}>
     <ul class={styles.navLinks}>
       {navigation.map((item) => (
@@ -47,7 +41,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
     </ul>
     
     <div class={styles.rightMenu}>
-      <!-- Языковой селектор -->
       <div class={styles.langSelector} id="lang-selector" data-active="false">
         <div class={styles.currentLang}>
           {languages[safeLanguage as keyof typeof languages]}
@@ -68,7 +61,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
     </div>
   </nav>
   
-  <!-- Мобильный гамбургер-кнопка -->
   <button class={styles.mobileMenuToggle} id="mobile-menu-toggle" aria-label="Меню" aria-expanded="false">
     <span class={styles.hamburgerIcon}>
       <span class={styles.hamburgerBar}></span>
@@ -77,7 +69,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
     </span>
   </button>
   
-  <!-- Мобильное меню (скрыто по умолчанию) -->
   <div class={styles.mobileMenuContainer} id="mobile-menu-container">
     <nav class={styles.mobileMenu}>
       <ul class={styles.mobileNavLinks}>
@@ -89,7 +80,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
       </ul>
       
       <div class={styles.mobileBottom}>
-        <!-- Мобильный языковой селектор -->
         <div class={styles.mobileLangSelector} id="lang-selector-mobile">
           <div class={styles.mobileLangTitle}>Sprache:</div>
           <div class={styles.mobileLangOptions}>
@@ -110,33 +100,27 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
   </div>
 </header>
 
-<!-- Пространство для компенсации фиксированного хедера -->
 <div class={styles.headerSpacer}></div>
 
 <script define:vars={{ headerId }}>
-  // Скрипт для добавления класса при скролле
   document.addEventListener('DOMContentLoaded', () => {
     const header = document.getElementById(headerId);
     
     if (header) {
-      const scrollThreshold = 50; // Пороговое значение скролла
+      const scrollThreshold = 50;
       
-      // Функция проверки позиции скролла
       const handleScroll = () => {
         if (window.scrollY > scrollThreshold) {
-          header.classList.add('headerScrolled'); // Добавляем класс без префикса для поддержки CSS-модулей
+          header.classList.add('headerScrolled');
         } else {
           header.classList.remove('headerScrolled');
         }
       };
       
-      // Слушаем событие скролла
       window.addEventListener('scroll', handleScroll);
       
-      // Проверяем скролл при загрузке страницы
       handleScroll();
       
-      // Плавная прокрутка при клике на якорные ссылки
       const smoothScroll = (event) => {
         const link = event.target.closest('a');
         if (!link || !link.hash) return;
@@ -155,7 +139,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
             behavior: 'smooth'
           });
           
-          // Если мобильное меню открыто, закрываем его
           if (mobileMenuToggle && mobileMenuContainer) {
             mobileMenuToggle.setAttribute('aria-expanded', 'false');
             mobileMenuContainer.classList.remove('active');
@@ -164,15 +147,12 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         }
       };
       
-      // Добавляем обработчик для плавной прокрутки
       document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', smoothScroll);
       });
       
-      // Переключатель языка - показать/скрыть dropdown
       const langSelector = document.getElementById('lang-selector');
       if (langSelector) {
-        // Устанавливаем начальное состояние
         if (!langSelector.hasAttribute('data-active')) {
           langSelector.setAttribute('data-active', 'false');
         }
@@ -180,21 +160,18 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         langSelector.addEventListener('click', (e) => {
           e.stopPropagation();
           
-          // Вместо добавления класса используем data-атрибут
           const isActive = langSelector.getAttribute('data-active') === 'true';
           const newState = isActive ? 'false' : 'true';
           
           langSelector.setAttribute('data-active', newState);
         });
         
-        // Закрыть dropdown при клике вне селектора
         document.addEventListener('click', () => {
           if (langSelector.getAttribute('data-active') === 'true') {
             langSelector.setAttribute('data-active', 'false');
           }
         });
         
-        // Наблюдатель для мониторинга изменений атрибута
         const observer = new MutationObserver((mutations) => {
           mutations.forEach((mutation) => {
             if (mutation.attributeName === 'data-active') {
@@ -206,7 +183,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         observer.observe(langSelector, { attributes: true });
       }
       
-      // Функциональность мобильного меню
       const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
       const mobileMenuContainer = document.getElementById('mobile-menu-container');
       
@@ -220,7 +196,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         });
       }
       
-      // Закрываем мобильное меню при ресайзе окна до десктопного размера
       window.addEventListener('resize', () => {
         if (window.innerWidth > 768 && mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
           mobileMenuContainer.classList.remove('active');
@@ -229,7 +204,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         }
       });
       
-      // Подключаем кнопки заказа к модальному окну
       const headerOrderButton = document.getElementById('headerOrderButton');
       const mobileOrderButton = document.getElementById('mobileOrderButton');
       
@@ -243,7 +217,6 @@ const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
         mobileOrderButton.addEventListener('click', () => {
           window.openOrderModal();
           
-          // Закрываем мобильное меню при нажатии на кнопку заказа
           if (mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
             mobileMenuContainer.classList.remove('active');
             mobileMenuToggle.setAttribute('aria-expanded', 'false');

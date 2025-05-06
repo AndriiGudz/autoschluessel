@@ -6,5 +6,5 @@ export interface FAQItem {
 export interface FAQSectionProps {
   title: string;
   lang: string;
-  items?: FAQItem[]; // Опциональный параметр для внешних данных FAQ
+  items?: FAQItem[];
 }

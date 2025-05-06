@@ -231,18 +231,16 @@
   }
 }
 
-/* Стиль для опций селекта */
 .formField select option {
   background-color: #1a2933;
   color: #ffffff;
 }
 
-/* Стили для числового поля ввода: убираем спиннеры */
 .formField input[type="number"] {
-  appearance: textfield; /* ← стандартное свойство */
-  -moz-appearance: textfield; /* Firefox */
-  -webkit-appearance: none; /* Chrome, Safari */
-  margin: 0; /* сбрасываем отступы спиннеров */
+  appearance: textfield;
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .formField input[type="number"]::-webkit-outer-spin-button,

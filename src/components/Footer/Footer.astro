@@ -5,10 +5,8 @@ import { getTranslation } from '../../i18n/useTranslation';
 const { lang } = Astro.props;
 const currentYear = new Date().getFullYear();
 
-// Получаем переводы
 const t = await getTranslation(lang);
 
-// Пути к иконкам социальных сетей
 const socialIcons = {
   telegram: "/images/icons/Telegram.svg",
   whatsapp: "/images/icons/Whatsapp.svg",

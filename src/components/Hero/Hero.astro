@@ -4,7 +4,6 @@ import styles from './Hero.module.css';
 
 const { title, subtitle, buttonText } = Astro.props as HeroProps;
 
-// Список фоновых картинок
 const backgrounds = [
   '/images/banner1.webp',
   '/images/banner2.webp',
@@ -41,7 +40,6 @@ let backgroundUrl = backgrounds[currentBackground];
   let currentBackground = 0;
   const img = document.getElementById('hero-bg');
 
-  // Смена фоновых картинок
   setInterval(() => {
     currentBackground = (currentBackground + 1) % backgrounds.length;
     if (img) {
@@ -49,7 +47,6 @@ let backgroundUrl = backgrounds[currentBackground];
     }
   }, 3000);
 
-  // Подключаем кнопку заказа к модальному окну
   document.addEventListener('DOMContentLoaded', () => {
     const heroOrderButton = document.getElementById('heroOrderButton');
     

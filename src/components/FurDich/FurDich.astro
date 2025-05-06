@@ -5,20 +5,16 @@ import { getTranslation } from '../../i18n/useTranslation';
 
 const { title, lang, services: propServices } = Astro.props as FurDichProps;
 
-// Получаем переводы
 const t = await getTranslation(lang);
 
-// Используем только пропсы или переводы из i18n
 const services = propServices || t.services || [];
 ---
 
 <section class={styles.furDich}>
-  <!-- Заголовок -->
   <div class={styles.title}>
     <h3>{title}</h3>
   </div>
   
-  <!-- Сервисы -->
   <div class={styles.services}>
     <div class={styles.container}>
       {services.map(service => (
@@ -31,5 +27,4 @@ const services = propServices || t.services || [];
 </section>
 
 <style>
-  /* Стили перенесены в module.css */
 </style> 

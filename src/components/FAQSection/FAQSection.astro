@@ -5,20 +5,16 @@ import { getTranslation } from '../../i18n/useTranslation';
 
 const { title, lang, items: propItems } = Astro.props as FAQSectionProps;
 
-// Получаем переводы
 const t = await getTranslation(lang);
 
-// Используем только пропсы или переводы из i18n
 const faqItems = propItems || t.faqItems || [];
 ---
 
 <section class={styles.faqSection}>
-  <!-- Заголовок -->
   <div class={styles.title}>
     <h3>{title}</h3>
   </div>
   
-  <!-- FAQ контент -->
   <div class={styles.container}>
     <div class={styles.faqContainer}>
       {faqItems.map((item, index) => (

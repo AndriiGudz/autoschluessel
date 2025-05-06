@@ -97,7 +97,6 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 768px) {
   .warumWir {
     padding: 8px;
