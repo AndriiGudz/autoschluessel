@@ -97,7 +97,10 @@
     "year": "Baujahr",
     "name": "Name",
     "phone": "Handynummer",
-    "submit": "Bestätigen"
+    "submit": "Bestätigen",
+    "notRobotLabel": "Ich bin kein Roboter",
+    "close": "Schließen",
+    "phonePattern": "Telefonnummer darf nur Ziffern, +, Klammern, Leerzeichen und - enthalten"
   },
   "successModal": {
     "thankYou": "Vielen Dank für Ihre Bestellung!",

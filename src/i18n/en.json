@@ -137,7 +137,10 @@
     "year": "Year",
     "name": "Your Name",
     "phone": "Phone Number",
-    "submit": "Submit Order"
+    "submit": "Submit Order",
+    "notRobotLabel": "I'm not a robot",
+    "close": "Close",
+    "phonePattern": "Phone number can only contain digits, +, brackets, space and -"
   },
   "successModal": {
     "thankYou": "Thank you for your order!",

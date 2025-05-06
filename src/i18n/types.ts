@@ -48,6 +48,9 @@ export interface TranslationSchema {
     name: string;
     phone: string;
     submit: string;
+    notRobotLabel: string;
+    close: string;
+    phonePattern: string;
   };
   successModal: {
     thankYou: string;
