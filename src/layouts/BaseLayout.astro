@@ -24,12 +24,9 @@ const { title, lang } = Astro.props;
 </html>
 
 <script is:inline define:vars={{ lang }}>
-  // Инициализация глобального объекта переводов и модальных окон
   window.translations = window.translations || {};
   window.currentLang = lang;
   
-  // Создаем пустые функции-заглушки для модальных окон, чтобы избежать ошибок
-  // до их загрузки
   if (!window.openOrderModal) {
     window.openOrderModal = function() {};
   }

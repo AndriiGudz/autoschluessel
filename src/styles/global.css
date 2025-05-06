@@ -1,16 +1,12 @@
-/* Подключение шрифтов */
 @import url("https://fonts.googleapis.com/css2?family=Wix+Madefor+Display:wght@400..800&display=swap");
 
-/* Переменные */
 :root {
-  /* Цвета */
   --color-background: #121c21;
   --color-text: #ffffff;
   --color-primary: #15e33b;
   --color-primary-hover: #0bbd2c;
   --color-border: rgba(255, 255, 255, 0.3);
 
-  /* Размеры и отступы */
   --header-height: 80px;
   --header-height-mobile: 64px;
   --container-padding-x: 48px;
@@ -18,7 +14,6 @@
   --container-padding-x-mobile: 16px;
 }
 
-/* Сброс браузерных стилей (reset) */
 *,
 *::before,
 *::after {
@@ -27,7 +22,6 @@
   padding: 0;
 }
 
-/* Базовые стили для body */
 body {
   font-family: "Wix Madefor Display", sans-serif;
   font-size: 16px;
@@ -40,7 +34,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Заголовки с адаптивным размером (clamp) */
 h1 {
   font-size: clamp(1.5rem, 5vw, 3rem);
   font-weight: 800;
@@ -65,7 +58,6 @@ h5 {
   line-height: 20px;
 }
 
-/* Кнопки */
 button {
   display: flex;
   height: 48px;
@@ -87,7 +79,7 @@ button {
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
-  line-height: 24px; /* 150% */
+  line-height: 24px;
 
   @media (max-width: 768px) {
     font-size: 14px;
@@ -99,14 +91,12 @@ button:hover {
   background-color: var(--color-primary-hover);
 }
 
-/* Ссылки */
 a {
   color: var(--color-text);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
-/* Общие контейнеры */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -126,19 +116,16 @@ a {
   }
 }
 
-/* Глобальные стили для модальных окон */
 .modalOverlay.active {
   opacity: 1 !important;
   visibility: visible !important;
 }
 
-/* Анимация контейнера, если она у вас была */
 .modalOverlay.active .modalContainer {
   transform: translateY(0) scale(1) !important;
   opacity: 1 !important;
 }
 
-/* Стили для кнопок действий */
 .cta-section {
   display: flex;
   justify-content: center;

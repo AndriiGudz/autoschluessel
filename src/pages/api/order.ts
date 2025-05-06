@@ -1,7 +1,6 @@
-// src/pages/api/order.ts
 import type { APIRoute } from 'astro';
 
-export const prerender = false;  // чтобы POST-эндпоинт работал
+export const prerender = false;
 
 const TELEGRAM_TOKEN   = import.meta.env.TELEGRAM_TOKEN!;
 const TELEGRAM_CHAT_IDS = (import.meta.env.TELEGRAM_CHAT_IDS || '')
@@ -10,7 +9,6 @@ const TELEGRAM_CHAT_IDS = (import.meta.env.TELEGRAM_CHAT_IDS || '')
   .filter(Boolean);
 
 export const POST: APIRoute = async ({ request }) => {
-  // 1) Парсим тело
   let body: Record<string, any>;
   try {
     body = await request.json();
@@ -21,7 +19,6 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  // 2) Декомпозиция полей
   const {
     carBrand: Brand,
     carModel: Model,
@@ -30,7 +27,6 @@ export const POST: APIRoute = async ({ request }) => {
     customerPhone: Phone,
   } = body;
 
-  // 3) Проверка наличия
   if (![Brand, Model, Year, Name, Phone].every(Boolean)) {
     return new Response(
       JSON.stringify({ error: 'Missing required fields' }),
@@ -38,13 +34,11 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  // 4) Форматируем дату
   const orderDate = new Date().toLocaleString('ru-RU', {
     year: 'numeric', month: '2-digit', day: '2-digit',
     hour: '2-digit', minute: '2-digit'
   });
 
-  // 5) Формируем Markdown-сообщение
   const text = [
     '🗝️ *New order*',
     `*Date:* ${orderDate}`,
@@ -55,7 +49,6 @@ export const POST: APIRoute = async ({ request }) => {
     `*Phone:* ${Phone}`,
   ].join('\n');
 
-  // 6) Отправляем в Telegram и логируем ответ
   const results = await Promise.all(TELEGRAM_CHAT_IDS.map(async (chat_id: string) => {
     const res = await fetch(
       `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`,
@@ -73,7 +66,6 @@ export const POST: APIRoute = async ({ request }) => {
     return { chat_id, ok: res.ok, status: res.status, data };
   }));
 
-  // 7) Проверяем, не было ли ошибок
   const failed = results.filter(r => !r.ok);
   if (failed.length) {
     console.error('Telegram failures:', failed);
@@ -83,6 +75,5 @@ export const POST: APIRoute = async ({ request }) => {
     );
   }
 
-  // 8) Всё хорошо
   return new Response(JSON.stringify({ success: true }), { status: 200 });
 };

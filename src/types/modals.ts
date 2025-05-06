@@ -1,4 +1,3 @@
-// Определяем глобальный интерфейс для функций модальных окон
 declare global {
   interface Window {
     openOrderModal?: () => void;
@@ -6,7 +5,6 @@ declare global {
   }
 }
 
-// Типы для модальных окон
 export interface ModalProps {
   lang: string;
 }

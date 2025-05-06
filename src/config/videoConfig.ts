@@ -3,11 +3,7 @@ interface Video {
   alt: string;
 }
 
-/**
- * Получает конфигурацию видео для указанного языка
- */
 export async function getVideoConfig(lang: string): Promise<Video[]> {
-  // В будущем можно добавить разные видео для разных языков
   const videos: Video[] = [
     { src: "/videos/video1.mp4", alt: "Clip 1" },
     { src: "/videos/video2.mp4", alt: "Clip 2" },

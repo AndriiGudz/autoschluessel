@@ -35,7 +35,6 @@
       <Header lang={lang} />
       
       <main class="content">
-        <!-- Баннер --> 
         <section id="home">
           <Hero 
             title={t.hero.title}
@@ -45,7 +44,6 @@
           />
         </section>
         
-        <!-- Для вас/24/7 сервис -->
         <section id="services">
           <FurDich 
             title={t.sections.service}
@@ -54,7 +52,6 @@
           />
         </section>
         
-        <!-- Видео слайдер -->
         <section id="how-it-works">
           <VideoCarousel 
             videos={videos} 
@@ -62,7 +59,6 @@
           />
         </section>
         
-        <!-- Почему мы -->
         <section id="why-us">
           <WarumWir 
             title={t.sections.whyUs}
@@ -71,7 +67,6 @@
           />
         </section>
         
-        <!-- Отзывы -->
         <section id="reviews">
           <ReviewsSection
             title={t.sections.reviews}
@@ -79,7 +74,6 @@
           />
         </section>
         
-        <!-- FAQ -->
         <section id="faq">
           <FAQSection
             title={t.sections.faq}
@@ -88,7 +82,6 @@
           />
         </section>
 
-        <!-- CTA кнопки -->
         <section id="order" class="cta-section">
           <a href="#" class="cta-button order" id="orderButton">
             <span>{t.cta.order}</span>
@@ -103,21 +96,18 @@
         <Footer lang={lang} />
       </footer>
       
-      <!-- Модальные окна -->
       <OrderModal lang={lang} />
       <SuccessModal lang={lang} />
     </div>
   </BaseLayout>
 
 <script define:vars={{ lang, translations: t }}>
-  // Регистрируем переводы для использования на клиенте
   if (typeof window !== 'undefined') {
     window.translations = window.translations || {};
     window.translations[lang] = translations;
     window.currentLang = lang;
   }
 
-  // Подключаем кнопку заказа к модальному окну
   document.addEventListener('DOMContentLoaded', () => {
     const orderButton = document.getElementById('orderButton');
     
@@ -128,7 +118,6 @@
       });
     }
     
-    // Экспорт для внешнего вызова
     window.openOrderModal = openOrderModal;
   });
 </script>
