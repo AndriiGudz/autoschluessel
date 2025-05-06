@@ -1,5 +1,6 @@
 ---
 import { getTranslation } from '../i18n/useTranslation';
+import '../styles/global.css';
 
 interface Props {
   title: string;
@@ -44,7 +45,6 @@ const t = await getTranslation(lang);
       </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <link rel="stylesheet" href="/src/styles/global.css" />
   </head>
   <body>
     <div class="wrapper">
