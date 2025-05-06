@@ -1,0 +1,102 @@
+---
+import styles from './ReviewsClient.module.css';
+import type { Review } from './ReviewsSection.types';
+
+interface ReviewsClientProps {
+  reviews: Review[];
+  initialReviewsCount: number;
+  title: string;
+  buttonTexts: {
+    showMore: string;
+    showLess: string;
+  };
+}
+
+const { reviews, initialReviewsCount, title, buttonTexts } = Astro.props as ReviewsClientProps;
+
+const hiddenReviewsId = "hidden-reviews-container";
+---
+
+<section class={styles["reviews-section"]} id="reviews-section">
+  <div class={styles["reviews-title"]}>
+    <h3>{title}</h3>
+  </div>
+
+  <div class={styles["reviews-container"]}>
+    {reviews.slice(0, initialReviewsCount).map((review: Review) => (
+      <div class={styles["review-card"]}>
+        <div class={styles["review-header"]}>
+          <div class={styles.avatar}>
+            {review.name.charAt(0).toUpperCase()}
+          </div>
+          <div class={styles["user-info"]}>
+            <h5>{review.name}</h5>
+            <div class={styles.date}>{review.date}</div>
+          </div>
+        </div>
+        <div class={styles.rating}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={`${styles.star} ${i < review.rating ? styles.filled : ''}`}></span>
+          ))}
+        </div>
+        <div class={styles["review-content"]}>
+          <p>{review.text}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div id={hiddenReviewsId} class={styles["hidden-reviews"]} style="display: none;">
+    {reviews.slice(initialReviewsCount).map((review: Review) => (
+      <div class={styles["review-card"]}>
+        <div class={styles["review-header"]}>
+          <div class={styles.avatar}>
+            {review.name.charAt(0).toUpperCase()}
+          </div>
+          <div class={styles["user-info"]}>
+            <h3>{review.name}</h3>
+            <p class={styles.date}>{review.date}</p>
+          </div>
+        </div>
+        <div class={styles.rating}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <span class={`${styles.star} ${i < review.rating ? styles.filled : ''}`}></span>
+          ))}
+        </div>
+        <div class={styles["review-content"]}>
+          <p>{review.text}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  {reviews.length > initialReviewsCount && (
+    <div class={styles["reviews-buttons"]}>
+      <button id="toggle-reviews" class={styles["toggle-button"]}>
+        {buttonTexts.showMore}
+      </button>
+    </div>
+  )}
+</section>
+
+<script define:vars={{ hiddenReviewsId, buttonTexts }}>
+  const toggleButton = document.getElementById('toggle-reviews');
+  const hiddenReviews = document.getElementById(hiddenReviewsId);
+  let isExpanded = false;
+
+  if (toggleButton && hiddenReviews) {
+    toggleButton.addEventListener('click', () => {
+      if (!isExpanded) {
+        hiddenReviews.style.display = 'flex';
+        toggleButton.textContent = buttonTexts.showLess;
+        isExpanded = true;
+      } else {
+        hiddenReviews.style.display = 'none';
+        toggleButton.textContent = buttonTexts.showMore;
+        isExpanded = false;
+        
+        document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+</script> 

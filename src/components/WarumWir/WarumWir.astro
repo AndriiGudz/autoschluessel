@@ -1,0 +1,31 @@
+---
+import type { WarumWirProps, Feature } from './WarumWir.types';
+import styles from './WarumWir.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { title, lang, features: propFeatures } = Astro.props as WarumWirProps;
+
+const t = await getTranslation(lang);
+
+const features = propFeatures || t.features || [];
+---
+
+<section class={styles.warumWir}>
+  <div class={styles.title}>
+    <h3>{title}</h3>
+  </div>
+  
+  <div class={styles.features}>
+    <div class={styles.container}>
+      {features.map(feature => (
+        <div class={styles.featureCard}>
+          <div class={styles.iconContainer}>
+            <img src={feature.icon} alt={feature.title} class={styles.icon} />
+          </div>
+          <h5>{feature.title}</h5>
+          <div class={styles.description}>{feature.description}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section> 

@@ -1,0 +1,229 @@
+---
+import styles from './Header.module.css';
+import { languages } from '../../i18n/config';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { lang } = Astro.props;
+
+const t = await getTranslation(lang);
+
+const navigation = [
+  { name: t.nav.howItWorks, href: '#how-it-works' },
+  { name: t.nav.whyUs, href: '#why-us' },
+  { name: t.nav.reviews, href: '#reviews' },
+  { name: t.nav.faq, href: '#faq' },
+  { name: t.nav.contacts, href: '#contact' },
+];
+
+const logoPath = "/images/mv-kfz.png";
+
+const headerId = "main-header";
+
+const currentPath = Astro.url.pathname.split('/').slice(2).join('/');
+
+const safeLanguage = lang in languages ? lang : Object.keys(languages)[0];
+---
+
+<header id={headerId} class={styles.header}>
+  <div class={styles.logo}>
+    <a href={`/${lang}/`}>
+      <img src={logoPath} alt="MV_KFZ Autoschlüssel Logo" class={styles.logoImage} />
+    </a>
+  </div>
+  
+  <nav class={styles.menu}>
+    <ul class={styles.navLinks}>
+      {navigation.map((item) => (
+        <li>
+          <a href={item.href}>{item.name}</a>
+        </li>
+      ))}
+    </ul>
+    
+    <div class={styles.rightMenu}>
+      <div class={styles.langSelector} id="lang-selector" data-active="false">
+        <div class={styles.currentLang}>
+          {languages[safeLanguage as keyof typeof languages]}
+        </div>
+        <div class={styles.langDropdown}>
+          {Object.entries(languages).map(([code, name]) => (
+            <a 
+              href={`/${code}/${currentPath}`}
+              class={code === lang ? styles.activeLang : ''}
+            >
+              {name}
+            </a>
+          ))}
+        </div>
+      </div>
+      
+      <button id="headerOrderButton">{t.nav.order}</button>
+    </div>
+  </nav>
+  
+  <button class={styles.mobileMenuToggle} id="mobile-menu-toggle" aria-label="Меню" aria-expanded="false">
+    <span class={styles.hamburgerIcon}>
+      <span class={styles.hamburgerBar}></span>
+      <span class={styles.hamburgerBar}></span>
+      <span class={styles.hamburgerBar}></span>
+    </span>
+  </button>
+  
+  <div class={styles.mobileMenuContainer} id="mobile-menu-container">
+    <nav class={styles.mobileMenu}>
+      <ul class={styles.mobileNavLinks}>
+        {navigation.map((item) => (
+          <li>
+            <a href={item.href}>{item.name}</a>
+          </li>
+        ))}
+      </ul>
+      
+      <div class={styles.mobileBottom}>
+        <div class={styles.mobileLangSelector} id="lang-selector-mobile">
+          <div class={styles.mobileLangTitle}>Sprache:</div>
+          <div class={styles.mobileLangOptions}>
+            {Object.entries(languages).map(([code, name]) => (
+              <a 
+                href={`/${code}/${currentPath}`}
+                class={code === lang ? styles.activeLang : ''}
+              >
+                {name}
+              </a>
+            ))}
+          </div>
+        </div>
+        
+        <button id="mobileOrderButton" class={styles.mobileButton}>{t.nav.order}</button>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<div class={styles.headerSpacer}></div>
+
+<script define:vars={{ headerId }}>
+  document.addEventListener('DOMContentLoaded', () => {
+    const header = document.getElementById(headerId);
+    
+    if (header) {
+      const scrollThreshold = 50;
+      
+      const handleScroll = () => {
+        if (window.scrollY > scrollThreshold) {
+          header.classList.add('headerScrolled');
+        } else {
+          header.classList.remove('headerScrolled');
+        }
+      };
+      
+      window.addEventListener('scroll', handleScroll);
+      
+      handleScroll();
+      
+      const smoothScroll = (event) => {
+        const link = event.target.closest('a');
+        if (!link || !link.hash) return;
+        
+        event.preventDefault();
+        
+        const targetId = link.hash.substring(1);
+        const targetElement = document.getElementById(targetId);
+        
+        if (targetElement) {
+          const headerHeight = header.offsetHeight;
+          const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - headerHeight;
+          
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+          
+          if (mobileMenuToggle && mobileMenuContainer) {
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            mobileMenuContainer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+          }
+        }
+      };
+      
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', smoothScroll);
+      });
+      
+      const langSelector = document.getElementById('lang-selector');
+      if (langSelector) {
+        if (!langSelector.hasAttribute('data-active')) {
+          langSelector.setAttribute('data-active', 'false');
+        }
+        
+        langSelector.addEventListener('click', (e) => {
+          e.stopPropagation();
+          
+          const isActive = langSelector.getAttribute('data-active') === 'true';
+          const newState = isActive ? 'false' : 'true';
+          
+          langSelector.setAttribute('data-active', newState);
+        });
+        
+        document.addEventListener('click', () => {
+          if (langSelector.getAttribute('data-active') === 'true') {
+            langSelector.setAttribute('data-active', 'false');
+          }
+        });
+        
+        const observer = new MutationObserver((mutations) => {
+          mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'data-active') {
+              const isActive = langSelector.getAttribute('data-active') === 'true';
+            }
+          });
+        });
+        
+        observer.observe(langSelector, { attributes: true });
+      }
+      
+      const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      const mobileMenuContainer = document.getElementById('mobile-menu-container');
+      
+      if (mobileMenuToggle && mobileMenuContainer) {
+        mobileMenuToggle.addEventListener('click', () => {
+          const isExpanded = mobileMenuToggle.getAttribute('aria-expanded') === 'true';
+          mobileMenuToggle.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+          
+          mobileMenuContainer.classList.toggle('active');
+          document.body.classList.toggle('menu-open');
+        });
+      }
+      
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
+          mobileMenuContainer.classList.remove('active');
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('menu-open');
+        }
+      });
+      
+      const headerOrderButton = document.getElementById('headerOrderButton');
+      const mobileOrderButton = document.getElementById('mobileOrderButton');
+      
+      if (headerOrderButton && window.openOrderModal) {
+        headerOrderButton.addEventListener('click', () => {
+          window.openOrderModal();
+        });
+      }
+      
+      if (mobileOrderButton && window.openOrderModal) {
+        mobileOrderButton.addEventListener('click', () => {
+          window.openOrderModal();
+          
+          if (mobileMenuContainer && mobileMenuContainer.classList.contains('active')) {
+            mobileMenuContainer.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('menu-open');
+          }
+        });
+      }
+    }
+  });
+</script> 

@@ -1,0 +1,122 @@
+  ---
+  export const prerender = false;
+
+  import { getTranslation, registerClientTranslations } from '../../i18n/useTranslation';
+  import { languages } from '../../i18n/config';
+  import { getVideoConfig } from '../../config/videoConfig';
+  import BaseLayout from '../../layouts/BaseLayout.astro';
+  import Header from '../../components/Header/Header.astro';
+  import Footer from '../../components/Footer/Footer.astro';
+  import Hero from '../../components/Hero/Hero.astro';
+  import FurDich from '../../components/FurDich/FurDich.astro';
+  import WarumWir from '../../components/WarumWir/WarumWir.astro';
+  import FAQSection from '../../components/FAQSection/FAQSection.astro';
+  import ReviewsSection from '../../components/ReviewsSection/ReviewsSection.astro';
+  import VideoCarousel from '../../components/VideoCarousel/VideoCarousel.astro';
+  import OrderModal from '../../components/OrderModal/OrderModal.astro';
+  import SuccessModal from '../../components/SuccessModal/SuccessModal.astro';
+  import './index.css';
+
+  const lang = Astro.params.lang as string;
+
+  if (!Object.keys(languages).includes(lang)) {
+    Astro.redirect(`/${Object.keys(languages)[0]}/`);
+  }
+
+  const t = await getTranslation(lang);
+
+  const videos = await getVideoConfig(lang);
+  ---
+
+  <BaseLayout title={t.title} lang={lang}>
+    
+    <div class="main-container">
+      <Header lang={lang} />
+      
+      <main class="content">
+        <section id="home">
+          <Hero 
+            title={t.hero.title}
+            subtitle={t.hero.subtitle}
+            buttonText={t.hero.button}
+            lang={lang}
+          />
+        </section>
+        
+        <section id="services">
+          <FurDich 
+            title={t.sections.service}
+            lang={lang}
+            services={t.services}
+          />
+        </section>
+        
+        <section id="how-it-works">
+          <VideoCarousel 
+            videos={videos} 
+            title={t.sections.howItWorks}
+          />
+        </section>
+        
+        <section id="why-us">
+          <WarumWir 
+            title={t.sections.whyUs}
+            lang={lang}
+            features={t.features}
+          />
+        </section>
+        
+        <section id="reviews">
+          <ReviewsSection
+            title={t.sections.reviews}
+            lang={lang}
+          />
+        </section>
+        
+        <section id="faq">
+          <FAQSection
+            title={t.sections.faq}
+            lang={lang}
+            items={t.faqItems}
+          />
+        </section>
+
+        <section id="order" class="cta-section">
+          <a href="#" class="cta-button order" id="orderButton">
+            <span>{t.cta.order}</span>
+          </a>
+          <!-- <a href="#contact" class="cta-button feedback">
+            <span>{t.cta.feedback}</span>
+          </a> -->
+        </section>
+      </main>
+      
+      <footer id="contact">
+        <Footer lang={lang} />
+      </footer>
+      
+      <OrderModal lang={lang} />
+      <SuccessModal lang={lang} />
+    </div>
+  </BaseLayout>
+
+<script define:vars={{ lang, translations: t }}>
+  if (typeof window !== 'undefined') {
+    window.translations = window.translations || {};
+    window.translations[lang] = translations;
+    window.currentLang = lang;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const orderButton = document.getElementById('orderButton');
+    
+    if (orderButton && window.openOrderModal) {
+      orderButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.openOrderModal();
+      });
+    }
+    
+    window.openOrderModal = openOrderModal;
+  });
+</script>

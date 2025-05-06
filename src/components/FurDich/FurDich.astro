@@ -1,0 +1,30 @@
+---
+import type { FurDichProps } from './FurDich.types';
+import styles from './FurDich.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { title, lang, services: propServices } = Astro.props as FurDichProps;
+
+const t = await getTranslation(lang);
+
+const services = propServices || t.services || [];
+---
+
+<section class={styles.furDich}>
+  <div class={styles.title}>
+    <h3>{title}</h3>
+  </div>
+  
+  <div class={styles.services}>
+    <div class={styles.container}>
+      {services.map(service => (
+        <div class={styles.serviceCard}>
+          <p>{service}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+</style> 

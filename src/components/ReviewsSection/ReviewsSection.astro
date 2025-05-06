@@ -1,0 +1,51 @@
+---
+import type { ReviewsSectionProps, Review } from './ReviewsSection.types';
+import ReviewsClient from './ReviewsClient.astro';
+import ReviewsJsonLd from './ReviewsJsonLd.astro';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { title, lang, reviews: propReviews } = Astro.props as ReviewsSectionProps;
+
+const t = await getTranslation(lang);
+
+const reviews = propReviews || t.reviews || [];
+
+const buttonTexts = {
+  showMore: t.buttons?.showMore || "",
+  showLess: t.buttons?.showLess || ""
+};
+
+const initialReviewsCount = 4;
+
+const businessConfig = {
+  businessName: "MV_KFZ Autoschlüssel",
+  businessType: "Automotive",
+  businessUrl: "https://autoschluessel.de", // Замените на фактический URL сайта
+  businessDescription: "Professioneller Service für Reparatur und Anfertigung von Autoschlüsseln. Schnelle Hilfe bei verlorenen oder defekten Autoschlüsseln.",
+  businessTelephone: "+4915126135181",
+  businessAddress: {
+    street: "Marktplatz",
+    locality: "Baunach",
+    region: "Bayern",
+    postalCode: "96148",
+    country: "DE"
+  }
+};
+---
+
+<ReviewsJsonLd 
+  reviews={reviews} 
+  businessName={businessConfig.businessName}
+  businessType={businessConfig.businessType}
+  businessUrl={businessConfig.businessUrl}
+  businessDescription={businessConfig.businessDescription}
+  businessTelephone={businessConfig.businessTelephone}
+  businessAddress={businessConfig.businessAddress}
+/>
+
+<ReviewsClient 
+  reviews={reviews} 
+  initialReviewsCount={initialReviewsCount} 
+  title={title} 
+  buttonTexts={buttonTexts}
+/>

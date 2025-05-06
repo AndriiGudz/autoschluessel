@@ -1,0 +1,178 @@
+---
+import styles from './OrderModal.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+import type { ModalProps, OrderFormData } from '../../types/modals';
+
+const { lang } = Astro.props as ModalProps;
+const t = await getTranslation(lang);
+
+const carBrands = [
+  'Audi','BMW','Mercedes-Benz','Volkswagen','Opel','Ford','Toyota',
+  'Hyundai','Kia','Renault','Nissan','Volvo','Škoda','Seat','Mazda',
+  'Porsche','Fiat','Honda','Citroën','Peugeot','Land Rover','Jeep',
+  'Mini','Smart','Tesla','Другой'
+];
+---
+
+<div id="orderModal" class={styles.modalOverlay}>
+  <div class={styles.modalContainer}>
+    <button
+      id="closeOrderModal"
+      class={styles.closeButton}
+      aria-label={t.order.close || 'Close'}
+    ></button>
+
+    <div class={styles.modalForm}>
+      <h3 class={styles.modalTitle}>{t.order.title}</h3>
+      <form id="orderForm" class={styles.formFields}>
+        <div class={styles.formField}>
+          <select id="carBrand" name="carBrand" required>
+            <option value="" disabled hidden>{t.order.brand}</option>
+            {carBrands.map(brand => <option value={brand}>{brand}</option>)}
+          </select>
+          <label for="carBrand">{t.order.brand}</label>
+        </div>
+
+        <div class={styles.formField}>
+          <input
+            id="carModel"
+            name="carModel"
+            type="text"
+            placeholder=" "
+            required
+          />
+          <label for="carModel">{t.order.model}</label>
+        </div>
+
+        <div class={styles.formField}>
+          <input
+            id="carYear"
+            name="carYear"
+            type="number"
+            placeholder=" "
+            inputmode="numeric"
+            min="1900"
+            max={new Date().getFullYear()}
+            required
+          />
+          <label for="carYear">{t.order.year}</label>
+        </div>
+
+        <div class={styles.formField}>
+          <input
+            id="customerName"
+            name="customerName"
+            type="text"
+            placeholder=" "
+            required
+          />
+          <label for="customerName">{t.order.name}</label>
+        </div>
+
+        <div class={styles.formField}>
+          <input
+            id="customerPhone"
+            name="customerPhone"
+            type="tel"
+            placeholder=" "
+            pattern="[-+0-9() ]+"
+            title={t.order.phonePattern || 'Phone number can only contain digits, +, brackets, space and -'}
+            required
+          />
+          <label for="customerPhone">{t.order.phone}</label>
+        </div>
+
+        <div class={styles.formFieldCheckbox}>
+          <input
+            type="checkbox"
+            id="notRobot"
+            name="notRobot"
+          />
+          <label for="notRobot">{t.order.notRobotLabel}</label>
+        </div>
+
+        <button
+          type="submit"
+          id="submitButton"
+          class={styles.submitButton}
+          disabled
+        >
+          {t.order.submit}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+import type { OrderFormData } from "../../types/modals";
+
+interface Window {
+  openSuccessModal?: () => void;
+  openOrderModal?: () => void;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('orderModal') as HTMLDivElement;
+  const form = document.getElementById('orderForm') as HTMLFormElement;
+  const closeOrder = document.getElementById('closeOrderModal') as HTMLButtonElement;
+  const notRobotCB = document.getElementById('notRobot') as HTMLInputElement;
+  const submitBtn = document.getElementById('submitButton') as HTMLButtonElement;
+
+  function openOrderModal() {
+    modal?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOrderModal() {
+    modal?.classList.remove('active');
+    document.body.style.overflow = '';
+    form?.reset();
+    notRobotCB.checked = false;
+    submitBtn.disabled = true;
+  }
+
+  closeOrder?.addEventListener('click', closeOrderModal);
+  modal?.addEventListener('click', (e: MouseEvent) => {
+    if (e.target === modal) closeOrderModal();
+  });
+
+  notRobotCB?.addEventListener('change', () => {
+    submitBtn.disabled = !notRobotCB.checked;
+  });
+
+  form?.addEventListener('submit', async (e: SubmitEvent) => {
+    e.preventDefault();
+
+    if (!notRobotCB.checked) {
+      alert('Пожалуйста, подтвердите, что вы не робот.');
+      return;
+    }
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries()) as unknown as OrderFormData;
+
+    try {
+      const res = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      closeOrderModal();
+      window.openSuccessModal?.();
+      
+    } catch (err) {
+      console.error('Ошибка отправки формы:', err);
+      alert(err instanceof Error ? err.message : 'Сетевая ошибка. Попробуйте позже.');
+    }
+  });
+
+  window.openOrderModal = openOrderModal;
+});
+</script>
+```

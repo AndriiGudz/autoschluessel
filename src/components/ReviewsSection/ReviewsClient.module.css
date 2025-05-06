@@ -1,0 +1,160 @@
+.reviews-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  padding: 8px 0px;
+}
+
+.reviews-title h3 {
+  position: relative;
+  padding: 8px 16px;
+}
+
+.reviews-title h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+}
+
+.reviews-container,
+.hidden-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.reviews-buttons {
+  display: flex;
+  justify-content: center;
+  margin: 32px auto 16px;
+}
+
+.toggle-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 28px;
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: 8px;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: auto;
+  min-width: auto;
+}
+
+.toggle-button:hover {
+  background-color: var(--color-primary);
+  color: var(--color-background);
+}
+
+.review-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  transition: transform 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-5px);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: var(--color-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info h3 {
+  font-weight: 600;
+  font-size: 18px;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.date {
+  color: #94b2c7;
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.rating {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+}
+
+.star {
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.star:before {
+  content: "☆";
+  color: rgba(255, 255, 255, 0.3);
+  position: absolute;
+  font-size: 20px;
+}
+
+.star.filled:before {
+  content: "★";
+  color: #f1d118;
+}
+
+.review-content {
+  align-self: stretch;
+}
+
+@media (max-width: 768px) {
+  .reviews-title {
+    text-align: center;
+  }
+
+  .reviews-title h3::after {
+    left: 50%;
+  }
+
+  .toggle-button {
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-content p {
+    font-size: 0.875rem;
+  }
+}

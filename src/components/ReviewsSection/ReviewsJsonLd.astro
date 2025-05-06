@@ -1,0 +1,113 @@
+---
+interface Review {
+  name: string;
+  date: string;
+  rating: number;
+  text: string;
+}
+
+interface ReviewsJsonLdProps {
+  reviews: Review[];
+  businessName: string;
+  businessType?: string;
+  businessUrl?: string;
+  businessDescription?: string;
+  businessTelephone?: string;
+  businessAddress?: {
+    street?: string;
+    locality?: string;
+    region?: string;
+    postalCode?: string;
+    country?: string;
+  };
+}
+
+const { 
+  reviews, 
+  businessName = "MV_KFZ Autoschlüssel", 
+  businessType = "Automotive", 
+  businessUrl = "https://autoschluessel.de",
+  businessDescription = "Professioneller Service für Reparatur und Anfertigung von Autoschlüsseln. Schnelle Hilfe bei verlorenen oder defekten Autoschlüsseln.",
+  businessTelephone = "+4915126135181",
+  businessAddress = {
+    street: "Marktplatz",
+    locality: "Baunach",
+    region: "Bayern",
+    postalCode: "96148",
+    country: "DE"
+  }
+} = Astro.props as ReviewsJsonLdProps;
+
+function formatDateToISO(dateStr: string): string {
+  try {
+    const months: Record<string, string> = {
+      "Januar": "01", "Februar": "02", "März": "03", "April": "04", 
+      "Mai": "05", "Juni": "06", "Juli": "07", "August": "08", 
+      "September": "09", "Oktober": "10", "November": "11", "Dezember": "12"
+    };
+    
+    const parts = dateStr.split(" ");
+    
+    if (parts.length >= 2) {
+      const month = months[parts[0]];
+      const dayStr = parts[1].replace(",", "");
+      const day = dayStr.padStart(2, '0');
+      const year = parts[2] || new Date().getFullYear().toString();
+      
+      if (month && day) {
+        return `${year}-${month}-${day}`;
+      }
+    }
+    
+    return new Date().toISOString().split('T')[0];
+  } catch (error) {
+    return new Date().toISOString().split('T')[0];
+  }
+}
+
+const reviewsData = reviews.map(review => ({
+  "@type": "Review",
+  "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": review.rating,
+    "bestRating": 5
+  },
+  "author": {
+    "@type": "Person",
+    "name": review.name
+  },
+  "reviewBody": review.text,
+  "datePublished": formatDateToISO(review.date)
+}));
+
+const averageRating = reviews.length > 0 
+  ? (reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length).toFixed(1)
+  : "5.0";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": businessName,
+  "description": businessDescription,
+  "url": businessUrl,
+  "telephone": businessTelephone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": businessAddress.street,
+    "addressLocality": businessAddress.locality,
+    "addressRegion": businessAddress.region,
+    "postalCode": businessAddress.postalCode,
+    "addressCountry": businessAddress.country
+  },
+  "priceRange": "€€",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": averageRating,
+    "reviewCount": reviews.length,
+    "bestRating": 5
+  },
+  "review": reviewsData
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} /> 

@@ -1,0 +1,416 @@
+---
+interface VideoItem { 
+  src: string;
+  poster?: string;
+  alt?: string;
+}
+
+interface Props {
+  videos: VideoItem[];
+  title?: string;
+}
+
+const { videos, title = "Wie funktioniert das?" } = Astro.props;
+---
+
+<div class="carousel-container">
+  <div class="section-title">
+    <h2>{title}</h2>
+  </div>
+  <div class="swiper">
+    <div class="swiper-wrapper">
+      {videos.map((video, index) => (
+        <div class="swiper-slide">
+          <div class="slide-content">
+            <div class="video-container">
+              <video 
+                src={video.src} 
+                poster={video.poster || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23212121'/%3E%3C/svg%3E"}
+                preload="metadata"
+                id={`video-${index}`}
+                playsinline
+                data-gen-thumbnail="true"
+              ></video>
+              <button 
+                class="play-button" 
+                data-video-id={`video-${index}`}
+                aria-label="Play video"
+              >
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                  <path d="M32 24L20 32V16L32 24Z" fill="white"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    
+    <div class="swiper-pagination"></div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
+    document.head.appendChild(link);
+    
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
+    document.body.appendChild(script);
+    
+    script.onload = () => {
+      initSwiper();
+      initThumbnailGenerator();
+    };
+  });
+
+  function initThumbnailGenerator() {
+    const videos = document.querySelectorAll('video[data-gen-thumbnail="true"]');
+    
+    videos.forEach(video => {
+      if (video.getAttribute('poster') && !video.getAttribute('poster').startsWith('data:image/svg+xml')) {
+        return;
+      }
+      
+      video.addEventListener('loadedmetadata', function() {
+        const previewTime = video.duration * 0.25;
+        
+        video.currentTime = previewTime;
+        
+        video.addEventListener('seeked', function() {
+          try {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
+            
+            video.setAttribute('poster', thumbnailUrl);
+          } catch (error) {
+          }
+          
+          video.currentTime = 0;
+          
+          video.removeAttribute('data-gen-thumbnail');
+        }, { once: true });
+      }, { once: true });
+      
+      if (video.readyState === 0) {
+        video.load();
+      }
+    });
+  }
+
+  function initSwiper() {
+    const swiper = new Swiper('.swiper', {
+      effect: 'coverflow',
+      grabCursor: true,
+      centeredSlides: true,
+      slidesPerView: 3,
+      initialSlide: 1,
+      loop: true,
+      spaceBetween: 20,
+      slideVisibleClass: 'swiper-slide-visible',
+      coverflowEffect: {
+        rotate: 5,
+        stretch: 0,
+        depth: 200,
+        modifier: 1.5,
+        slideShadows: true,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        320: {
+          slidesPerView: 1.5,
+          spaceBetween: 10,
+          coverflowEffect: {
+            rotate: 0,
+            depth: 100,
+            modifier: 1
+          }
+        },
+        768: {
+          slidesPerView: 3,
+          spaceBetween: 8
+        },
+        1024: {
+          slidesPerView: 3,
+          spaceBetween: 20
+        }
+      },
+      on: {
+        init: function (swiper) {
+          updateVisibility(swiper);
+        },
+        slideChange: function (swiper) {
+          updateVisibility(swiper);
+        },
+        resize: function (swiper) {
+          updateVisibility(swiper);
+        }
+      }
+    });
+
+    function updateVisibility(swiper) {
+      const slides = swiper.slides;
+      const activeIndex = swiper.activeIndex;
+      const slidesPerView = swiper.params.slidesPerView;
+      
+      const visibleStart = Math.max(0, activeIndex - Math.floor(slidesPerView / 2));
+      const visibleEnd = Math.min(slides.length - 1, visibleStart + slidesPerView - 1);
+      
+      slides.forEach((slide, index) => {
+        if (index >= visibleStart && index <= visibleEnd) {
+          slide.classList.add('swiper-slide-visible');
+        } else {
+          slide.classList.remove('swiper-slide-visible');
+        }
+      });
+    }
+
+    document.querySelectorAll('.play-button').forEach(button => {
+      button.addEventListener('click', () => {
+        const videoId = button.getAttribute('data-video-id');
+        if (videoId) {
+          const video = document.getElementById(videoId);
+          if (video && video instanceof HTMLVideoElement) {
+            if (video.paused) {
+              document.querySelectorAll('video').forEach(v => {
+                if (v.id !== videoId && !v.paused && v instanceof HTMLVideoElement) {
+                  v.pause();
+                  const buttonEl = document.querySelector(`[data-video-id="${v.id}"]`);
+                  if (buttonEl) {
+                    buttonEl.classList.remove('playing');
+                    if (buttonEl instanceof HTMLElement) {
+                      buttonEl.style.opacity = '1';
+                    }
+                  }
+                }
+              });
+              
+              video.play()
+                .then(() => {
+                })
+                .catch(error => {
+                });
+                
+              button.classList.add('playing');
+              
+              if (button instanceof HTMLElement) {
+                button.style.opacity = '0';
+              }
+              
+              video.addEventListener('ended', () => {
+                if (button instanceof HTMLElement) {
+                  button.style.opacity = '1';
+                }
+                button.classList.remove('playing');
+              });
+              
+              video.addEventListener('pause', () => {
+                if (button instanceof HTMLElement) {
+                  button.style.opacity = '1';
+                }
+                button.classList.remove('playing');
+              });
+            } else {
+              video.pause();
+              button.classList.remove('playing');
+              if (button instanceof HTMLElement) {
+                button.style.opacity = '1';
+              }
+            }
+          }
+        }
+      });
+    });
+  }
+</script>
+<style>
+  .carousel-container {
+    width: 100%;
+    padding: 8px 0;
+    overflow: hidden;
+  }
+
+  .section-title {
+position: relative;
+  padding: 8px 16px;
+  }
+
+  .section-title::after {
+    content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  }
+
+  .swiper {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    position: relative;
+  }
+
+  .swiper-wrapper {
+    align-items: center;
+  }
+
+  .swiper-slide {
+    width: 360px;
+    height: 450px;
+    background-position: center;
+    background-size: cover;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: scale(0.7);
+    pointer-events: none;
+    visibility: hidden;
+    margin-bottom: 16px;
+  }
+
+  .swiper-slide-visible {
+    opacity: 0.7;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 10;
+  }
+
+  .swiper-slide-prev,
+  .swiper-slide-next {
+    opacity: 0.8;
+    transform: scale(0.85);
+    z-index: 5;
+  }
+
+  .slide-content {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    background-color: #1c2c33;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+  }
+
+  .play-button:hover svg circle {
+    fill: rgba(0, 0, 0, 0.7);
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #ffffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    top: 45%;
+  }
+
+  .swiper-button-next {
+    right: 0;
+  }
+
+  .swiper-button-prev {
+    left: 0;
+  }
+
+  .swiper-pagination {
+    position: relative; 
+    bottom: -20px;
+  }
+
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .swiper-pagination-bullet-active {
+    background: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      text-align: center;
+    }
+
+    .section-title::after {
+      left: 50%;
+    }
+    
+    .swiper-button-next,
+    .swiper-button-prev {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+      font-size: 16px;
+    }
+  }
+</style>
+

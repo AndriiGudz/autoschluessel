@@ -1,0 +1,178 @@
+{
+  "title": "MV_KFZ Car Key Repair - Fast and Professional Service",
+  "hero": {
+    "title": "Car Key Repair Made Easy",
+    "subtitle": "Fast and professional service for your car keys",
+    "button": "Order Now"
+  },
+  "nav": {
+    "howItWorks": "How It Works",
+    "whyUs": "Why Us",
+    "reviews": "Reviews",
+    "faq": "FAQ",
+    "contacts": "Contacts",
+    "order": "Order Now"
+  },
+  "sections": {
+    "service": "24/7 Service - No Appointments",
+    "howItWorks": "How It Works",
+    "whyUs": "Why Choose MV_KFZ Car Keys?",
+    "faq": "Frequently Asked Questions (FAQ)",
+    "reviews": "Customer Reviews"
+  },
+  "services": [
+    "Car Key Repair",
+    "Lost Key Recovery",
+    "Replacement Key Production",
+    "Car Lock Repair"
+  ],
+  "features": [
+    {
+      "title": "Quality Repair",
+      "description": "We use high-quality parts and offer a 6-month warranty on all repairs.",
+      "icon": "/images/icons/quality.svg"
+    },
+    {
+      "title": "Save Money",
+      "description": "Get your car key repaired for a fraction of the cost of a new one.",
+      "icon": "/images/icons/money.svg"
+    },
+    {
+      "title": "Security Guarantee",
+      "description": "Your data is safe with us. We do not share information with third parties.",
+      "icon": "/images/icons/security.svg"
+    },
+    {
+      "title": "24/7 Service",
+      "description": "Our customer service team is available around the clock to help with any questions or concerns.",
+      "icon": "/images/icons/service.svg"
+    },
+    {
+      "title": "No Appointments",
+      "description": "We work on-site! Let us know your address and we'll come to you.",
+      "icon": "/images/icons/appointment.svg"
+    },
+    {
+      "title": "No Hidden Costs",
+      "description": "We offer transparent pricing with no hidden fees or unexpected costs.",
+      "icon": "/images/icons/transparency.svg"
+    },
+    {
+      "title": "Free Diagnosis",
+      "description": "We offer free diagnostic services to identify the problem with your car key.",
+      "icon": "/images/icons/diagnosis.svg"
+    },
+    {
+      "title": "Wide Product Range",
+      "description": "We repair a variety of car key problems for different car brands and models.",
+      "icon": "/images/icons/variety.svg"
+    }
+  ],
+  "faqItems": [
+    {
+      "question": "What types of car keys can you repair?",
+      "answer": "We fix a variety of car key problems, including transponder issues, remote controls, key fobs, and keyless entry systems. Our technicians have experience with different types of car keys, such as standard keys, flip keys, and proximity keys. Whether your key is damaged, faulty, or needs reprogramming, we provide professional repair services for most car brands and models."
+    },
+    {
+      "question": "How much does it cost to repair a car key?",
+      "answer": "The cost of repairing a car key varies depending on the type of car, the type of key, and the nature of the problem. Contact us for a free price estimate. We offer competitive prices and transparent quotes without hidden fees."
+    },
+    {
+      "question": "Do you offer a warranty on your car key repair services?",
+      "answer": "Yes, we offer a 6-month warranty on all our car key repair services. If any issues arise related to our repair, we will fix them free of charge within the warranty period."
+    }
+  ],
+  "cta": {
+    "order": "Order Now",
+    "feedback": "Leave Feedback"
+  },
+  "buttons": {
+    "showMore": "Show more reviews",
+    "showLess": "Show less reviews"
+  },
+  "reviews": [
+    {
+      "name": "Thomas",
+      "date": "April 25, 2025",
+      "rating": 5,
+      "text": "The quality of service at MV_KFZ Car Keys convinced me. My key was repaired within an hour and has been working flawlessly ever since. The technician came directly to my home and was both professional and friendly. I can only recommend the service, especially the quick accessibility at any time of the day."
+    },
+    {
+      "name": "Julia",
+      "date": "April 18, 2025",
+      "rating": 5,
+      "text": "After I lost my car key, I contacted MV_KFZ. They provided me with a new key within 24 hours. The price was fair and the work was done on-site. The team is extremely competent and the new key works perfectly. An excellent service!"
+    },
+    {
+      "name": "Mark",
+      "date": "April 05, 2025",
+      "rating": 4,
+      "text": "My car key could no longer unlock my car. MV_KFZ Car Keys was able to diagnose and fix the problem quickly. The service was good, only the arrival time was a bit longer than expected. Nevertheless, I am satisfied with the result and would use the service again."
+    },
+    {
+      "name": "Nina",
+      "date": "March 22, 2025",
+      "rating": 5,
+      "text": "Excellent service! My car key was completely reprogrammed after it was damaged. The technician explained exactly what the problem was and what solutions were possible. The transparency in costs and the quick work convinced me. MV_KFZ is my first choice for all key problems."
+    },
+    {
+      "name": "Robert",
+      "date": "March 08, 2025",
+      "rating": 5,
+      "text": "When my transponder key no longer worked, MV_KFZ Car Keys came to the rescue immediately. The diagnosis was free and the repair process was explained to me in detail. The technician was very friendly and competent. The repair worked perfectly and at a fair price. Absolutely recommended!"
+    },
+    {
+      "name": "David",
+      "date": "February 28, 2025",
+      "rating": 5,
+      "text": "I recently had my car key repaired at MV_KFZ Car Keys and am very satisfied with the service. The technician was efficient, and the repair was carried out to a high standard. My car key now works perfectly. The customer service team was also very responsive. I can recommend MV_KFZ to anyone who needs a car key repair."
+    },
+    {
+      "name": "Sophia",
+      "date": "February 21, 2025",
+      "rating": 5,
+      "text": "I used MV_KFZ to repair my car key and am extremely satisfied with the results. The technician was competent, and the repair was carried out with the highest precision. My car key is now fully functional. The customer service team was also excellent. I would definitely use MV_KFZ Car Keys again and recommend their services."
+    },
+    {
+      "name": "Adam",
+      "date": "February 17, 2025",
+      "rating": 5,
+      "text": "I had a great experience with MV_KFZ Car Keys. The technician was professional, and the repair was completed quickly. My car key now works perfectly. The customer service team was very friendly and responsive. Overall, I am very satisfied with the service and would recommend MV_KFZ to others."
+    },
+    {
+      "name": "Caroline",
+      "date": "February 10, 2025",
+      "rating": 5,
+      "text": "I recently used MV_KFZ Car Keys to repair my car key and was very impressed with the quality of service. The technician arrived quickly and completed the repair in minutes. My car key now works flawlessly, and I am very satisfied with the result. The customer service team was also very helpful and responsive. I can recommend MV_KFZ to anyone who needs a car key repair."
+    }
+  ],
+  "footer": {
+    "contacts": "Contacts",
+    "contactUs": "Please contact us via WhatsApp and Telegram.",
+    "workingHours": "Mon - Sun: 24/7",
+    "followUs": "Follow Us",
+    "copyright": "© MV_KFZ Car Keys",
+    "developer": "Design and Development by Andrii Gudz"
+  },
+  "order": {
+    "title": "Place an Order",
+    "brand": "Car Brand",
+    "model": "Model",
+    "year": "Year",
+    "name": "Your Name",
+    "phone": "Phone Number",
+    "submit": "Submit Order",
+    "notRobotLabel": "I'm not a robot",
+    "close": "Close",
+    "phonePattern": "Phone number can only contain digits, +, brackets, space and -"
+  },
+  "successModal": {
+    "thankYou": "Thank you for your order!",
+    "contactYou": "Our specialist will contact you shortly to clarify the details.",
+    "buttonText": "Done"
+  },
+  "meta": {
+    "description": "Professional car key repair and recovery. Fast, quality, and reliable service.",
+    "keywords": "car key repair, key recovery, key duplication, emergency assistance, Replacement Key Production"
+  }
+}

@@ -1,0 +1,56 @@
+---
+import type { FAQSectionProps, FAQItem } from './FAQSection.types';
+import styles from './FAQSection.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { title, lang, items: propItems } = Astro.props as FAQSectionProps;
+
+const t = await getTranslation(lang);
+
+const faqItems = propItems || t.faqItems || [];
+---
+
+<section class={styles.faqSection}>
+  <div class={styles.title}>
+    <h3>{title}</h3>
+  </div>
+  
+  <div class={styles.container}>
+    <div class={styles.faqContainer}>
+      {faqItems.map((item, index) => (
+        <div class={styles.faqItem}>
+          <div class={styles.faqHeader}>
+            <div class={styles.question}>
+              <p>{item.question}</p>
+            </div>
+            <button class={styles.toggleBtn} aria-expanded="false" aria-controls={`faq-answer-${index}`}>
+              <span class={styles.icon}></span>
+            </button>
+          </div>
+          <div class={styles.faqContent} id={`faq-answer-${index}`} hidden>
+            <div class={styles.faqAnswer}>{item.answer}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('button[aria-controls]').forEach(button => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      const contentId = button.getAttribute('aria-controls') || '';
+      const content = document.getElementById(contentId);
+      
+      if (content) {
+        if (expanded) {
+          content.setAttribute('hidden', '');
+        } else {
+          content.removeAttribute('hidden');
+        }
+      }
+    });
+  });
+</script> 

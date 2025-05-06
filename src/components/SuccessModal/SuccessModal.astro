@@ -1,0 +1,55 @@
+---
+import styles from './SuccessModal.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+import type { ModalProps } from '../../types/modals';
+
+const { lang } = Astro.props as ModalProps;
+const t = await getTranslation(lang);
+---
+
+<div id="successModal" class={styles.modalOverlay}>
+  <div class={styles.modalContainer}>
+    <button id="closeSuccess" class={styles.closeButton} aria-label="Close"></button>
+    <div class={styles.modalContent}>
+      <div class={styles.successIcon}>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="40" cy="40" r="40" fill="#30F955" fill-opacity="0.1"/>
+          <circle cx="40" cy="40" r="32" fill="#30F955" fill-opacity="0.2"/>
+          <circle cx="40" cy="40" r="24" fill="#30F955"/>
+          <path d="M32 40L38 46L48 34" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div
+
+      <h3 class={styles.modalTitle}>{t.successModal.thankYou}</h3>
+      <p class={styles.modalText}>{t.successModal.contactYou}</p>
+      <div class={styles.buttonContainer}>
+        <button id="doneSuccess" class={styles.doneButton}>{t.successModal.buttonText}</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+window.addEventListener('DOMContentLoaded', () => {
+  const modal      = document.getElementById('successModal');
+  const btnClose   = document.getElementById('closeSuccess');
+  const btnDone    = document.getElementById('doneSuccess');
+
+  function openSuccessModal() {
+    modal?.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeSuccessModal() {
+    modal?.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  btnClose?.addEventListener('click', closeSuccessModal);
+  btnDone?.addEventListener('click', closeSuccessModal);
+  modal?.addEventListener('click', e => {
+    if (e.target === modal) closeSuccessModal();
+  });
+
+  window.openSuccessModal = openSuccessModal;
+});
+</script>

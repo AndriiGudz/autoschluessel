@@ -1,0 +1,146 @@
+.faqSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 8px 0px;
+}
+
+.title h3 {
+  position: relative;
+  padding: 8px 16px;
+}
+
+.title h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 66px;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+}
+
+.container {
+  width: 100%;
+}
+
+.faqContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.faqItem {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(26, 41, 51, 0.4);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 16px;
+  align-self: stretch;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.faqItem:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.faqHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+.question {
+  flex: 1;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text);
+  padding: 0;
+  min-width: auto;
+  transition: transform 0.3s ease;
+}
+
+.toggleBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.icon {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  position: relative;
+}
+
+.icon::before,
+.icon::after {
+  content: "";
+  position: absolute;
+  background-color: var(--color-text);
+}
+
+.icon::before {
+  width: 12px;
+  height: 2px;
+  top: 5px;
+  left: 0;
+}
+
+.icon::after {
+  width: 2px;
+  height: 12px;
+  top: 0;
+  left: 5px;
+  transition: transform 0.3s ease;
+}
+
+.toggleBtn[aria-expanded="true"] .icon::after {
+  transform: rotate(90deg);
+}
+
+.faqContent {
+  padding: 8px 0 16px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.faqAnswer {
+  color: #94B2C7;
+  font-size: 14px;
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  .faqSection {
+    padding: 0px 16px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+  .title h3::after {
+    left: 50%;
+  }
+}

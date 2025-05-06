@@ -1,0 +1,66 @@
+---
+import styles from './Footer.module.css';
+import { getTranslation } from '../../i18n/useTranslation';
+
+const { lang } = Astro.props;
+const currentYear = new Date().getFullYear();
+
+const t = await getTranslation(lang);
+
+const socialIcons = {
+  telegram: "/images/icons/Telegram.svg",
+  whatsapp: "/images/icons/Whatsapp.svg",
+  facebook: "/images/icons/Facebook.svg",
+  instagram: "/images/icons/Instagram.svg" 
+};
+---
+
+<footer class={styles.footer}>
+  <div class={styles.footerContainer}>
+  <div class={styles.separator}></div>
+  <div class={styles.footerContent}>
+    <div class={styles.contactInfo}>
+      <div class={styles.footerHeading}>
+        <h3>{t.footer.contacts}</h3>
+      </div>
+      <div class={styles.contactDetails}>
+        <p>{t.footer.contactUs}</p>
+        <p><a href="tel:+4915126135181" class={styles.contactLink}>+49 151 26135181</a></p>
+        <p>{t.footer.workingHours}</p>
+      </div>
+    </div>
+    <div class={styles.socialMedia}>
+      <div class={styles.footerHeading}>
+        <h3>{t.footer.followUs}</h3>
+      </div>
+      <div class={styles.socialIcons}>
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/profile.php?id=61574856440164" class={styles.socialIcon} target="_blank" rel="noopener">
+          <img src={socialIcons.facebook} alt="Facebook" width="24" height="24" />
+          <span class={styles.srOnly}>Facebook</span>
+        </a>
+        <!-- Instagram -->
+        <a href="https://www.instagram.com/mv_kfz_autoschlussel/" class={styles.socialIcon} target="_blank" rel="noopener">
+          <img src={socialIcons.instagram} alt="Instagram" width="24" height="24" />
+          <span class={styles.srOnly}>Instagram</span>
+        </a>
+        <!-- Telegram -->
+        <a href="https://t.me/+4915126135181" class={styles.socialIcon} target="_blank" rel="noopener noreferrer">
+          <img src={socialIcons.telegram} alt="Telegram" width="24" height="24" />
+          <span class={styles.srOnly}>Telegram</span>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://wa.me/4915126135181" class={styles.socialIcon} target="_blank" rel="noopener noreferrer">
+          <img src={socialIcons.whatsapp} alt="WhatsApp" width="24" height="24" />
+          <span class={styles.srOnly}>WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class={styles.separator}></div>
+  <div class={styles.footerBottom}>
+    <p><a href="#" class={styles.contactLink}>{t.footer.copyright} {currentYear}</a></p>
+    <p><a href="https://gudz-andrii.com/" target="_blank" rel="noopener" class={styles.contactLink}>{t.footer.developer}</a></p>
+  </div>
+  </div>
+</footer> 
