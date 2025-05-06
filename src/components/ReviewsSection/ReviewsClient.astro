@@ -1,5 +1,4 @@
 ---
-// Это клиентский Astro компонент с минимумом JS для обработки переключения
 import styles from './ReviewsClient.module.css';
 import type { Review } from './ReviewsSection.types';
 
@@ -15,7 +14,6 @@ interface ReviewsClientProps {
 
 const { reviews, initialReviewsCount, title, buttonTexts } = Astro.props as ReviewsClientProps;
 
-// Генерируем уникальный ID для контейнера скрытых отзывов
 const hiddenReviewsId = "hidden-reviews-container";
 ---
 
@@ -48,7 +46,6 @@ const hiddenReviewsId = "hidden-reviews-container";
     ))}
   </div>
 
-  <!-- Скрытые отзывы --> 
   <div id={hiddenReviewsId} class={styles["hidden-reviews"]} style="display: none;">
     {reviews.slice(initialReviewsCount).map((review: Review) => (
       <div class={styles["review-card"]}>
@@ -83,7 +80,6 @@ const hiddenReviewsId = "hidden-reviews-container";
 </section>
 
 <script define:vars={{ hiddenReviewsId, buttonTexts }}>
-  // Простой скрипт для переключения отзывов
   const toggleButton = document.getElementById('toggle-reviews');
   const hiddenReviews = document.getElementById(hiddenReviewsId);
   let isExpanded = false;
@@ -91,17 +87,14 @@ const hiddenReviewsId = "hidden-reviews-container";
   if (toggleButton && hiddenReviews) {
     toggleButton.addEventListener('click', () => {
       if (!isExpanded) {
-        // Показываем скрытые отзывы
         hiddenReviews.style.display = 'flex';
         toggleButton.textContent = buttonTexts.showLess;
         isExpanded = true;
       } else {
-        // Скрываем отзывы
         hiddenReviews.style.display = 'none';
         toggleButton.textContent = buttonTexts.showMore;
         isExpanded = false;
         
-        // Прокручиваем страницу вверх к началу блока отзывов
         document.getElementById('reviews-section')?.scrollIntoView({ behavior: 'smooth' });
       }
     });

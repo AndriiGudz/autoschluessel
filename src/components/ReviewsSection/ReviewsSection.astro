@@ -6,39 +6,33 @@ import { getTranslation } from '../../i18n/useTranslation';
 
 const { title, lang, reviews: propReviews } = Astro.props as ReviewsSectionProps;
 
-// Получаем переводы
 const t = await getTranslation(lang);
 
-// Используем только переводы из файлов i18n, без дефолтных значений
 const reviews = propReviews || t.reviews || [];
 
-// Тексты кнопок из переводов
 const buttonTexts = {
   showMore: t.buttons?.showMore || "",
   showLess: t.buttons?.showLess || ""
 };
 
-// Количество отзывов для первоначального отображения
-const initialReviewsCount = 5;
+const initialReviewsCount = 4;
 
-// Конфигурация бизнеса для микроразметки
 const businessConfig = {
   businessName: "MV_KFZ Autoschlüssel",
   businessType: "Automotive",
   businessUrl: "https://autoschluessel.de", // Замените на фактический URL сайта
-  businessDescription: "Professioneller Service für Autoreparatur und Schlüsseldienst. Schnelle und zuverlässige Hilfe bei verlorenen oder defekten Autoschlüsseln.",
-  businessTelephone: "+4915775860506", // Замените на реальный номер телефона
+  businessDescription: "Professioneller Service für Reparatur und Anfertigung von Autoschlüsseln. Schnelle Hilfe bei verlorenen oder defekten Autoschlüsseln.",
+  businessTelephone: "+4915126135181",
   businessAddress: {
-    street: "Schillerstraße 10", // Замените на реальный адрес
-    locality: "Berlin",
-    region: "Berlin",
-    postalCode: "10625",
+    street: "Marktplatz",
+    locality: "Baunach",
+    region: "Bayern",
+    postalCode: "96148",
     country: "DE"
   }
 };
 ---
 
-<!-- JSON-LD микроразметка для поисковых систем -->
 <ReviewsJsonLd 
   reviews={reviews} 
   businessName={businessConfig.businessName}
@@ -49,7 +43,6 @@ const businessConfig = {
   businessAddress={businessConfig.businessAddress}
 />
 
-<!-- Используем клиентский компонент со встроенным скриптом JavaScript -->
 <ReviewsClient 
   reviews={reviews} 
   initialReviewsCount={initialReviewsCount} 
