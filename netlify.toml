@@ -7,6 +7,28 @@
   to = "/de"
   status = 302
   force = true
+  conditions = {Language = ["!en", "!ru", "!uk"]}
+
+[[redirects]]
+  from = "/"
+  to = "/en"
+  status = 302
+  force = true
+  conditions = {Language = ["en"]}
+
+[[redirects]]
+  from = "/"
+  to = "/ru"
+  status = 302
+  force = true
+  conditions = {Language = ["ru"]}
+
+[[redirects]]
+  from = "/"
+  to = "/uk"
+  status = 302
+  force = true
+  conditions = {Language = ["uk"]}
 
 [[headers]]
   for = "/*"
