@@ -4,5 +4,7 @@ import netlify from '@astrojs/netlify/functions';
 export default defineConfig({
   site: 'https://mv-kfz.netlify.app',
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    edgeMiddleware: true
+  }),
 });
