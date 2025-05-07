@@ -1,4 +1,10 @@
 ---
+// Импорты
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+
 interface VideoItem { 
   src: string;
   poster?: string;
@@ -25,11 +31,12 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
             <div class="video-container">
               <video 
                 src={video.src} 
-                poster={video.poster || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 16 9'%3E%3Crect width='16' height='9' fill='%23212121'/%3E%3C/svg%3E"}
+                poster={video.poster}
                 preload="metadata"
                 id={`video-${index}`}
                 playsinline
-                data-gen-thumbnail="true"
+                onloadedmetadata="this.dataset.loaded='true'"
+                onerror="this.dataset.error='true'"
               ></video>
               <button 
                 class="play-button" 
@@ -54,195 +61,141 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
   </div>
 </div>
 
-<script is:inline>
-  document.addEventListener('DOMContentLoaded', () => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css';
-    document.head.appendChild(link);
-    
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js';
-    document.body.appendChild(script);
-    
-    script.onload = () => {
-      initSwiper();
-      initThumbnailGenerator();
-    };
-  });
+<script>
+  import Swiper from 'swiper';
+  import { EffectCoverflow, Navigation, Pagination } from 'swiper/modules';
 
-  function initThumbnailGenerator() {
-    const videos = document.querySelectorAll('video[data-gen-thumbnail="true"]');
-    
-    videos.forEach(video => {
-      if (video.getAttribute('poster') && !video.getAttribute('poster').startsWith('data:image/svg+xml')) {
-        return;
-      }
-      
-      video.addEventListener('loadedmetadata', function() {
-        const previewTime = video.duration * 0.25;
-        
-        video.currentTime = previewTime;
-        
-        video.addEventListener('seeked', function() {
-          try {
-            const canvas = document.createElement('canvas');
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-            
-            const thumbnailUrl = canvas.toDataURL('image/jpeg', 0.8);
-            
-            video.setAttribute('poster', thumbnailUrl);
-          } catch (error) {
-          }
-          
-          video.currentTime = 0;
-          
-          video.removeAttribute('data-gen-thumbnail');
-        }, { once: true });
-      }, { once: true });
-      
-      if (video.readyState === 0) {
-        video.load();
-      }
-    });
-  }
-
-  function initSwiper() {
-    const swiper = new Swiper('.swiper', {
-      effect: 'coverflow',
-      grabCursor: true,
-      centeredSlides: true,
-      slidesPerView: 3,
-      initialSlide: 1,
-      loop: true,
-      spaceBetween: 20,
-      slideVisibleClass: 'swiper-slide-visible',
-      coverflowEffect: {
-        rotate: 5,
-        stretch: 0,
-        depth: 200,
-        modifier: 1.5,
-        slideShadows: true,
-      },
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true,
-      },
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      breakpoints: {
-        320: {
-          slidesPerView: 1.5,
-          spaceBetween: 10,
-          coverflowEffect: {
-            rotate: 0,
-            depth: 100,
-            modifier: 1
-          }
-        },
-        768: {
-          slidesPerView: 3,
-          spaceBetween: 8
-        },
-        1024: {
-          slidesPerView: 3,
-          spaceBetween: 20
+  const swiper = new Swiper('.swiper', {
+    modules: [EffectCoverflow, Navigation, Pagination],
+    effect: 'coverflow',
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: 3,
+    initialSlide: 1,
+    loop: true,
+    spaceBetween: 20,
+    slideVisibleClass: 'swiper-slide-visible',
+    coverflowEffect: {
+      rotate: 5,
+      stretch: 0,
+      depth: 200,
+      modifier: 1.5,
+      slideShadows: true,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    breakpoints: {
+      320: {
+        slidesPerView: 1.5,
+        spaceBetween: 10,
+        coverflowEffect: {
+          rotate: 0,
+          depth: 100,
+          modifier: 1
         }
       },
-      on: {
-        init: function (swiper) {
-          updateVisibility(swiper);
-        },
-        slideChange: function (swiper) {
-          updateVisibility(swiper);
-        },
-        resize: function (swiper) {
-          updateVisibility(swiper);
-        }
+      768: {
+        slidesPerView: 3,
+        spaceBetween: 8
+      },
+      1024: {
+        slidesPerView: 3,
+        spaceBetween: 20
       }
-    });
-
-    function updateVisibility(swiper) {
-      const slides = swiper.slides;
-      const activeIndex = swiper.activeIndex;
-      const slidesPerView = swiper.params.slidesPerView;
-      
-      const visibleStart = Math.max(0, activeIndex - Math.floor(slidesPerView / 2));
-      const visibleEnd = Math.min(slides.length - 1, visibleStart + slidesPerView - 1);
-      
-      slides.forEach((slide, index) => {
-        if (index >= visibleStart && index <= visibleEnd) {
-          slide.classList.add('swiper-slide-visible');
-        } else {
-          slide.classList.remove('swiper-slide-visible');
-        }
-      });
-    }
-
-    document.querySelectorAll('.play-button').forEach(button => {
-      button.addEventListener('click', () => {
-        const videoId = button.getAttribute('data-video-id');
-        if (videoId) {
-          const video = document.getElementById(videoId);
-          if (video && video instanceof HTMLVideoElement) {
-            if (video.paused) {
-              document.querySelectorAll('video').forEach(v => {
-                if (v.id !== videoId && !v.paused && v instanceof HTMLVideoElement) {
-                  v.pause();
-                  const buttonEl = document.querySelector(`[data-video-id="${v.id}"]`);
-                  if (buttonEl) {
-                    buttonEl.classList.remove('playing');
-                    if (buttonEl instanceof HTMLElement) {
-                      buttonEl.style.opacity = '1';
-                    }
-                  }
-                }
-              });
-              
-              video.play()
-                .then(() => {
-                })
-                .catch(error => {
-                });
-                
-              button.classList.add('playing');
-              
-              if (button instanceof HTMLElement) {
-                button.style.opacity = '0';
-              }
-              
-              video.addEventListener('ended', () => {
-                if (button instanceof HTMLElement) {
-                  button.style.opacity = '1';
-                }
-                button.classList.remove('playing');
-              });
-              
-              video.addEventListener('pause', () => {
-                if (button instanceof HTMLElement) {
-                  button.style.opacity = '1';
-                }
-                button.classList.remove('playing');
-              });
-            } else {
-              video.pause();
-              button.classList.remove('playing');
-              if (button instanceof HTMLElement) {
-                button.style.opacity = '1';
-              }
+    },
+    on: {
+      slideChange: function() {
+        // При смене слайда останавливаем все видео
+        document.querySelectorAll('video').forEach(video => {
+          if (!video.paused) {
+            video.pause();
+            const btn = document.querySelector(`[data-video-id="${video.id}"]`) as HTMLButtonElement | null;
+            if (btn) {
+              btn.classList.remove('playing');
+              btn.style.opacity = '1';
             }
           }
-        }
-      });
+        });
+      }
+    }
+  });
+
+  // Обработчики кнопок воспроизведения
+  document.querySelectorAll('.play-button').forEach(button => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    
+    button.addEventListener('click', () => {
+      const videoId = button.getAttribute('data-video-id');
+      if (!videoId) return;
+
+      const video = document.getElementById(videoId);
+      if (!(video instanceof HTMLVideoElement)) return;
+
+      if (video.dataset.error === 'true') {
+        console.error('Video failed to load');
+        return;
+      }
+
+      if (!video.dataset.loaded) {
+        console.warn('Video not loaded yet');
+        return;
+      }
+
+      if (video.paused) {
+        // Останавливаем все другие видео
+        document.querySelectorAll('video').forEach(v => {
+          if (v.id !== videoId && !v.paused) {
+            v.pause();
+            const btn = document.querySelector(`[data-video-id="${v.id}"]`) as HTMLButtonElement | null;
+            if (btn) {
+              btn.classList.remove('playing');
+              btn.style.opacity = '1';
+            }
+          }
+        });
+
+        video.play()
+          .then(() => {
+            button.classList.add('playing');
+            button.style.opacity = '0';
+          })
+          .catch(error => {
+            console.error('Failed to play video:', error);
+          });
+
+        // Добавляем обработчики событий для видео
+        const handlePause = () => {
+          button.classList.remove('playing');
+          button.style.opacity = '1';
+        };
+
+        video.addEventListener('pause', handlePause);
+        video.addEventListener('ended', handlePause);
+
+      } else {
+        video.pause();
+      }
     });
-  }
+  });
+
+  // Добавляем обработчик клика по видео для паузы
+  document.querySelectorAll('video').forEach(video => {
+    if (!(video instanceof HTMLVideoElement)) return;
+    
+    video.addEventListener('click', () => {
+      if (!video.paused) {
+        video.pause();
+      }
+    });
+  });
 </script>
+
 <style>
   .carousel-container {
     width: 100%;
@@ -251,20 +204,20 @@ const { videos, title = "Wie funktioniert das?" } = Astro.props;
   }
 
   .section-title {
-position: relative;
-  padding: 8px 16px;
+    position: relative;
+    padding: 8px 16px;
   }
 
   .section-title::after {
     content: "";
-  position: absolute;
-  bottom: 0px;
-  left: 66px;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 3px;
-  background-color: var(--color-primary);
-  border-radius: 2px;
+    position: absolute;
+    bottom: 0px;
+    left: 66px;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--color-primary);
+    border-radius: 2px;
   }
 
   .swiper {
@@ -335,7 +288,7 @@ position: relative;
     align-items: center;
   }
 
-  .video-container video {
+  video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -357,6 +310,29 @@ position: relative;
 
   .play-button:hover svg circle {
     fill: rgba(0, 0, 0, 0.7);
+  }
+
+  .play-button.playing {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  video[data-error="true"] + .play-button {
+    display: none;
+  }
+
+  video[data-error="true"]::after {
+    content: "Video unavailable";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    color: white;
   }
 
   .swiper-button-next,
