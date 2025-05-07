@@ -4,31 +4,31 @@
 
 [[redirects]]
   from = "/"
-  to = "/de"
-  status = 302
-  force = true
-  conditions = {Language = ["!en", "!ru", "!uk"]}
-
-[[redirects]]
-  from = "/"
   to = "/en"
   status = 302
   force = true
-  conditions = {Language = ["en"]}
+  conditions = {Accept-Language = ["en*"], Language = ["en"]}
 
 [[redirects]]
   from = "/"
   to = "/ru"
   status = 302
   force = true
-  conditions = {Language = ["ru"]}
+  conditions = {Accept-Language = ["ru*"], Language = ["ru"]}
 
 [[redirects]]
   from = "/"
   to = "/uk"
   status = 302
   force = true
-  conditions = {Language = ["uk"]}
+  conditions = {Accept-Language = ["uk*"], Language = ["uk"]}
+
+[[redirects]]
+  from = "/"
+  to = "/de"
+  status = 302
+  force = true
+  conditions = {Accept-Language = ["de*"], Language = ["de"]}
 
 [[headers]]
   for = "/*"
