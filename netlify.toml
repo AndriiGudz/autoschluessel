@@ -3,12 +3,6 @@
   publish = "dist"
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/ssr"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/"
   to = "/de"
   status = 302
