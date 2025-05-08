@@ -1,0 +1,73 @@
+---
+import type { TranslationSchema } from '../i18n/types';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang: 'de' | 'en' | 'ru' | 'uk';
+  translations: TranslationSchema;
+}
+
+const { title, description, lang, translations: t } = Astro.props;
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title || t.title}</title>
+<meta name="description" content={description || t.meta.description} />
+<meta name="keywords" content={t.meta.keywords} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title || t.title} />
+<meta property="og:description" content={description || t.meta.description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url.href} />
+<meta property="og:image" content={`${Astro.url.origin}/images/og-image.jpg`} />
+<meta property="og:locale" content={lang === 'de' ? 'de_DE' : lang === 'en' ? 'en_US' : lang === 'ru' ? 'ru_RU' : 'uk_UA'} />
+
+<!-- Language alternates -->
+<link rel="alternate" hreflang="de" href={`${Astro.url.origin}${Astro.url.pathname}`} />
+<link rel="alternate" hreflang="en" href={`${Astro.url.origin}/en${Astro.url.pathname}`} />
+<link rel="alternate" hreflang="ru" href={`${Astro.url.origin}/ru${Astro.url.pathname}`} />
+<link rel="alternate" hreflang="uk" href={`${Astro.url.origin}/uk${Astro.url.pathname}`} />
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoRepair",
+    "name": "MV-KFZ Autoschlüssel",
+    "url": "https://mv-kfz.com",
+    "logo": "https://mv-kfz.com/images/logo-tel.png",
+    "image": "https://mv-kfz.com/images/logo-tel.png",
+    "description": "${t.meta.description}",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Marktplatz",
+      "addressLocality": "Baunach",
+      "postalCode": "96148",
+      "addressCountry": "DE"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "49.9823",
+      "longitude": "10.8343"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "00:00",
+      "closes": "24:00"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+4915126135181",
+      "contactType": "customer service",
+      "availableLanguage": ["German", "English", "Ukrainian", "Russian"],
+      "areaServed": ["DE"]
+    },
+    "priceRange": "€€",
+    "currenciesAccepted": "EUR"
+  }
+</script>
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" /> 

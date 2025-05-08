@@ -1,7 +1,7 @@
   ---
   export const prerender = false;
 
-  import { getTranslation, registerClientTranslations } from '../../i18n/useTranslation';
+  import { getTranslation } from '../../i18n/useTranslation';
   import { languages } from '../../i18n/config';
   import { getVideoConfig } from '../../config/videoConfig';
   import BaseLayout from '../../layouts/BaseLayout.astro';
@@ -15,9 +15,10 @@
   import VideoCarousel from '../../components/VideoCarousel/VideoCarousel.astro';
   import OrderModal from '../../components/OrderModal/OrderModal.astro';
   import SuccessModal from '../../components/SuccessModal/SuccessModal.astro';
-  import './index.css';
+  import '../../styles/index.css';
 
-  const lang = Astro.params.lang as string;
+  type LanguageKey = keyof typeof languages;
+  const lang = Astro.params.lang as LanguageKey;
 
   if (!Object.keys(languages).includes(lang)) {
     Astro.redirect(`/${Object.keys(languages)[0]}/`);
