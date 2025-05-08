@@ -1,50 +1,30 @@
 ---
 import { getTranslation } from '../i18n/useTranslation';
+import SeoTags from '../components/SeoTags.astro';
 import '../styles/global.css';
+import type { TranslationSchema } from '../i18n/types';
+import { languages } from '../i18n/config';
+
+type LanguageKey = keyof typeof languages;
 
 interface Props {
-  title: string;
-  lang: string;
+  title?: string;
+  description?: string;
+  lang: LanguageKey;
 }
-const { title, lang } = Astro.props;
-const t = await getTranslation(lang);
+
+const { title, description, lang } = Astro.props;
+const t = await getTranslation(lang) as TranslationSchema;
 ---
 
 <html lang={lang}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={t.meta.description} />
-    <meta name="keywords" content={t.meta.keywords}>
-      <meta property="og:title" content={t.title}>
-      <meta property="og:description" content={t.meta.description}>
-      <meta property="og:type" content="website">
-      <meta property="og:url" content={Astro.url.href}>
-      <meta property="og:image" content="/path/to/image.jpg">
-      <script type="application/ld+json">
-        {
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "MV_KFZ Autoschlüssel",
-          "url": "https://example.com",
-          "logo": "https://example.com/logo.jpg",
-          "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+4915126135181",
-            "contactType": "Kundendienst",
-            "availableLanguage": ["Deutsch", "Englisch", "Ukrainisch", "Russisch"]
-          },
-          "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Marktplatz",
-            "addressLocality": "Baunach",
-            "postalCode": "96148",
-            "addressCountry": "DE"
-}
-        }
-      </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <SeoTags
+      title={title}
+      description={description}
+      lang={lang}
+      translations={t}
+    />
   </head>
   <body>
     <div class="wrapper">

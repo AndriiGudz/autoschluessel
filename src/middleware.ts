@@ -20,6 +20,11 @@ export const onRequest = defineMiddleware(
     const url = new URL(request.url);
     const path = url.pathname;
 
+    // Пропускаем SEO файлы
+    if (path === "/robots.txt" || path === "/sitemap.xml") {
+      return next();
+    }
+
     // Пропускаем API-эндпоинты
     if (path.startsWith("/api/")) {
       return next();
