@@ -27,6 +27,7 @@ export const onRequest = defineMiddleware(
       path.startsWith("/api/") ||
       path.startsWith("/_astro/") ||
       path.startsWith("/assets/") ||
+      path.startsWith("/_image") ||
       /\.(jpg|jpeg|png|gif|svg|webp|ico|mp4|webm|mov|css|js)$/.test(path)
     ) {
       return next();

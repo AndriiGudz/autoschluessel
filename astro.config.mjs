@@ -11,10 +11,15 @@ export default defineConfig({
     service: {
       entrypoint: "astro/assets/services/sharp",
     },
+    domains: [],
+    remotePatterns: [],
+    quality: 80,
+    format: ["webp"],
   },
   vite: {
     build: {
       assetsInlineLimit: 0,
     },
+    assetsInclude: ["**/*.jpg", "**/*.jpeg", "**/*.png", "**/*.webp"],
   },
 });

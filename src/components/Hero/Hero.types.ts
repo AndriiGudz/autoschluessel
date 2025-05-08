@@ -1,15 +1,25 @@
-import type { languages } from "../../i18n/config";
+import type { bannerImages } from "./images";
 
-type LanguageKey = keyof typeof languages;
+export type BannerImagePaths = keyof typeof bannerImages;
 
 export interface HeroProps {
   title: string;
   subtitle: string;
   buttonText: string;
-  lang: LanguageKey;
+  lang: string;
 }
 
 export interface HeroSlide {
-  src: string;
+  src: BannerImagePaths;
   alt: string;
+}
+
+export interface TranslationHero {
+  title: string;
+  subtitle: string;
+  button: string;
+  slides: Array<{
+    src: BannerImagePaths;
+    alt: string;
+  }>;
 }

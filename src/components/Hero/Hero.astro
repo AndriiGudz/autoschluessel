@@ -1,18 +1,25 @@
 ---
 import { Image } from 'astro:assets';
 import styles from './Hero.module.css';
-import type { HeroProps } from './Hero.types';
+import type { HeroProps, BannerImagePaths } from './Hero.types';
 import { getTranslation } from '../../i18n/useTranslation';
+import { bannerImages } from './images';
 
 const { title, subtitle, buttonText, lang } = Astro.props as HeroProps;
 const t = await getTranslation(lang);
+
+// Убеждаемся, что пути к изображениям соответствуют типу
+const slides = t.hero.slides.map(slide => ({
+  ...slide,
+  src: slide.src as BannerImagePaths
+}));
 ---
 
 <section class={styles.heroSlider}>
-  {t.hero.slides.map((slide, index) => (
+  {slides.map((slide, index) => (
     <div class={styles.slide} data-active={index === 0}>
       <Image 
-        src={slide.src}
+        src={bannerImages[slide.src]}
         width={960}
         height={480}
         loading={index === 0 ? "eager" : "lazy"}

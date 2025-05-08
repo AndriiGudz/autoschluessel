@@ -1,3 +1,5 @@
+import type { BannerImagePaths } from "../components/Hero/Hero.types";
+
 export interface TranslationSchema {
   title: string;
   hero: {
@@ -5,7 +7,7 @@ export interface TranslationSchema {
     subtitle: string;
     button: string;
     slides: {
-      src: string;
+      src: BannerImagePaths;
       alt: string;
     }[];
   };
