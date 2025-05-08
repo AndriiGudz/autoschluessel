@@ -20,19 +20,15 @@ export const onRequest = defineMiddleware(
     const url = new URL(request.url);
     const path = url.pathname;
 
-    // Пропускаем SEO файлы
-    if (path === "/robots.txt" || path === "/sitemap.xml") {
-      return next();
-    }
-
-    // Пропускаем API-эндпоинты
-    if (path.startsWith("/api/")) {
-      return next();
-    }
-
-    // Пропускаем статику
-    const staticFileExtensions = ['.mp4', '.mov', '.webm', '.jpg', '.png', '.jpeg', '.svg', '.ico', '.webp'];
-    if (staticFileExtensions.some((ext) => url.pathname.endsWith(ext))) {
+    // Пропускаем SEO файлы и статику
+    if (
+      path === "/robots.txt" ||
+      path === "/sitemap.xml" ||
+      path.startsWith("/api/") ||
+      path.startsWith("/_astro/") ||
+      path.startsWith("/assets/") ||
+      /\.(jpg|jpeg|png|gif|svg|webp|ico|mp4|webm|mov|css|js)$/.test(path)
+    ) {
       return next();
     }
 
