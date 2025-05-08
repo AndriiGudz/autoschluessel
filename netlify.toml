@@ -18,25 +18,29 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [[headers]]
-  for = "/*.mp4"
+  for = "/videos/*.mp4"
   [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "video/mp4"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
-  for = "/*.webm"
+  for = "/videos/*.webm"
   [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "video/webm"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
-  for = "/*.jpg"
+  for = "/images/*.jpg"
   [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "image/jpeg"
+    Access-Control-Allow-Origin = "*"
 
 [[headers]]
-  for = "/*.png"
+  for = "/images/*.png"
   [headers.values]
-    Cache-Control = "public, max-age=31536000"
+    Cache-Control = "public, max-age=31536000, immutable"
     Content-Type = "image/png"
+    Access-Control-Allow-Origin = "*"
