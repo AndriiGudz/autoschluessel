@@ -18,6 +18,18 @@ function getBrowserLanguage(acceptLanguage: string | null): string {
 export const onRequest = defineMiddleware(
   async ({ request, redirect }, next) => {
     const url = new URL(request.url);
+    const path = url.pathname;
+
+    // Пропускаем API-эндпоинты
+    if (path.startsWith("/api/")) {
+      return next();
+    }
+
+    // Пропускаем статику
+    const staticFileExtensions = ['.mp4', '.mov', '.webm', '.jpg', '.png', '.jpeg', '.svg', '.ico', '.webp'];
+    if (staticFileExtensions.some((ext) => url.pathname.endsWith(ext))) {
+      return next();
+    }
 
     // Если уже есть язык в URL, пропускаем
     if (url.pathname.match(/^\/(en|de|ru|uk)\/?/)) {
