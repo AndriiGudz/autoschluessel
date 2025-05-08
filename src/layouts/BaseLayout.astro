@@ -25,6 +25,15 @@ const t = await getTranslation(lang) as TranslationSchema;
       lang={lang}
       translations={t}
     />
+    
+    <!-- Preload hero image -->
+    <link 
+      rel="preload" 
+      as="image" 
+      href="/images/banner1.webp" 
+      type="image/webp"
+      fetchpriority="high"
+    />
   </head>
   <body>
     <div class="wrapper">

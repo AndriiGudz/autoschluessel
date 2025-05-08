@@ -3,7 +3,16 @@
   "hero": {
     "title": "Entdecken Sie Perfektion in der Reparatur von Autoschlüsseln",
     "subtitle": "Schnelle, zuverlässige und kostengünstige Lösungen",
-    "button": "Jetzt bestellen"
+    "button": "Jetzt bestellen",
+    "slides": [
+      { "src": "/images/banner1.webp", "alt": "Autoschlüssel-Reparatur" },
+      { "src": "/images/banner2.webp", "alt": "Autoschlüssel-Duplikation" },
+      {
+        "src": "/images/banner3.webp",
+        "alt": "Autoschlüssel-Wiederherstellung"
+      },
+      { "src": "/images/banner4.webp", "alt": "Notfall-Autoschlüsselservice" }
+    ]
   },
   "nav": {
     "howItWorks": "Wie funktioniert das",

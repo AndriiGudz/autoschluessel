@@ -4,6 +4,10 @@ export interface TranslationSchema {
     title: string;
     subtitle: string;
     button: string;
+    slides: {
+      src: string;
+      alt: string;
+    }[];
   };
   nav: {
     howItWorks: string;

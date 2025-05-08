@@ -1,59 +1,61 @@
 ---
-import type { HeroProps } from './Hero.types';
+import { Image } from 'astro:assets';
 import styles from './Hero.module.css';
+import type { HeroProps } from './Hero.types';
+import { getTranslation } from '../../i18n/useTranslation';
 
-const { title, subtitle, buttonText } = Astro.props as HeroProps;
-
-const backgrounds = [
-  '/images/banner1.webp',
-  '/images/banner2.webp',
-  '/images/banner3.webp',
-  '/images/banner4.webp',
-];
-
-let currentBackground = 0;
-let backgroundUrl = backgrounds[currentBackground];
+const { title, subtitle, buttonText, lang } = Astro.props as HeroProps;
+const t = await getTranslation(lang);
 ---
 
-<section class={styles.hero}>
-  <div class={styles.imageWrapper}>
-    <img id="hero-bg" src={backgroundUrl} alt="Background" class={styles.background} />
-  </div>
-
+<section class={styles.heroSlider}>
+  {t.hero.slides.map((slide, index) => (
+    <div class={styles.slide} data-active={index === 0}>
+      <Image 
+        src={slide.src}
+        width={960}
+        height={480}
+        loading={index === 0 ? "eager" : "lazy"}
+        fetchpriority={index === 0 ? "high" : "auto"}
+        alt={slide.alt}
+        class={styles.backgroundSlide}
+        format="webp"
+        quality={80}
+      />
+    </div>
+  ))}
+  
   <div class={styles.overlay}>
     <div class={styles.container}>
       <h1>{title}</h1>
       <h2>{subtitle}</h2>
-      <button id="heroOrderButton">{buttonText}</button>
+      <button id="heroOrderButton" type="button">{buttonText}</button>
     </div>
   </div>
 </section>
 
-<script type="module">
-  const backgrounds = [
-    '/images/banner1.webp',
-    '/images/banner2.webp',
-    '/images/banner3.webp',
-    '/images/banner4.webp',
-  ];
-
-  let currentBackground = 0;
-  const img = document.getElementById('hero-bg');
-
-  setInterval(() => {
-    currentBackground = (currentBackground + 1) % backgrounds.length;
-    if (img) {
-      img.src = backgrounds[currentBackground];
+<script>
+  function setupSlider() {
+    const slides = document.querySelectorAll('[data-active]');
+    let currentSlide = 0;
+    
+    function nextSlide() {
+      slides[currentSlide].setAttribute('data-active', 'false');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].setAttribute('data-active', 'true');
     }
-  }, 3000);
+    
+    setInterval(nextSlide, 5000);
+  }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const heroOrderButton = document.getElementById('heroOrderButton');
+    setupSlider();
     
-    if (heroOrderButton && window.openOrderModal) {
-      heroOrderButton.addEventListener('click', () => {
-        window.openOrderModal();
-      });
+    const heroOrderButton = document.getElementById('heroOrderButton');
+    const openOrderModal = (window as any).openOrderModal;
+    
+    if (heroOrderButton && typeof openOrderModal === 'function') {
+      heroOrderButton.addEventListener('click', openOrderModal);
     }
   });
 </script>

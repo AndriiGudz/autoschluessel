@@ -3,7 +3,13 @@
   "hero": {
     "title": "Car Key Repair Made Easy",
     "subtitle": "Fast and professional service for your car keys",
-    "button": "Order Now"
+    "button": "Order Now",
+    "slides": [
+      { "src": "/images/banner1.webp", "alt": "Car Key Repair" },
+      { "src": "/images/banner2.webp", "alt": "Car Key Duplication" },
+      { "src": "/images/banner3.webp", "alt": "Car Key Recovery" },
+      { "src": "/images/banner4.webp", "alt": "Emergency Car Key Service" }
+    ]
   },
   "nav": {
     "howItWorks": "How It Works",
